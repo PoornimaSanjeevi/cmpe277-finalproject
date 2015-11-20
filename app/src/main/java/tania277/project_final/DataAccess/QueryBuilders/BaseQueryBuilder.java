@@ -1,9 +1,9 @@
-package tania277.project_final.DataAccess;
+package tania277.project_final.DataAccess.QueryBuilders;
 
 /**
  * Created by Tania on 11/16/15.
  */
-public class QueryBuilder {
+public class BaseQueryBuilder {
    public String getDatabaseName() {
         return "cmpe277project_runbuddy";
     }

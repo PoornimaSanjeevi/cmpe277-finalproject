@@ -1,4 +1,4 @@
-package tania277.project_final.DataAccess;
+package tania277.project_final.DataAccess.AsyncTask;
 
 /**
  * Created by Tania on 11/16/15.
@@ -17,6 +17,7 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
+import tania277.project_final.DataAccess.QueryBuilders.BaseQueryBuilder;
 import tania277.project_final.Models.User;
 
 
@@ -33,7 +34,7 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, ArrayList<User>> {
         try
         {
             Log.i("message : ", "reached GetContactsAsync");
-            QueryBuilder qb = new QueryBuilder();
+            BaseQueryBuilder qb = new BaseQueryBuilder();
             URL url = new URL(qb.buildEventsGetURL());
             Log.i("message : ", "reached Get URL built");
 

@@ -1,48 +1,52 @@
 package tania277.project_final;
 //import android.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.FragmentManager;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import tania277.project_final.DataAccess.GetEventsAsyncTask;
-import tania277.project_final.DataAccess.GetUserAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.GetEventDetailsAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.GetEventsAsyncTask;
 import tania277.project_final.Models.EventItem;
-import tania277.project_final.Models.User;
 
 /**
  * Created by Tania on 11/16/15.
  */
 public class EventFragment extends Fragment {
 
-    ListView attending_list, invited_list;
+     ListView attending_list, invited_list;
     List<EventItem> attendingEvents;
     ArrayList<EventItem> returnValues = new ArrayList<EventItem>();
     TextView title_Attending, title_Invited;
+    Button create,view;
+    View rootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.event_fragment, container, false);
         title_Attending =(TextView)getActivity().findViewById(R.id.attending);
         title_Invited =(TextView)getActivity().findViewById(R.id.invited);
+        attending_list = (ListView)rootView.findViewById(R.id.attending_list);
+//        onClickCallView();
+
         //TODO: Toggle function
 //        title_Attending.setVisibility(View.GONE);
 //        title_Invited.setVisibility(View.GONE);
-        return inflater.inflate(R.layout.event_fragment, container, false);
+//        return inflater.inflate(R.layout.event_fragment, container, false);
+        return rootView;
+
 
 
 
@@ -52,8 +56,12 @@ public class EventFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        attending_list = (ListView)getActivity().findViewById(R.id.attending_list);
+
+
         invited_list = (ListView)getActivity().findViewById(R.id.invited_list);
+
+        create = (Button)getActivity().findViewById(R.id.create_event);
+
 
         GetEventsAsyncTask task = new GetEventsAsyncTask();
         try
@@ -80,10 +88,20 @@ public class EventFragment extends Fragment {
             e.setEndTime(x.getEndTime());
             e.setLocation(x.getLocation());
             e.setStartTime(x.getStartTime());
+            e.setEventId(x.getEventId());
             temp.add(e);
         }
         updateAttending(temp);
 
+
+        Log.i("message:", ""+ (create== null));
+        create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), CreateEvent.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void toggle_contents_attend(View v){
@@ -100,7 +118,7 @@ public class EventFragment extends Fragment {
 
     public void updateAttending(List<EventItem> attendingItems){
         EventFragment.this.attendingEvents = attendingItems;
-        Log.i("message:", "update attending reached");
+        Log.i("message:", "update attending addapter reached");
         ArrayAdapter<EventItem> adapter = new ArrayAdapter<EventItem>(getActivity().getApplicationContext(), R.layout.attending_item, attendingItems) {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
@@ -109,6 +127,7 @@ public class EventFragment extends Fragment {
                     convertView = getActivity().getLayoutInflater().inflate(R.layout.attending_item, parent, false);
                 }
 
+                TextView eventId =(TextView) convertView.findViewById(R.id.event_id);
                 TextView eventName = (TextView) convertView.findViewById(R.id.event_name);
                 TextView eventDate=(TextView) convertView.findViewById(R.id.event_date);
                 TextView eventAdmin = (TextView)convertView.findViewById(R.id.event_admin);
@@ -116,6 +135,22 @@ public class EventFragment extends Fragment {
                 TextView endTime =(TextView)convertView.findViewById(R.id.end_time);
                 TextView location =(TextView)convertView.findViewById(R.id.event_loc);
                 EventItem singleAttendingItem = EventFragment.this.attendingEvents.get(position);
+                Button viewbutton = (Button)convertView.findViewById(R.id.view_event);
+                viewbutton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i("message:", "getting to the view button");
+                        EventItem searchResult = EventFragment.this.attendingEvents.get(position);
+
+                        Log.i("message:", "name: " + searchResult.getName() + "id: " + searchResult.getEventId());
+
+//                        addToPlayList(searchResult.getId(), searchResult.getTitle());
+                        Intent intent = new Intent(getActivity().getApplicationContext(), PopupActivity.class);
+                intent.putExtra("Event_ID", searchResult.getEventId());
+                        startActivity(intent);
+
+                    }
+                });
 
 //                Picasso.with(getActivity().getApplicationContext()).load(searchResult.getThumbnailURL()).into(thumbnail);
                 eventName.setText(singleAttendingItem.getName());
@@ -124,6 +159,9 @@ public class EventFragment extends Fragment {
                 startTime.setText(singleAttendingItem.getStartTime());
                 endTime.setText(singleAttendingItem.getEndTime());
                 location.setText(singleAttendingItem.getLocation());
+
+                Log.i("message","The event id is when setting"+singleAttendingItem.getEventId());
+                eventId.setText((singleAttendingItem.getEventId()));
 
                 return convertView;
             }

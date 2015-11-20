@@ -1,4 +1,4 @@
-package tania277.project_final.DataAccess;
+package tania277.project_final.DataAccess.AsyncTask;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -13,8 +13,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import tania277.project_final.DataAccess.QueryBuilders.BaseQueryBuilder;
 import tania277.project_final.Models.EventItem;
-import tania277.project_final.Models.User;
 
 /**
  * Created by Tania on 11/16/15.
@@ -31,10 +31,10 @@ public class GetEventsAsyncTask extends AsyncTask<EventItem, Void, ArrayList<Eve
         ArrayList<EventItem> myEvents = new ArrayList<EventItem>();
         try
         {
-            Log.i("message : ", "reached GetContactsAsync");
-            QueryBuilder qb = new QueryBuilder();
+            Log.i("message : ", "reached GetEventsAsync");
+            BaseQueryBuilder qb = new BaseQueryBuilder();
             URL url = new URL(qb.buildEventsGetURL());
-            Log.i("message : ", "reached Get URL built");
+            Log.i("message : ", "reached Get URL built "+url);
 
             HttpURLConnection conn = (HttpURLConnection) url
                     .openConnection();
@@ -77,7 +77,8 @@ public class GetEventsAsyncTask extends AsyncTask<EventItem, Void, ArrayList<Eve
                 DBObject userObj = (DBObject) obj;
 
                 EventItem temp = new EventItem();
-//                temp.setEventId(userObj.get("_id").toString());
+                Log.i("message:","id is"+userObj.get("_id").toString());
+                temp.setEventId(userObj.get("_id").toString());
                 temp.setName(userObj.get("name") + "");
                 temp.setAdmin(userObj.get("admin")+"");
                 temp.setDate(userObj.get("date") + "");
