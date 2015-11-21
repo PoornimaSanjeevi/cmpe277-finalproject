@@ -9,11 +9,25 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+
+import tania277.project_final.util.PrefUtil;
 
 public class UserFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.user_fragment, container, false);
+        View myInflatedView = inflater.inflate(R.layout.user_fragment, container, false);
+        TextView info = (TextView) myInflatedView.findViewById(R.id.info);
+        ImageView profileImgView = (ImageView) myInflatedView.findViewById(R.id.profile_img);
+        PrefUtil pu = new PrefUtil(getActivity());
+        info.setText("Welcome " + pu.getUserId());
+        Glide.with(getActivity())
+                .load(pu.getProfImage())
+                .into(profileImgView);
+        return myInflatedView;
     }
 }
