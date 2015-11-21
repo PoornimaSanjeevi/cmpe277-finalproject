@@ -30,6 +30,9 @@ public class UserFragment extends Fragment {
         Glide.with(getActivity())
                 .load(pu.getProfImage())
                 .into(profileImgView);
+
+
+
         return myInflatedView;
     }
 }

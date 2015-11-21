@@ -3,11 +3,13 @@ package tania277.project_final.DataAccess.AsyncTask;
 /**
  * Created by Tania on 11/16/15.
  */
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -26,6 +28,7 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, ArrayList<User>> {
     static String OriginalObject = "";
     static String server_output = null;
     static String temp_output = null;
+    static String userId;
     static String userEmail ;
 
     public void setUserEmail(String email)
@@ -77,22 +80,45 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, ArrayList<User>> {
             Log.i("message","mongo array created");
 
             DBObject dbObj = (DBObject) o;
-            BasicDBList contacts = (BasicDBList) dbObj.get("artificial_basicdb_list");
+            BasicDBList dbusers = (BasicDBList) dbObj.get("artificial_basicdb_list");
 
             Log.i("message","DBObjects created");
 
-            for (Object obj : contacts) {
+            for (Object obj : dbusers) {
                 DBObject userObj = (DBObject) obj;
 
                 User temp = new User();
                 temp.setUserId(userObj.get("_id").toString());
-                temp.setName(userObj.get("first_name")+"");
+                temp.setName(userObj.get("name") + "");
                 temp.setAvatar("");
-                temp.setEmail(userObj.get("email")+"");
+                temp.setEmail(userObj.get("email") + "");
+
+                String friendRequestString = userObj.get("friend_requests")+"";
+
+                String[] friendRequestArray1= friendRequestString.split("\\[");
+
+                String[] friendRequestArray2 = friendRequestArray1[1].split("\\]");
+
+                String[] friendRequestArrayForList = friendRequestArray2[0].split(",");
+                List<User> friends = new ArrayList<User>();
+
+
+                for(int i=0;i<friendRequestArrayForList.length;i++)
+                {
+                    User tempFriend = new User();
+                    tempFriend.setName(friendRequestArrayForList[i].toString());
+                    friends.add(tempFriend);
+                    //friendRequests.add(friendRequestArrayForList[i]);
+                    Log.i("message",""+friendRequestArrayForList[i]);
+                }
+                temp.setFriends(friends);
+
+
+
                 users.add(temp);
             }
 
-            Log.i("message","DBObjects parsed");
+            Log.i("message", "DBObjects parsed");
 
         }catch (Exception e) {
             e.getMessage();

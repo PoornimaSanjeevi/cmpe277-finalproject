@@ -60,9 +60,7 @@ public class AddFriend extends AppCompatActivity{
                             User u = new User();
                             u.setName(x.getName());
                             Log.i("message:", "the user from DB is" + x.getEmail());
-//                            u.setAvatar(x.getAvatar());
                             u.setEmail(x.getEmail());
-//                            u.setUserId(x.getUserId());
                             users.add(u);
                         }
 //                        ArrayAdapter<User> userforadapter = new ArrayAdapter<User>(this,)
@@ -102,7 +100,8 @@ public class AddFriend extends AppCompatActivity{
 
                 User singleUser = users.get(position);
 
-                Button addfriend = (Button)findViewById(R.id.addfriend);
+                Button addfriend = (Button)convertView.findViewById(R.id.addfriend);
+                Log.i("message: ", ""+(addfriend==null));
                 addfriend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

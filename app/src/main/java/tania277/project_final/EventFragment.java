@@ -142,7 +142,7 @@ public class EventFragment extends Fragment {
                         Log.i("message:", "getting to the view button");
                         EventItem searchResult = EventFragment.this.attendingEvents.get(position);
 
-                        Log.i("message:", "name: " + searchResult.getName() + "id: " + searchResult.getEventId());
+//                        Log.i("message:", "name: " + searchResult.getName() + "id: " + searchResult.getEventId());
 
 //                        addToPlayList(searchResult.getId(), searchResult.getTitle());
                         Intent intent = new Intent(getActivity().getApplicationContext(), PopupActivity.class);

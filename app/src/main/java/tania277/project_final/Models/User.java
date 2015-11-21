@@ -53,4 +53,14 @@ public class User {
     private String Avatar;
     private List<User> Friends;
 
+    public List<String> getFriendRequests() {
+        return FriendRequests;
+    }
+
+    public void setFriendRequests(List<String> friendRequests) {
+        FriendRequests = friendRequests;
+    }
+
+    private List<String> FriendRequests;
+
 }
