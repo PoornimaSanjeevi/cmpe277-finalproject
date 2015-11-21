@@ -22,9 +22,11 @@ public class UserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View myInflatedView = inflater.inflate(R.layout.user_fragment, container, false);
         TextView info = (TextView) myInflatedView.findViewById(R.id.info);
-        ImageView profileImgView = (ImageView) myInflatedView.findViewById(R.id.profile_img);
+        TextView email = (TextView) myInflatedView.findViewById(R.id.emailid);
+        ImageView profileImgView = (ImageView) myInflatedView.findViewById(R.id.profile_pic);
         PrefUtil pu = new PrefUtil(getActivity());
         info.setText("Welcome " + pu.getUserId());
+        email.setText("Email Id:" + pu.getEmailId());
         Glide.with(getActivity())
                 .load(pu.getProfImage())
                 .into(profileImgView);

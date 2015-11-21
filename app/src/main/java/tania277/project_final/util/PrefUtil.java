@@ -28,6 +28,10 @@ public class PrefUtil {
         return sp.getString("profileImage", null);
     }
 
+    public String getEmailId(){
+        SharedPreferences sp = activity.getSharedPreferences("user", activity.MODE_PRIVATE);
+        return sp.getString("email", null);
+    }
     public void clearToken() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
         SharedPreferences.Editor editor = sp.edit();
@@ -35,11 +39,12 @@ public class PrefUtil {
         editor.apply();
     }
 
-    public void saveUserInfo(String userId, String photoURL) {
+    public void saveUserInfo(String userId, String photoURL,String emailId) {
         SharedPreferences sp = activity.getSharedPreferences("user", activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("username", userId);
         editor.putString("profileImage", photoURL);
+        editor.putString("email",emailId);
         editor.apply();
         editor.commit();
     }

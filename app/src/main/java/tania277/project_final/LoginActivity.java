@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
                             Log.v("facebook - profile", profile2.getFirstName());
                             mProfileTracker.stopTracking();
-                            succLogin(profile2.getName(), profileImgUrl);
+                            succLogin(profile2.getName(), profileImgUrl,profile2.getId());
                         }
                     };
                     mProfileTracker.startTracking();
@@ -118,9 +118,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-    public void succLogin(String userId, String photoURL) {
+    public void succLogin(String userId, String photoURL,String emailId) {
         info.setText("Welcome " + userId);
-        prefUtil.saveUserInfo(userId, photoURL);
+        prefUtil.saveUserInfo(userId, photoURL,emailId);
         Glide.with(LoginActivity.this)
                 .load(photoURL)
                 .into(profileImgView);
@@ -171,7 +171,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             Uri url = acct.getPhotoUrl();
-            succLogin(acct.getDisplayName(), url == null ? "" : url.toString());
+            succLogin(acct.getDisplayName(), url == null ? "" : url.toString(),acct.getEmail());
         } else {
             // Signed out, show unauthenticated UI.
             info.setText("Login attempt failed.");
