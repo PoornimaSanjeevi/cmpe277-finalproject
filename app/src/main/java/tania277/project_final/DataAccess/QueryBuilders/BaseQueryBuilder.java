@@ -25,6 +25,11 @@ public class BaseQueryBuilder {
         return "?apiKey="+getApiKey();
     }
 
+    public String andApiKeyUrl()
+    {
+        return "&apiKey="+getApiKey();
+    }
+
     public String docApiKeyUrl(String docid)
     {
         return "/"+docid+"?apiKey="+getApiKey();

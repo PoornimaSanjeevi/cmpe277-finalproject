@@ -3,7 +3,6 @@ package tania277.project_final.DataAccess.AsyncTask;
 /**
  * Created by Tania on 11/16/15.
  */
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -18,6 +17,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 import tania277.project_final.DataAccess.QueryBuilders.BaseQueryBuilder;
+import tania277.project_final.DataAccess.QueryBuilders.UserQueryBuilder;
 import tania277.project_final.Models.User;
 
 
@@ -26,17 +26,23 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, ArrayList<User>> {
     static String OriginalObject = "";
     static String server_output = null;
     static String temp_output = null;
+    static String userEmail ;
+
+    public void setUserEmail(String email)
+    {
+        userEmail=email;
+    }
 
     @Override
     protected ArrayList<User> doInBackground(User... arg0) {
 
-        ArrayList<User> mycontacts = new ArrayList<User>();
+        ArrayList<User> users = new ArrayList<User>();
         try
         {
-            Log.i("message : ", "reached GetContactsAsync");
-            BaseQueryBuilder qb = new BaseQueryBuilder();
-            URL url = new URL(qb.buildEventsGetURL());
-            Log.i("message : ", "reached Get URL built");
+            Log.i("message : ", "reached GetUserAsync");
+            UserQueryBuilder qb = new UserQueryBuilder();
+            URL url = new URL(qb.buildUserDetailsGetURL(userEmail));
+            Log.i("message : ", " Get URL is built" + url);
 
             HttpURLConnection conn = (HttpURLConnection) url
                     .openConnection();
@@ -83,7 +89,7 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, ArrayList<User>> {
                 temp.setName(userObj.get("first_name")+"");
                 temp.setAvatar("");
                 temp.setEmail(userObj.get("email")+"");
-                mycontacts.add(temp);
+                users.add(temp);
             }
 
             Log.i("message","DBObjects parsed");
@@ -93,6 +99,6 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, ArrayList<User>> {
             Log.i("message : ", "exception in getting contacts" + e.toString() + e.getMessage());
         }
 
-        return mycontacts;
+        return users;
     }
 }
