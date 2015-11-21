@@ -19,6 +19,8 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
@@ -30,6 +32,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.AccountPicker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
 
 import tania277.project_final.util.PrefUtil;
 
@@ -65,26 +72,47 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         info = (TextView) findViewById(R.id.info);
         profileImgView = (ImageView) findViewById(R.id.profile_img);
         loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions(Arrays.asList("email"));
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d(TAG, "FB Login");
                 final String profileImgUrl = "https://graph.facebook.com/" + loginResult.getAccessToken().getUserId() + "/picture?type=large";
-                if (Profile.getCurrentProfile() == null) {
-                    mProfileTracker = new ProfileTracker() {
-                        @Override
-                        protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
-                            Log.v("facebook - profile", profile2.getFirstName());
-                            mProfileTracker.stopTracking();
-                            succLogin(profile2.getName(), profileImgUrl,profile2.getId());
-                        }
-                    };
-                    mProfileTracker.startTracking();
-                } else {
-                    Profile profile = Profile.getCurrentProfile();
-                    Log.v("facebook - profile", profile.getFirstName());
-                }
+
+                GraphRequest request = GraphRequest.newMeRequest
+                        (loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                // Application code
+                                Log.v("LoginActivity", response.toString());
+                                //System.out.println("Check: " + response.toString());
+                                try {
+                                    final String email = object.getString("email");
+                                    if (Profile.getCurrentProfile() == null) {
+                                        mProfileTracker = new ProfileTracker() {
+                                            @Override
+                                            protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
+                                                Log.v("facebook - profile", profile2.getFirstName());
+                                                mProfileTracker.stopTracking();
+                                                succLogin(profile2.getName(), profileImgUrl, email);
+                                            }
+                                        };
+                                        mProfileTracker.startTracking();
+                                    } else {
+                                        Profile profile = Profile.getCurrentProfile();
+                                        succLogin(profile.getName(), profileImgUrl, email);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "email");
+                request.setParameters(parameters);
+                request.executeAsync();
             }
 
 
@@ -118,9 +146,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-    public void succLogin(String userId, String photoURL,String emailId) {
+    public void succLogin(String userId, String photoURL, String emailId) {
         info.setText("Welcome " + userId);
-        prefUtil.saveUserInfo(userId, photoURL,emailId);
+        prefUtil.saveUserInfo(userId, photoURL, emailId);
         Glide.with(LoginActivity.this)
                 .load(photoURL)
                 .into(profileImgView);
@@ -171,7 +199,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             Uri url = acct.getPhotoUrl();
-            succLogin(acct.getDisplayName(), url == null ? "" : url.toString(),acct.getEmail());
+            succLogin(acct.getDisplayName(), url == null ? "" : url.toString(), acct.getEmail());
         } else {
             // Signed out, show unauthenticated UI.
             info.setText("Login attempt failed.");
