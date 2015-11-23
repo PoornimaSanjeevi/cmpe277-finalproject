@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:background="@color/background">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,10 +15,44 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:paddingBottom="7dp">
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="37sp"
+            android:textSize="25dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="7dp">
+        <TextView
+            android:id="@+id/emailid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_marginLeft="50sp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:paddingBottom="10dp">
         <ImageView
             android:id="@+id/profile_pic"
             android:layout_width="128dp"
@@ -27,44 +65,14 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true"
-            android:text="Hello World!"
-            android:textSize="18sp" />
-        <TextView
-            android:id="@+id/emailid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true"
-            android:text="Hello World!"
-            android:textSize="18sp" />
-
-        <!--<TextView-->
-            <!--android:id="@+id/textView"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Name:"-->
-            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-            <!--android:layout_centerHorizontal="true" />-->
-        <!--<TextView-->
-            <!--android:id="@+id/name"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Tania Chanda"-->
-            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-            <!--android:layout_centerHorizontal="true"/>-->
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Run Records"
+            android:textStyle="bold"
+            android:layout_marginLeft="15sp"
+            android:textSize="18sp" />
         <ListView
             android:id="@+id/run_records"
             android:layout_width="match_parent"
@@ -74,3 +82,4 @@
 
 </LinearLayout>
 </RelativeLayout>
+    </ScrollView>

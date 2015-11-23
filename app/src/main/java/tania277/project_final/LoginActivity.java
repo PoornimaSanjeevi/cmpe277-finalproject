@@ -31,6 +31,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.AccountPicker;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONException;
@@ -47,6 +48,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private TextView info;
     private ImageView profileImgView;
     private LoginButton loginButton;
+    SignInButton signInButton;
     private GoogleApiClient mGoogleApiClient;
     private static final String TAG = "LoginActivity";
 
@@ -121,6 +123,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 info.setText("Login attempt cancelled.");
             }
 
+
             @Override
             public void onError(FacebookException e) {
                 e.printStackTrace();
@@ -136,7 +139,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
+        signInButton = (SignInButton)findViewById(R.id.sign_in_button);
+        signInButton.setSize(SignInButton.SIZE_WIDE);
+        signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
