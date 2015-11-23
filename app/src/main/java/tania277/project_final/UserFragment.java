@@ -6,6 +6,7 @@ package tania277.project_final;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
+import tania277.project_final.DataAccess.AsyncTask.AcceptFriendAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.CreateUserAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.DeleteFriendRequestAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.GetFriendsAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.GetUserAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.SendRequestAsyncTask;
+import tania277.project_final.Models.User;
 import tania277.project_final.util.PrefUtil;
 
 public class UserFragment extends Fragment {
@@ -30,7 +41,6 @@ public class UserFragment extends Fragment {
         Glide.with(getActivity())
                 .load(pu.getProfImage())
                 .into(profileImgView);
-
 
 
         return myInflatedView;

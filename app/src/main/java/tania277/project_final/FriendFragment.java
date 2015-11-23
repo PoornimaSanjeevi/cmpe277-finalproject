@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import tania277.project_final.DataAccess.AsyncTask.GetFriendsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetUserAsyncTask;
 import tania277.project_final.Models.EventItem;
 import tania277.project_final.Models.User;
@@ -29,23 +30,22 @@ import tania277.project_final.Models.User;
 public class FriendFragment extends Fragment{
 
     private ListView showfriendlist;
-    GetUserAsyncTask tasks;
+    GetFriendsAsyncTask tasks;
     List<User> frnds;
     User user;
-    ArrayList<User> userReturned = new ArrayList<User>();
+    ArrayList<User>  userReturned;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.friend_fragment, container, false);
 
         showfriendlist = (ListView)rootView.findViewById(R.id.showfriendlist);
 
-        tasks = new GetUserAsyncTask();
+        tasks = new GetFriendsAsyncTask();
         tasks.setUserEmail("user@gmail.com");
         try {
-            ArrayList<User> usersReturned= tasks.execute().get();
-            user=usersReturned.get(0);
-            Log.i("message:","count users"+usersReturned.size()+(user==null));
-            user=usersReturned.get(0);
+           userReturned= tasks.execute().get();
+            //user=userReturned;
+            Log.i("message:","Is user null "+(user==null));
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -53,11 +53,8 @@ public class FriendFragment extends Fragment{
         }
 
         List<User> temp = new ArrayList<User>(); ;
-        for(User x: user.getFriends()){
-            User u = new User();
-            u.setName(x.getName());
-
-            temp.add(u);
+        for(User x: userReturned){
+            temp.add(x);
         }
         updateShowFriends(temp);
 

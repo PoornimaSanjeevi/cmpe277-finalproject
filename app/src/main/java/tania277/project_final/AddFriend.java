@@ -22,6 +22,7 @@ import java.util.concurrent.ExecutionException;
 
 import tania277.project_final.DataAccess.AsyncTask.GetEventDetailsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetUserAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.GetUserListAsyncTask;
 import tania277.project_final.Models.EventItem;
 import tania277.project_final.Models.User;
 
@@ -32,7 +33,7 @@ public class AddFriend extends AppCompatActivity{
     private EditText searchInput;
     private ListView friendFound;
     TextView showemail,showname;
-    GetUserAsyncTask getUserAsyncTask;
+    GetUserListAsyncTask getUserAsyncTask;
 
     List<User> users;
     ArrayList<User> userReturned = new ArrayList<User>();
@@ -40,7 +41,7 @@ public class AddFriend extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_friends_activity);
-        getUserAsyncTask = new GetUserAsyncTask();
+        getUserAsyncTask = new GetUserListAsyncTask();
 
         searchInput = (EditText)findViewById(R.id.search_input);
 

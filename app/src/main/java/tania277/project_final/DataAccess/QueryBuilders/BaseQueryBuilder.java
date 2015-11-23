@@ -35,11 +35,11 @@ public class BaseQueryBuilder {
         return "/"+docid+"?apiKey="+getApiKey();
     }
 
-
-    public String getEventCollection()
-    {
-        return "events_runbuddy";
-    }
+//
+//    public String getEventCollection()
+//    {
+//        return "events_runbuddy";
+//    }
 
 
 //    public String buildContactsSaveURL()
@@ -48,10 +48,10 @@ public class BaseQueryBuilder {
 //    }
 
 
-    public String buildEventsGetURL()
-    {
-        return getBaseUrl()+getEventCollection()+docApiKeyUrl();
-    }
+//    public String buildEventsGetURL()
+//    {
+//        return getBaseUrl()+getEventCollection()+docApiKeyUrl();
+//    }
 
 
 //    public String buildContactsUpdateURL(String doc_id)

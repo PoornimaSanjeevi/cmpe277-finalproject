@@ -14,6 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import tania277.project_final.DataAccess.QueryBuilders.BaseQueryBuilder;
+import tania277.project_final.DataAccess.QueryBuilders.EventQueryBuilder;
 import tania277.project_final.Models.EventItem;
 
 /**
@@ -32,7 +33,7 @@ public class GetEventsAsyncTask extends AsyncTask<EventItem, Void, ArrayList<Eve
         try
         {
             Log.i("message : ", "reached GetEventsAsync");
-            BaseQueryBuilder qb = new BaseQueryBuilder();
+            EventQueryBuilder qb = new EventQueryBuilder();
             URL url = new URL(qb.buildEventsGetURL());
             Log.i("message : ", "reached Get URL built "+url);
 

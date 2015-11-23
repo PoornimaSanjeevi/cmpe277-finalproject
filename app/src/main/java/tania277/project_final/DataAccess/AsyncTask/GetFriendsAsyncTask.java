@@ -1,16 +1,5 @@
 package tania277.project_final.DataAccess.AsyncTask;
 
-/**
- * Created by Tania on 11/16/15.
- */
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -18,18 +7,26 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+
 import tania277.project_final.DataAccess.QueryBuilders.BaseQueryBuilder;
 import tania277.project_final.DataAccess.QueryBuilders.UserQueryBuilder;
+import tania277.project_final.Models.EventItem;
 import tania277.project_final.Models.User;
 
-
-public class GetUserAsyncTask extends AsyncTask<User, Void, User> {
-    static BasicDBObject user = null;
+/**
+ * Created by Srinidhi on 11/22/2015.
+ */
+public class GetFriendsAsyncTask extends AsyncTask<User, Void, ArrayList<User>> {
+    static BasicDBObject eventItem = null;
     static String OriginalObject = "";
     static String server_output = null;
     static String temp_output = null;
-    static String userId;
-    static String userEmail ;
+    static String userEmail;
 
     public void setUserEmail(String email)
     {
@@ -37,15 +34,15 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, User> {
     }
 
     @Override
-    protected User doInBackground(User... arg0) {
+    protected ArrayList<User> doInBackground(User... arg0) {
 
-        User user = new User();
+        ArrayList<User> users = new ArrayList<User>();
         try
         {
-            Log.i("message : ", "reached GetUserAsync");
+            Log.i("message : ", "reached GetEventsAsync");
             UserQueryBuilder qb = new UserQueryBuilder();
-            URL url = new URL(qb.buildUserDetailsGetURL(userEmail));
-            Log.i("message : ", " Get URL is built" + url);
+            URL url = new URL(qb.buildFriendsGetURL(userEmail));
+            Log.i("message : ", "reached Get URL built "+url);
 
             HttpURLConnection conn = (HttpURLConnection) url
                     .openConnection();
@@ -80,43 +77,26 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, User> {
             Log.i("message","mongo array created");
 
             DBObject dbObj = (DBObject) o;
-            BasicDBList dbusers = (BasicDBList) dbObj.get("artificial_basicdb_list");
+            BasicDBList contacts = (BasicDBList) dbObj.get("artificial_basicdb_list");
 
             Log.i("message","DBObjects created");
 
-            for (Object obj : dbusers) {
+            for (Object obj : contacts) {
                 DBObject userObj = (DBObject) obj;
 
-                user = new User();
-                user.setUserId(userObj.get("_id").toString());
-                user.setName(userObj.get("name") + "");
-                user.setAvatar(userObj.get("avatar") + "");
-                user.setEmail(userObj.get("email") + "");
-
-                String friendRequestsString = userObj.get("friend_requests")+"";
-
-                String[] friendRequestsArray1= friendRequestsString.split("\\[");
-
-                String[] friendRequestsArray2 = friendRequestsArray1[1].split("\\]");
-
-                String[] friendRequestArrayForList = friendRequestsArray2[0].split(",");
-                List<String> friends = new ArrayList<String>();
-
-
-                for(int i=0;i<friendRequestArrayForList.length;i++)
-                {
-                    friends.add(friendRequestArrayForList[i].toString());
-                    Log.i("message",""+friendRequestArrayForList[i]);
-                }
-                user.setFriendRequests(friends);
+                User temp = new User();
+                Log.i("message:", "id is" + userObj.get("_id").toString());
+                temp.setName(userObj.get("name").toString());
+                temp.setEmail(userObj.get("email") + "");
+                temp.setAvatar(userObj.get("avatar") + "");
+                users.add(temp);
             }
-            Log.i("message", "DBObjects parsed");
+            Log.i("message","DBObjects parsed");
 
         }catch (Exception e) {
             e.getMessage();
             Log.i("message : ", "exception in getting contacts" + e.toString() + e.getMessage());
         }
-
-        return user;
+        return users;
     }
 }

@@ -160,7 +160,7 @@ public class EventFragment extends Fragment {
                 endTime.setText(singleAttendingItem.getEndTime());
                 location.setText(singleAttendingItem.getLocation());
 
-                Log.i("message","The event id is when setting"+singleAttendingItem.getEventId());
+               // Log.i("message","The event id is when setting"+singleAttendingItem.getEventId());
                 eventId.setText((singleAttendingItem.getEventId()));
 
                 return convertView;

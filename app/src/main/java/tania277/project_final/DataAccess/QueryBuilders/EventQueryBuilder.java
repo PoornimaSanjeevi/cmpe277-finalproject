@@ -26,13 +26,9 @@ public class EventQueryBuilder {
 
     public String buildEventDetailsGetURL(String id)
     {
-       // return qb.getBaseUrl()+getEventCollection()+"?q={\"_id\":{\"$in\":[{ \"$oid\":"+"\""+id+"\""+"}]}}"+"&apiKey=lhXxXAw69SlRU8my7e8jQcxW40ZBHigQ";
-//        return "https://api.mongolab.com/api/1/databases/cmpe277project_runbuddy/collections/events_runbuddy?q={\"_id\":\"null\"}&apiKey=lhXxXAw69SlRU8my7e8jQcxW40ZBHigQ";
-
         StringBuilder s = new StringBuilder();
-        s.append(qb.getBaseUrl()).append(getEventCollection()).append("?q={\"_id\":{\"$in\":[{\"$oid\":\"564a99cae4b03655d6ecf183\"}]}}&apiKey=lhXxXAw69SlRU8my7e8jQcxW40ZBHigQ");
-        //return "https://api.mongolab.com/api/1/databases/cmpe277project_runbuddy/collections/events_runbuddy?q={\"_id\":{\"$in\":[{\"$oid\":\"564a99cae4b03655d6ecf183\"}]}}&apiKey=lhXxXAw69SlRU8my7e8jQcxW40ZBHigQ";
-    return s.toString();
+        s.append(qb.getBaseUrl()).append(getEventCollection()).append("?q={\"_id\":{\"$in\":[{\"$oid\":\""+id+"\"}]}}&apiKey=lhXxXAw69SlRU8my7e8jQcxW40ZBHigQ");
+       return s.toString();
     }
     public String createEvent(EventItem eventItem)
     {
