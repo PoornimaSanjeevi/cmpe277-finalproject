@@ -29,15 +29,17 @@ import tania277.project_final.Models.User;
  * Created by Tania on 11/16/15.
  */
 //Display all the Friends
-public class FriendFragment extends Fragment{
+public class FriendFragment extends Fragment {
 
     private ListView showfriendlist;
+    ListView showfriendRequests;
+    List<User> friendRequests;
     GetFriendsAsyncTask friendTask;
     GetUserAsyncTask usertask;
     GetFriendRequestsAsyncTask requesttask;
 
     //returned from DB
-    ArrayList<User>  userReturned;
+    ArrayList<User> userReturned;
 
     //List to pass it to adapter
     List<User> frnds;
@@ -48,7 +50,8 @@ public class FriendFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.friend_fragment, container, false);
 
-        showfriendlist = (ListView)rootView.findViewById(R.id.showfriendlist);
+        showfriendlist = (ListView) rootView.findViewById(R.id.showfriendlist);
+        showfriendRequests = (ListView) rootView.findViewById(R.id.showfriendRequests);
 
         friendTask = new GetFriendsAsyncTask();
         usertask = new GetUserAsyncTask();
@@ -60,40 +63,37 @@ public class FriendFragment extends Fragment{
 
 
         //Call backend
-        try
-        {
-           userReturned= friendTask.execute().get();
-           user= usertask.execute().get();
-        }
-        catch (Exception e) {
-            Log.i("message","Exception : "+e.getMessage());
+        try {
+            userReturned = friendTask.execute().get();
+            user = usertask.execute().get();
+
+        } catch (Exception e) {
+            Log.i("message", "Exception : " + e.getMessage());
         }
 
         List<User> friendRequestSenders = new ArrayList<User>();
 
 
         requesttask.setRequestEmails(user.getFriendRequests());
-            try {
+        try {
 
-                friendRequestSenders=requesttask.execute().get();
-                updateFriendRequestSenders(friendRequestSenders);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-
+            friendRequestSenders = requesttask.execute().get();
+            Log.i("message:","requests senders count" +friendRequestSenders.size());
+            updateFriendRequestSenders(friendRequestSenders);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         //Convert ArrayList to List
-        List<User> temp = new ArrayList<User>(); ;
-        for(User x: userReturned){
+        List<User> temp = new ArrayList<User>();
+        ;
+        for (User x : userReturned) {
             temp.add(x);
         }
 
         //Calling Adapter to display friends
         updateShowFriends(temp);
-
 
 
         //Clicking takes to a search page, to add new friends
@@ -109,35 +109,35 @@ public class FriendFragment extends Fragment{
         return rootView;
     }
 
-    public void updateFriendRequestSenders(List<User> users){
-        FriendFragment.this.frnds = users;
-        Log.i("message:", "update attending addapter reached");
-        ArrayAdapter<User> adapter = new ArrayAdapter<User>(getActivity().getApplicationContext(), R.layout.show_friend_item, users) {
+    public void updateFriendRequestSenders(List<User> users) {
+        FriendFragment.this.friendRequests = users;
+        Log.i("message:", "update requests reached");
+        ArrayAdapter<User> adapter = new ArrayAdapter<User>(getActivity().getApplicationContext(), R.layout.friend_request_item, users) {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
 
                 if (convertView == null) {
-                    convertView = getActivity().getLayoutInflater().inflate(R.layout.show_friend_item, parent, false);
+                    convertView = getActivity().getLayoutInflater().inflate(R.layout.friend_request_item, parent, false);
                 }
 
                 //TODO: Map Image View
-                TextView showname =(TextView) convertView.findViewById(R.id.showname);
-                TextView showemail =(TextView) convertView.findViewById(R.id.showemail);
+                TextView showname = (TextView) convertView.findViewById(R.id.showname);
+                TextView showemail = (TextView) convertView.findViewById(R.id.showemail);
 
-                User singleFriend = FriendFragment.this.frnds.get(position);
-                Button viewbutton = (Button)convertView.findViewById(R.id.viewFriend);
-                viewbutton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.i("message:", "getting to the view friend button");
-                        User searchUser = FriendFragment.this.frnds.get(position);
-                        Log.i("message:", "name: " + searchUser.getName() + "email: " + searchUser.getEmail());
-
-                        Intent intent = new Intent(getActivity().getApplicationContext(), ViewFriendActivity.class);
-                        intent.putExtra("UserEmail", searchUser.getEmail());
-                        startActivity(intent);
-                    }
-                });
+                User singleFriend = FriendFragment.this.friendRequests.get(position);
+//                Button viewbutton = (Button) convertView.findViewById(R.id.viewFriend);
+//                viewbutton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Log.i("message:", "getting to the view friend button");
+//                        User searchUser = FriendFragment.this.frnds.get(position);
+//                        Log.i("message:", "name: " + searchUser.getName() + "email: " + searchUser.getEmail());
+//
+//                        Intent intent = new Intent(getActivity().getApplicationContext(), ViewFriendActivity.class);
+//                        intent.putExtra("UserEmail", searchUser.getEmail());
+//                        startActivity(intent);
+//                    }
+//                });
 
                 //TODO: set avatar for friends
                 //Picasso.with(getActivity().getApplicationContext()).load(searchResult.getThumbnailURL()).into(thumbnail);
@@ -149,12 +149,12 @@ public class FriendFragment extends Fragment{
             }
         };
 
-        showfriendlist.setAdapter(adapter);
+        showfriendRequests.setAdapter(adapter);
     }
 
-    public void updateShowFriends(List<User> users){
+    public void updateShowFriends(List<User> users) {
         FriendFragment.this.frnds = users;
-        Log.i("message:", "update attending addapter reached");
+        Log.i("message:", "update friends reached");
         ArrayAdapter<User> adapter = new ArrayAdapter<User>(getActivity().getApplicationContext(), R.layout.show_friend_item, users) {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
@@ -164,11 +164,11 @@ public class FriendFragment extends Fragment{
                 }
 
                 //TODO: Map Image View
-                TextView showname =(TextView) convertView.findViewById(R.id.showname);
-                TextView showemail =(TextView) convertView.findViewById(R.id.showemail);
+                TextView showname = (TextView) convertView.findViewById(R.id.showname);
+                TextView showemail = (TextView) convertView.findViewById(R.id.showemail);
 
                 User singleFriend = FriendFragment.this.frnds.get(position);
-                Button viewbutton = (Button)convertView.findViewById(R.id.viewFriend);
+                Button viewbutton = (Button) convertView.findViewById(R.id.viewFriend);
                 viewbutton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -58,14 +58,10 @@ public class User {
         return runRecords;
     }
 
-
-
-
     public void setRunRecords(List<RunRecord> runRecords) {
-        RunRecords = runRecords;
+        this.runRecords = runRecords;
     }
 
-    private List<RunRecord> RunRecords;
 
     public List<String> getFriendRequests() {
         return FriendRequests;

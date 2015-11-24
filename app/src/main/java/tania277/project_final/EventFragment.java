@@ -26,7 +26,7 @@ import tania277.project_final.Models.EventItem;
  */
 public class EventFragment extends Fragment {
 
-     ListView attending_list, invited_list;
+    ListView attending_list, invited_list;
     List<EventItem> attendingEvents;
     ArrayList<EventItem> returnValues = new ArrayList<EventItem>();
     TextView title_Attending, title_Invited;
@@ -39,6 +39,7 @@ public class EventFragment extends Fragment {
         title_Attending =(TextView)getActivity().findViewById(R.id.attending);
         title_Invited =(TextView)getActivity().findViewById(R.id.invited);
         attending_list = (ListView)rootView.findViewById(R.id.attending_list);
+        invited_list = (ListView)rootView.findViewById(R.id.invited_list);
 //        onClickCallView();
 
         //TODO: Toggle function
@@ -56,12 +57,7 @@ public class EventFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
-
-        invited_list = (ListView)getActivity().findViewById(R.id.invited_list);
-
         create = (Button)getActivity().findViewById(R.id.create_event);
-
 
         GetEventsAsyncTask task = new GetEventsAsyncTask();
         try

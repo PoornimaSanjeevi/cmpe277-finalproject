@@ -46,7 +46,7 @@ public class UserQueryBuilder {
         if (emailList.size() > 0) {
             url = url + "\""+emailList.get(0).trim()+"\"";
             for (int i = 1; i < emailList.size(); i++)
-                url = url + ",\"" + emailList.get(i) + "\"";
+                url = url + ",\"" + emailList.get(i).trim() + "\"";
         }
 
         url = url + "]}}" +qb.andApiKeyUrl();
