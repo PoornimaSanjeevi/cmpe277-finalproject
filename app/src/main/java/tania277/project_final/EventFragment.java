@@ -130,10 +130,10 @@ public class EventFragment extends Fragment {
                 TextView eventId =(TextView) convertView.findViewById(R.id.event_id);
                 TextView eventName = (TextView) convertView.findViewById(R.id.event_name);
                 TextView eventDate=(TextView) convertView.findViewById(R.id.event_date);
-                TextView eventAdmin = (TextView)convertView.findViewById(R.id.event_admin);
+//                TextView eventAdmin = (TextView)convertView.findViewById(R.id.event_admin);
                 TextView startTime =(TextView)convertView.findViewById(R.id.start_time);
-                TextView endTime =(TextView)convertView.findViewById(R.id.end_time);
-                TextView location =(TextView)convertView.findViewById(R.id.event_loc);
+//                TextView endTime =(TextView)convertView.findViewById(R.id.end_time);
+//                TextView location =(TextView)convertView.findViewById(R.id.event_loc);
                 EventItem singleAttendingItem = EventFragment.this.attendingEvents.get(position);
                 Button viewbutton = (Button)convertView.findViewById(R.id.view_event);
                 viewbutton.setOnClickListener(new View.OnClickListener() {
@@ -155,10 +155,10 @@ public class EventFragment extends Fragment {
 //                Picasso.with(getActivity().getApplicationContext()).load(searchResult.getThumbnailURL()).into(thumbnail);
                 eventName.setText(singleAttendingItem.getName());
                 eventDate.setText(singleAttendingItem.getDate());
-                eventAdmin.setText(singleAttendingItem.getAdmin());
+//                eventAdmin.setText(singleAttendingItem.getAdmin());
                 startTime.setText(singleAttendingItem.getStartTime());
-                endTime.setText(singleAttendingItem.getEndTime());
-                location.setText(singleAttendingItem.getLocation());
+//                endTime.setText(singleAttendingItem.getEndTime());
+//                location.setText(singleAttendingItem.getLocation());
 
                // Log.i("message","The event id is when setting"+singleAttendingItem.getEventId());
                 eventId.setText((singleAttendingItem.getEventId()));
