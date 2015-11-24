@@ -7,6 +7,12 @@ import java.util.List;
  */
 public class User {
     private String UserId;
+    private String Name;
+    private String Email;
+    private String Avatar;
+    private List<User> Friends;
+    private List<RunRecord> runRecords;
+    private List<String> FriendRequests;
 
     public String getName() {
         return Name;
@@ -48,10 +54,13 @@ public class User {
         Friends = friends;
     }
 
-    private String Name;
-    private String Email;
-    private String Avatar;
-    private List<User> Friends;
+    public List<RunRecord> getRunRecords() {
+        return runRecords;
+    }
+
+    public void setRunRecords(List<RunRecord> runRecords) {
+        this.runRecords = runRecords;
+    }
 
     public List<RunRecord> getRunRecords() {
         return RunRecords;
@@ -70,7 +79,5 @@ public class User {
     public void setFriendRequests(List<String> friendRequests) {
         FriendRequests = friendRequests;
     }
-
-    private List<String> FriendRequests;
 
 }

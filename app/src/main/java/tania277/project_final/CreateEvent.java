@@ -37,6 +37,7 @@ public class CreateEvent extends AppCompatActivity {
     }
 
     public void setValuesToMongo(){
+
         ename = (EditText)findViewById(R.id.ename);
         edate = (EditText)findViewById(R.id.edate);
         stime = (EditText)findViewById(R.id.stime);
@@ -45,29 +46,31 @@ public class CreateEvent extends AppCompatActivity {
         if (ename.getText().toString().trim().equals("") || edate.getText().toString().trim().equals("")
                 || stime.getText().toString().trim().equals("") || eloc.getText().toString().equals("")) {
 
-
             if (ename.getText().toString().trim().equals("")) {
-                ename.setError("Home Value is required!");
+                ename.setError("Event name is required!");
                 ename.requestFocus();
             } else if (edate.getText().toString().trim().equals("")) {
-                edate.setError("Downpayment Value is required!");
+                edate.setError("Date is required!");
                 edate.requestFocus();
             } else if (stime.getText().toString().trim().equals("")) {
-                stime.setError("Downpayment Value is required!");
+                stime.setError("Starting time is required!");
                 stime.requestFocus();
             } else {
-                eloc.setError("Interest is required!");
+                eloc.setError("Location is required!");
                 eloc.requestFocus();
             }
-        } else {
-
+        }else{
             eventItem.setName(ename.getText().toString());
             eventItem.setDate(edate.getText().toString());
             eventItem.setStartTime(stime.getText().toString());
             eventItem.setEndTime(etime.getText().toString());
             eventItem.setLocation(eloc.getText().toString());
+
             eventItem.setAdmin("user@gmail.com");
             createEventAsyncTask.execute(eventItem);
+
+    //        getEventsAsyncTask.execute().get();
+
 
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

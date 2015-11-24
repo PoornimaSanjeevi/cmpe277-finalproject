@@ -34,6 +34,7 @@
         <activity android:name=".CreateEvent"></activity>
         <activity android:name=".PopupActivity"></activity>
         <activity android:name=".AddFriend"></activity>
+        <activity android:name=".ViewFriendActivity"></activity>
     </application>
 
 </manifest>

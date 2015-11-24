@@ -1,5 +1,6 @@
 package tania277.project_final.DataAccess.QueryBuilders;
 
+import android.util.Log;
 import java.util.List;
 
 import tania277.project_final.Models.EventItem;
@@ -37,6 +38,7 @@ public class UserQueryBuilder {
     {
         return qb.getBaseUrl()+getUserCollection()+"?q={\"friends\":\""+email+"\"}"+qb.andApiKeyUrl();
     }
+
     public String buildFriendRequestsGetURL(List<String> emailList) {
         //TODO: Make this a valid Query q={"email":{"$in":["user3@gmail.com"]}}
         //q={"email":{"$in":["user@gmail.com","user2@gmail.com"]}}
@@ -50,6 +52,7 @@ public class UserQueryBuilder {
         url = url + "]}}" +qb.andApiKeyUrl();
         return url;
     }
+
     public String sendRequest(User user) {
 
         String url ="{ \"$set\" :"
