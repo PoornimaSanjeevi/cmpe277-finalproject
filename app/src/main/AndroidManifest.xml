@@ -10,9 +10,8 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Run Buddy"
-        android:theme="@style/AppTheme"
-        >
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
@@ -34,7 +33,6 @@
         <activity android:name=".CreateEvent"></activity>
         <activity android:name=".PopupActivity"></activity>
         <activity android:name=".AddFriend"></activity>
-        <activity android:name=".ViewFriendActivity"></activity>
     </application>
 
 </manifest>
