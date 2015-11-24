@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Attending Events"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
                 <!--android:clickable="true"-->
                 <!--android:onClick="toggle_contents_attend"/>-->
         </LinearLayout>
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Invited Events"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
             <!--android:clickable="true"-->
             <!--android:onClick="toggle_contents_invite"/>-->
         </LinearLayout>
