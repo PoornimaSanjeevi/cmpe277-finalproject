@@ -34,7 +34,7 @@ public class AsyncTasksDocumentation {
             }
 
         }catch(Exception e){
-            Log.i("message: ",""+e.getMessage().toString());
+            Log.i("message: ",""+e.getMessage());
         }
     }
 

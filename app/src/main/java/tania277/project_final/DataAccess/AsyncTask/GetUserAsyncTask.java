@@ -18,9 +18,14 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import tania277.project_final.DataAccess.QueryBuilders.BaseQueryBuilder;
 import tania277.project_final.DataAccess.QueryBuilders.UserQueryBuilder;
+import tania277.project_final.Models.RunRecord;
 import tania277.project_final.Models.User;
+import tania277.project_final.util.JsonToStringParsers;
 
 
 public class GetUserAsyncTask extends AsyncTask<User, Void, User> {
@@ -31,6 +36,7 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, User> {
     static String userId;
     static String userEmail ;
 
+    JsonToStringParsers parsers = new JsonToStringParsers();
     public void setUserEmail(String email)
     {
         userEmail=email;
@@ -94,21 +100,28 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, User> {
                 user.setEmail(userObj.get("email") + "");
 
                 String friendRequestsString = userObj.get("friend_requests")+"";
+                user.setFriendRequests(parsers.ConvertTofriendRequestsList(friendRequestsString));
 
-                String[] friendRequestsArray1= friendRequestsString.split("\\[");
+                String recordsArray = "{ artificial_records_list: "+userObj.get("run_records")+"}";
 
-                String[] friendRequestsArray2 = friendRequestsArray1[1].split("\\]");
+                Object records = com.mongodb.util.JSON.parse(recordsArray);
+                DBObject recordsObj = (DBObject) records;
+                BasicDBList dbRecords = (BasicDBList) recordsObj.get("artificial_records_list");
 
-                String[] friendRequestArrayForList = friendRequestsArray2[0].split(",");
-                List<String> friends = new ArrayList<String>();
+                List<RunRecord> runRecordList = new ArrayList<RunRecord>();
 
-
-                for(int i=0;i<friendRequestArrayForList.length;i++)
-                {
-                    friends.add(friendRequestArrayForList[i].toString());
-                    Log.i("message",""+friendRequestArrayForList[i]);
+                int i=1;
+                for (Object record : dbRecords) {
+                    DBObject recordObj = (DBObject) record;
+                    RunRecord runRecord = new RunRecord();
+                    List<String> recordsList =parsers.ConvertToRecords(recordObj.get(i + "") + "");
+                    runRecord.setEventName(recordsList.get(0));
+                    runRecord.setDistanceRan(recordsList.get(1));
+                    runRecord.setTimeRan(recordsList.get(2));
+                    runRecordList.add(runRecord);
+                    i++;
                 }
-                user.setFriendRequests(friends);
+                user.setRunRecords(runRecordList);
             }
             Log.i("message", "DBObjects parsed");
 
@@ -120,3 +133,4 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, User> {
         return user;
     }
 }
+
