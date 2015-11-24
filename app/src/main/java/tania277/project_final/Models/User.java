@@ -53,6 +53,16 @@ public class User {
     private String Avatar;
     private List<User> Friends;
 
+    public List<RunRecord> getRunRecords() {
+        return RunRecords;
+    }
+
+    public void setRunRecords(List<RunRecord> runRecords) {
+        RunRecords = runRecords;
+    }
+
+    private List<RunRecord> RunRecords;
+
     public List<String> getFriendRequests() {
         return FriendRequests;
     }
