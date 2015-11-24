@@ -2,16 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create an Run Event!!"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:paddingTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:text="Event name"/>
+            android:text="Event name: "
+            android:textSize="18sp"/>
         <EditText
-            android:layout_width="100dp"
+            android:layout_width="200dp"
+            android:inputType="text"
             android:layout_height="wrap_content"
             android:id="@+id/ename"/>
     </LinearLayout>
@@ -19,13 +31,16 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:text="Event Date"/>
+            android:text="Date: "
+            android:textSize="18sp"/>
         <EditText
-            android:layout_width="100dp"
+            android:layout_width="200dp"
+            android:inputType="date"
             android:layout_height="wrap_content"
             android:id="@+id/edate"/>
     </LinearLayout>
@@ -33,13 +48,16 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:text="Start time"/>
+            android:text="Start time: "
+            android:textSize="18sp"/>
         <EditText
-            android:layout_width="100dp"
+            android:layout_width="200dp"
+            android:inputType="time"
             android:layout_height="wrap_content"
             android:id="@+id/stime"/>
     </LinearLayout>
@@ -47,13 +65,16 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:text="End time"/>
+            android:text="End time: "
+            android:textSize="18sp"/>
         <EditText
-            android:layout_width="100dp"
+            android:layout_width="200dp"
+            android:inputType="time"
             android:layout_height="wrap_content"
             android:id="@+id/etime"/>
     </LinearLayout>
@@ -61,25 +82,35 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingBottom="20dp">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:text="Event Location"/>
+            android:text="Event Location: "
+            android:textSize="18sp"/>
         <EditText
-            android:layout_width="100dp"
+            android:layout_width="200dp"
+            android:inputType="text"
             android:layout_height="wrap_content"
             android:id="@+id/eloc"/>
     </LinearLayout>
+
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:text="Invite Friends"
-        android:id="@+id/invite"/>
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:id="@+id/invite"
+        android:paddingBottom="10dp"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Done"
+        android:textSize="18sp"
         android:id="@+id/submit"/>
 </LinearLayout>

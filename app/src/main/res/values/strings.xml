@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Project_Final</string>
+    <string name="app_name">Run Buddy</string>
     <string name="app_id">1731140313780720</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <color name="background">#b3ffff</color>
 </resources>

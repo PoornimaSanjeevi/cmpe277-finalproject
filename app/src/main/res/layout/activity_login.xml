@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
-        android:text="Hello World!"
         android:textSize="18sp" />
 
     <ImageView
@@ -41,7 +40,16 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"
+            android:layout_gravity="center_horizontal"
+            android:text ="Login"
             tools:visibility="gone" />
+        <Button
+            android:id="@+id/sign_out_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:text="Signout from Google" />
     </LinearLayout>
 
 </RelativeLayout>

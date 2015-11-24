@@ -37,7 +37,7 @@ public class UserFragment extends Fragment {
         ImageView profileImgView = (ImageView) myInflatedView.findViewById(R.id.profile_pic);
         PrefUtil pu = new PrefUtil(getActivity());
         info.setText("Welcome " + pu.getUserId());
-        email.setText("Email Id:" + pu.getEmailId());
+        email.setText(pu.getEmailId());
         Glide.with(getActivity())
                 .load(pu.getProfImage())
                 .into(profileImgView);

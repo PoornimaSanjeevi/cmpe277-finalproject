@@ -7,54 +7,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
         <TextView
             android:id="@+id/event_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
         <TextView
             android:id="@+id/event_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name of the event"/>
+            android:textSize="18sp"
+            android:layout_marginLeft="5dp"/>
         <TextView
             android:id="@+id/event_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Date of the event"/>
-        <TextView
-            android:id="@+id/event_admin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Admin of the event"/>
-        <TextView
-            android:id="@+id/event_loc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Location of the event"/>
+            android:textSize="18sp"
+            android:layout_marginLeft="5dp"/>
+
         <TextView
             android:id="@+id/start_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Admin of the event"/>
-        <TextView
-            android:id="@+id/end_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Location of the event"/>
-        <!--<Button-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Start"/>-->
-        <!--<Button-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="End"/>-->
+            android:textSize="18sp"
+            android:layout_marginLeft="5dp"/>
+        </LinearLayout>
+
         <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View"
+        android:text="Details"
             android:id="@+id/view_event"/>
 
     </LinearLayout>

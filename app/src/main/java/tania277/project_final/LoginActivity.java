@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,9 +30,11 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.AccountPicker;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,11 +50,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private TextView info;
     private ImageView profileImgView;
     private LoginButton loginButton;
+    SignInButton signInButton;
     private GoogleApiClient mGoogleApiClient;
     private static final String TAG = "LoginActivity";
 
 
-    private static final int RC_SIGN_IN = 1;
+    private static final int RC_SIGN_IN = 9001;
     private static final int RC_PERM_GET_ACCOUNTS = 2;
 
 
@@ -71,6 +75,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         info = (TextView) findViewById(R.id.info);
         profileImgView = (ImageView) findViewById(R.id.profile_img);
+
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList("email"));
 
@@ -121,6 +126,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 info.setText("Login attempt cancelled.");
             }
 
+
             @Override
             public void onError(FacebookException e) {
                 e.printStackTrace();
@@ -136,7 +142,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
+        signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+//        signInButton.setSize(SignInButton.SIZE_WIDE);
+        signInButton.setScopes(gso.getScopeArray());
+        signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -144,6 +153,32 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
+        Button signOutButton = (Button) findViewById(R.id.sign_out_button);
+        signOutButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                        new ResultCallback<Status>() {
+                            @Override
+                            public void onResult(Status status) {
+                                updateUI(false);
+                            }
+                        });
+            }
+        });
+
+
+    }
+
+    private void updateUI(boolean signedIn) {
+        if (signedIn) {
+            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+        }
     }
 
     public void succLogin(String userId, String photoURL, String emailId) {
@@ -160,18 +195,18 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         startActivity(intent);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
-        if (requestCode == RC_PERM_GET_ACCOUNTS) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                showSignedInUI();
-            } else {
-                Log.d(TAG, "GET_ACCOUNTS Permission Denied.");
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode,
+//                                           @NonNull String permissions[],
+//                                           @NonNull int[] grantResults) {
+//        if (requestCode == RC_PERM_GET_ACCOUNTS) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+////                showSignedInUI();
+//            } else {
+//                Log.d(TAG, "GET_ACCOUNTS Permission Denied.");
+//            }
+//        }
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -199,6 +234,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             Uri url = acct.getPhotoUrl();
+            updateUI(true);
             succLogin(acct.getDisplayName(), url == null ? "" : url.toString(), acct.getEmail());
         } else {
             // Signed out, show unauthenticated UI.
