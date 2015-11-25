@@ -5,6 +5,7 @@ package tania277.project_final;
  */
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
@@ -42,8 +43,11 @@ public class UserFragment extends Fragment {
         TextView email = (TextView) rootView.findViewById(R.id.emailid);
         final ImageView profileImgView = (ImageView) rootView.findViewById(R.id.profile_pic);
         run_records = (ListView)rootView.findViewById(R.id.run_records);
+        run_records.setDivider(null);
+        run_records.setDividerHeight(0);
         PrefUtil pu = new PrefUtil(getActivity());
-        info.setText("Welcome " + pu.getUserId());
+        info.setText("Welcome: " + pu.getUserId());
+        info.setShadowLayer(1, 0, 0, Color.BLACK);
         email.setText(pu.getEmailId());
 
         Glide.with(getActivity()).load(pu.getProfImage()).asBitmap().centerCrop().into(new BitmapImageViewTarget(profileImgView) {

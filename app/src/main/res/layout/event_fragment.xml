@@ -32,8 +32,8 @@
             <ListView
                 android:id="@+id/attending_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:dividerHeight="5dp" />
+                android:layout_height="200dp"
+                android:dividerHeight="0dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -70,7 +70,9 @@
                 android:id="@+id/create_event"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create"/>
+                android:text="Create"
+                android:textSize="14dp"
+                style="@style/buttonStyle"/>
         </LinearLayout>
 
     </LinearLayout>

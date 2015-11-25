@@ -39,7 +39,11 @@ public class EventFragment extends Fragment {
         title_Attending =(TextView)getActivity().findViewById(R.id.attending);
         title_Invited =(TextView)getActivity().findViewById(R.id.invited);
         attending_list = (ListView)rootView.findViewById(R.id.attending_list);
+        attending_list.setDivider(null);
+        attending_list.setDividerHeight(0);
         invited_list = (ListView)rootView.findViewById(R.id.invited_list);
+        invited_list.setDivider(null);
+        invited_list.setDividerHeight(0);
 //        onClickCallView();
 
         //TODO: Toggle function

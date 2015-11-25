@@ -6,19 +6,27 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/showename"/>
+        android:id="@+id/showename"
+        android:textSize="16sp"
+        android:paddingRight="6dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/showdistance"/>
+        android:id="@+id/showdistance"
+        android:textSize="16sp"
+        android:paddingRight="6dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/showtime"/>
+        android:id="@+id/showtime"
+        android:textSize="16sp"
+        android:paddingRight="8dp"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Record"
-        android:id="@+id/view_run_record"/>
+        android:text="Details"
+        android:textSize="14sp"
+        android:id="@+id/view_run_record"
+        style="@style/buttonStyle" />
 
 </LinearLayout>
