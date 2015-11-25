@@ -68,11 +68,12 @@
             android:layout_gravity="center">
             <Button
                 android:id="@+id/create_event"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Create"
-                android:textSize="14dp"/>
-                <!--style="@style/buttonStyle"/>-->
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:layout_width="75dp"
+                android:layout_height="29dp"
+                android:background="@drawable/buttonshape" />
         </LinearLayout>
 
     </LinearLayout>

@@ -22,11 +22,12 @@
         android:textSize="16sp"
         android:paddingRight="8dp"/>
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Details"
-        android:textSize="14sp"
+        android:text="Show"
+        android:textSize="12sp"
         android:id="@+id/view_run_record"
-        style="@style/buttonStyle" />
+        android:textColor="#FFFFFF"
+        android:layout_width="50dp"
+        android:layout_height="20dp"
+        android:background="@drawable/buttonshape"/>
 
 </LinearLayout>

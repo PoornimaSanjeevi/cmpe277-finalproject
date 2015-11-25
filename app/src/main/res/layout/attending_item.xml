@@ -33,12 +33,13 @@
             android:paddingRight="6dp"/>
 
         <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
         android:text="Details"
+            android:textColor="#ffffff"
             android:textSize="12sp"
             android:id="@+id/view_event"
-            style="@style/buttonStyle"/>
+            android:background="@drawable/buttonshape" />
 
     </LinearLayout>
 </RelativeLayout>
