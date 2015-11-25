@@ -15,7 +15,7 @@ import tania277.project_final.Models.EventItem;
 /**
  * Created by Tania on 11/16/15.
  */
-public class CreateEvent extends AppCompatActivity {
+public class CreateEvent extends Activity {
     EditText ename,edate,stime,etime,eloc;
     Button invite, submit;
     EventItem eventItem = new EventItem();

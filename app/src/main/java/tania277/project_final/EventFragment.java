@@ -44,17 +44,7 @@ public class EventFragment extends Fragment {
         invited_list = (ListView)rootView.findViewById(R.id.invited_list);
         invited_list.setDivider(null);
         invited_list.setDividerHeight(0);
-//        onClickCallView();
-
-        //TODO: Toggle function
-//        title_Attending.setVisibility(View.GONE);
-//        title_Invited.setVisibility(View.GONE);
-//        return inflater.inflate(R.layout.event_fragment, container, false);
         return rootView;
-
-
-
-
     }
 
     @Override
@@ -104,17 +94,17 @@ public class EventFragment extends Fragment {
         });
     }
 
-    public void toggle_contents_attend(View v){
-        attending_list.setVisibility( attending_list.isShown()
-                ? View.GONE
-                : View.VISIBLE );
-    }
-
-    public void toggle_contents_invite(View v){
-        invited_list.setVisibility( invited_list.isShown()
-                ? View.GONE
-                : View.VISIBLE );
-    }
+//    public void toggle_contents_attend(View v){
+//        attending_list.setVisibility( attending_list.isShown()
+//                ? View.GONE
+//                : View.VISIBLE );
+//    }
+//
+//    public void toggle_contents_invite(View v){
+//        invited_list.setVisibility( invited_list.isShown()
+//                ? View.GONE
+//                : View.VISIBLE );
+//    }
 
     public void updateAttending(List<EventItem> attendingItems){
         EventFragment.this.attendingEvents = attendingItems;

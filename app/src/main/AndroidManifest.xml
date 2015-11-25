@@ -30,7 +30,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"></activity>
-        <activity android:name=".CreateEvent"></activity>
+        <activity
+            android:name=".CreateEvent"
+            android:theme="@android:style/Theme.Holo.Dialog">
+        </activity>
         <activity android:name=".PopupActivity"></activity>
         <activity android:name=".AddFriend"></activity>
         <activity android:name=".ViewFriendActivity"></activity>
