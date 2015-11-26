@@ -1,5 +1,6 @@
 package tania277.project_final;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,7 +15,7 @@ import tania277.project_final.Models.EventItem;
 /**
  * Created by Tania on 11/19/15.
  */
-public class PopupActivity extends AppCompatActivity{
+public class PopupActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

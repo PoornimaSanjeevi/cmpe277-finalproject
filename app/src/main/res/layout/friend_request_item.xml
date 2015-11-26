@@ -18,22 +18,26 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/showname"/>
+            android:id="@+id/showname"
+            android:layout_marginLeft="15dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/showemail"/>
+            android:id="@+id/showemail"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"/>
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/acceptFriend"
-            android:text="Accept"/>
+
+            android:background="@drawable/approve"/>
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:id="@+id/rejectFriend"
-            android:text="Reject"/>
+            android:background="@drawable/disapprove"/>
 
     </LinearLayout>
 </LinearLayout>

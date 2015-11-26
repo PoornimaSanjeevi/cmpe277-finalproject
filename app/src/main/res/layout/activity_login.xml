@@ -3,15 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/run2">
 
     <TextView
         android:id="@+id/info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Welcome to Run Buddy!"
+        android:textStyle="bold"
+        android:textColor="#0033cc"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
-        android:textSize="18sp" />
+        android:textSize="20sp"
+        android:layout_marginTop="15dp"/>
 
     <ImageView
         android:id="@+id/profile_img"
@@ -27,8 +32,9 @@
         android:layout_below="@id/profile_img">
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             />
         <TextView
             android:id="@+id/dunny1"
@@ -37,7 +43,7 @@
             android:textSize="18sp" />
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
             android:layout_gravity="center_horizontal"

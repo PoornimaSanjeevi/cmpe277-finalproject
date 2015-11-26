@@ -1,5 +1,6 @@
 package tania277.project_final;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +30,7 @@ import tania277.project_final.Models.User;
 /**
  * Created by Tania on 11/20/15.
  */
-public class AddFriend extends AppCompatActivity{
+public class AddFriend extends Activity {
     private EditText searchInput;
     private ListView friendFound;
     TextView showemail,showname;

@@ -15,9 +15,9 @@ import tania277.project_final.Models.EventItem;
 /**
  * Created by Tania on 11/16/15.
  */
-public class CreateEvent extends AppCompatActivity {
+public class CreateEvent extends Activity {
     EditText ename,edate,stime,etime,eloc;
-    Button invite, submit;
+    Button invite, submit,cancel;
     EventItem eventItem = new EventItem();
     CreateEventAsyncTask createEventAsyncTask = new CreateEventAsyncTask();
     GetEventsAsyncTask getEventsAsyncTask = new GetEventsAsyncTask();
@@ -27,10 +27,17 @@ public class CreateEvent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_create);
         submit = (Button)findViewById(R.id.submit);
+        cancel = (Button)findViewById(R.id.cancel);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setValuesToMongo();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
 

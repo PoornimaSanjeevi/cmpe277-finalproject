@@ -4,31 +4,26 @@ package tania277.project_final;
  * Created by Tania on 11/16/15.
  */
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import tania277.project_final.DataAccess.AsyncTask.AcceptFriendAsyncTask;
-import tania277.project_final.DataAccess.AsyncTask.CreateUserAsyncTask;
-import tania277.project_final.DataAccess.AsyncTask.DeleteFriendRequestAsyncTask;
-import tania277.project_final.DataAccess.AsyncTask.GetFriendsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetUserAsyncTask;
-import tania277.project_final.DataAccess.AsyncTask.SendRequestAsyncTask;
-import tania277.project_final.Models.EventItem;
 import tania277.project_final.Models.RunRecord;
 import tania277.project_final.Models.User;
 import tania277.project_final.util.PrefUtil;
@@ -47,15 +42,24 @@ public class UserFragment extends Fragment {
         rootView = inflater.inflate(R.layout.user_fragment, container, false);
         TextView info = (TextView) rootView.findViewById(R.id.info);
         TextView email = (TextView) rootView.findViewById(R.id.emailid);
-        ImageView profileImgView = (ImageView) rootView.findViewById(R.id.profile_pic);
+        final ImageView profileImgView = (ImageView) rootView.findViewById(R.id.profile_pic);
         run_records = (ListView)rootView.findViewById(R.id.run_records);
+//        run_records.setDivider(null);
+//        run_records.setDividerHeight(3);
         PrefUtil pu = new PrefUtil(getActivity());
-        info.setText("Welcome " + pu.getUserId());
+        info.setText("Welcome: " + pu.getUserId());
+        info.setShadowLayer(1, 0, 0, Color.BLACK);
         email.setText(pu.getEmailId());
-        Glide.with(getActivity())
-                .load(pu.getProfImage())
-                .into(profileImgView);
 
+        Glide.with(getActivity()).load(pu.getProfImage()).asBitmap().centerCrop().into(new BitmapImageViewTarget(profileImgView) {
+            @Override
+            protected void setResource(Bitmap resource) {
+                RoundedBitmapDrawable circularBitmapDrawable =
+                        RoundedBitmapDrawableFactory.create(getActivity().getResources(), resource);
+                circularBitmapDrawable.setCircular(true);
+                profileImgView.setImageDrawable(circularBitmapDrawable);
+            }
+        });
 
 
 
@@ -85,7 +89,6 @@ public class UserFragment extends Fragment {
 
         updateRunRecords(user.getRunRecords());
     }
-
     public void updateRunRecords(final List<RunRecord> records){
         this.records = records;
         Log.i("message:", "update Run Records adapter reached");
