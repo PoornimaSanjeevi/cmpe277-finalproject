@@ -74,6 +74,7 @@ public class AddFriend extends Activity {
                             u.setFriendRequests(x.getFriendRequests());
                             Log.i("message:", "the user from DB is" + x.getEmail());
 //                            u.setEmail(x.getEmail());
+                            u.setUserId(x.getUserId());
                             u.setAvatar(x.getAvatar());
                             users.add(u);
                         }

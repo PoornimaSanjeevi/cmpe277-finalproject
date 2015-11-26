@@ -96,11 +96,7 @@ public class UserFragment extends Fragment {
         catch(Exception e){
             Log.i("message", "Exception" + e.getMessage());
         }
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 66aeb40b71b60ddb51966ed4e9902a71858313bb
     }
     public void updateRunRecords(final List<RunRecord> records){
         this.records = records;
