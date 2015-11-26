@@ -143,7 +143,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .build();
 
         signInButton = (SignInButton) findViewById(R.id.sign_in_button);
-//        signInButton.setSize(SignInButton.SIZE_WIDE);
+        signInButton.setSize(SignInButton.SIZE_WIDE);
         signInButton.setScopes(gso.getScopeArray());
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +162,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         new ResultCallback<Status>() {
                             @Override
                             public void onResult(Status status) {
-                                updateUI(false);
+//                                updateUI(false);
                             }
                         });
             }
@@ -171,22 +171,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-    private void updateUI(boolean signedIn) {
-        if (signedIn) {
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
-        } else {
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_button).setVisibility(View.GONE);
-        }
-    }
+//    private void updateUI(boolean signedIn) {
+//        if (signedIn) {
+//            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+//            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
+//        } else {
+//            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+//            findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+//        }
+//    }
 
     public void succLogin(String userId, String photoURL, String emailId) {
         info.setText("Welcome " + userId);
         prefUtil.saveUserInfo(userId, photoURL, emailId);
-        Glide.with(LoginActivity.this)
-                .load(photoURL)
-                .into(profileImgView);
+//        Glide.with(LoginActivity.this)
+//                .load(photoURL)
+//                .into(profileImgView);
         sendMessage();
     }
 
@@ -234,7 +234,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             Uri url = acct.getPhotoUrl();
-            updateUI(true);
+//            updateUI(true);
             succLogin(acct.getDisplayName(), url == null ? "" : url.toString(), acct.getEmail());
         } else {
             // Signed out, show unauthenticated UI.
