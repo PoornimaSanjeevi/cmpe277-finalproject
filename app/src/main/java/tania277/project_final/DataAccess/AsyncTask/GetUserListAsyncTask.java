@@ -90,7 +90,7 @@ public class GetUserListAsyncTask extends AsyncTask<ArrayList<User>, Void, Array
                 user = new User();
                 user.setUserId(userObj.get("_id").toString());
                 user.setName(userObj.get("name") + "");
-                user.setAvatar("");
+                user.setAvatar(userObj.get("avatar").toString());
                 user.setEmail(userObj.get("email") + "");
 
                 String friendRequestString = userObj.get("friend_requests")+"";

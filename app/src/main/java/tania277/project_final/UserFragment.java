@@ -23,7 +23,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.util.List;
+
+import tania277.project_final.DataAccess.AsyncTask.CreateUserAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetUserAsyncTask;
+import tania277.project_final.Models.AppUser;
 import tania277.project_final.Models.RunRecord;
 import tania277.project_final.Models.User;
 import tania277.project_final.util.PrefUtil;
@@ -70,24 +73,33 @@ public class UserFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        GetUserAsyncTask getUSerDetailsAsyncTask = new GetUserAsyncTask();
+        PrefUtil pu = new PrefUtil(getActivity());
+        GetUserAsyncTask getUserDetailsAsyncTask = new GetUserAsyncTask();
 
-
-
-        getUSerDetailsAsyncTask.setUserEmail("user@gmail.com");
-
+        getUserDetailsAsyncTask.setUserEmail(pu.getEmailId());
         try {
-            user=getUSerDetailsAsyncTask.execute().get();
-            Log.i("message:", "Event item obtained" + user.getName());
-            for(RunRecord record : user.getRunRecords())
-            {
-                Log.i("message: ",""+record.getEventName()+record.getDistanceRan()+record.getTimeRan());
+            user = getUserDetailsAsyncTask.execute().get();
+
+            if ((user.getName() == null) && (user.getEmail() == null) && (user.getAvatar() == null)) {
+                Log.i("message:", "user is null, new");
+                user.setEmail(pu.getEmailId());
+                user.setName(pu.getUserId());
+                user.setAvatar(pu.getProfImage());
+                createUserAsyncTask = new CreateUserAsyncTask();
+                createUserAsyncTask.execute(user);
+            } else {
+
+                Log.i("message:", "Event item obtained" + user.getName());
+                for (RunRecord record : user.getRunRecords()) {
+                    Log.i("message: ", "" + record.getEventName() + record.getDistanceRan() + record.getTimeRan());
+                }
+                updateRunRecords(user.getRunRecords());
             }
-        } catch (Exception e) {
+            AppUser.EMAIL =user.getEmail();
+        }
+        catch(Exception e){
             Log.i("message", "Exception" + e.getMessage());
         }
-
-        updateRunRecords(user.getRunRecords());
     }
     public void updateRunRecords(final List<RunRecord> records){
         this.records = records;
