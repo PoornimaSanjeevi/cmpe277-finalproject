@@ -1,11 +1,13 @@
 package tania277.project_final;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -13,7 +15,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -24,6 +25,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -39,6 +41,8 @@ import com.google.android.gms.common.api.Status;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import tania277.project_final.util.PrefUtil;
@@ -65,7 +69,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+//        try {
+//            PackageInfo info = getPackageManager().getPackageInfo(
+//                    "com.example.packagename",
+//                    PackageManager.GET_SIGNATURES);
+//            Log.d("KeyHash:", "TETETETE");
+//
+//            for (Signature signature : info.signatures) {
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//            }
+//        } catch (PackageManager.NameNotFoundException e) {
+//
+//        } catch (NoSuchAlgorithmException e) {
+//
+//        }
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
@@ -78,6 +97,20 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList("email"));
+
+        try {
+            if (Profile.getCurrentProfile() != null) {
+                LoginManager.getInstance().logOut();
+            }
+        } catch (Exception e) {
+
+        }
+        try {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+        } catch (Exception e) {
+
+        }
+        prefUtil.clearData();
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -133,6 +166,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 info.setText("Login attempt failed.");
             }
         });
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -259,7 +293,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                 if (currentAccessToken == null) {
                     //User logged out
-                    prefUtil.clearToken();
+                    prefUtil.clearData();
                     clearUserArea();
                 }
             }

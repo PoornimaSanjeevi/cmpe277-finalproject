@@ -3,7 +3,10 @@ package tania277.project_final;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -16,6 +19,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +44,7 @@ public class AddFriend extends Activity {
     private ListView friendFound;
     TextView showemail,showname;
     GetUserListAsyncTask getUserAsyncTask;
+    ImageView showpic;
 
     List<User> users;
     ArrayList<User> userReturned = new ArrayList<User>();
@@ -66,7 +73,8 @@ public class AddFriend extends Activity {
                             u.setName(x.getName());
                             u.setFriendRequests(x.getFriendRequests());
                             Log.i("message:", "the user from DB is" + x.getEmail());
-                            u.setEmail(x.getEmail());
+//                            u.setEmail(x.getEmail());
+                            u.setAvatar(x.getAvatar());
                             users.add(u);
                         }
 //                        ArrayAdapter<User> userforadapter = new ArrayAdapter<User>(this,)
@@ -99,8 +107,9 @@ public class AddFriend extends Activity {
                     convertView = getLayoutInflater().inflate(R.layout.friend_item, parent, false);
                 }
 
-//                ImageView showpic =(ImageView) findViewById(R.id.showpic);
-               // showemail = (TextView) convertView.findViewById(R.id.showemail);
+
+                showpic =(ImageView) convertView.findViewById(R.id.showpic);
+
 
                 showname = (TextView) convertView.findViewById(R.id.showname);
 
@@ -136,10 +145,21 @@ public class AddFriend extends Activity {
                     }
                 });
 
-                Log.i("message:",""+(singleUser==null) + (showemail==null));
-//                Picasso.with(getActivity().getApplicationContext()).load(searchResult.getThumbnailURL()).into(thumbnail);
-               // showemail.setText(singleUser.getEmail());
+
                 showname.setText(singleUser.getName());
+                Log.i("message Avatar:", "" + (showpic == null));
+                Log.i("message Avatar:", "" + singleUser.getAvatar());
+//                Glide.with(getApplicationContext()).load(singleUser.getAvatar()).asBitmap().into(showpic);
+
+                Glide.with(getContext()).load(singleUser.getAvatar()).asBitmap().centerCrop().into(new BitmapImageViewTarget(showpic) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(getApplicationContext().getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+                        showpic.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
 
                 Log.i("message", "The User email is when setting" + singleUser.getEmail());
 

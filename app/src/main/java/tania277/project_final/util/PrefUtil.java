@@ -32,8 +32,8 @@ public class PrefUtil {
         SharedPreferences sp = activity.getSharedPreferences("user", activity.MODE_PRIVATE);
         return sp.getString("email", null);
     }
-    public void clearToken() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
+    public void clearData() {
+        SharedPreferences sp = activity.getSharedPreferences("user", activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();
         editor.apply();
