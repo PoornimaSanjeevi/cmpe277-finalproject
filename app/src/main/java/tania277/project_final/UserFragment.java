@@ -37,6 +37,7 @@ public class UserFragment extends Fragment {
 
     ListView run_records;
     List<RunRecord> records;
+    CreateUserAsyncTask createUserAsyncTask;
 //    ArrayList<EventItem> returnValues = new ArrayList<EventItem>();
     View rootView;
     User user;
@@ -56,6 +57,9 @@ public class UserFragment extends Fragment {
                 .into(profileImgView);
 
 
+
+
+
         return rootView;
     }
 
@@ -63,6 +67,9 @@ public class UserFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         GetUserAsyncTask getUSerDetailsAsyncTask = new GetUserAsyncTask();
+
+
+
         getUSerDetailsAsyncTask.setUserEmail("user@gmail.com");
 
         try {
