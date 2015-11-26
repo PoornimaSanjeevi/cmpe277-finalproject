@@ -100,6 +100,8 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, User> {
                 user.setEmail(userObj.get("email") + "");
 
                 String friendRequestsString = userObj.get("friend_requests")+"";
+                Log.i("message: ","friend requests"+friendRequestsString);
+
                 user.setFriendRequests(parsers.ConvertTofriendRequestsList(friendRequestsString));
 
                 String recordsArray = "{ artificial_records_list: "+userObj.get("run_records")+"}";
@@ -126,8 +128,8 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, User> {
             Log.i("message", "DBObjects parsed");
 
         }catch (Exception e) {
-            e.getMessage();
-            Log.i("message : ", "exception in getting contacts" + e.toString() + e.getMessage());
+            e.printStackTrace();
+            Log.i("message : ", "exception in getting users" );
         }
 
         return user;

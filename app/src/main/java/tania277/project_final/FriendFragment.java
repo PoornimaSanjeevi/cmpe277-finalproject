@@ -22,6 +22,7 @@ import java.util.concurrent.ExecutionException;
 import tania277.project_final.DataAccess.AsyncTask.GetFriendRequestsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetFriendsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetUserAsyncTask;
+import tania277.project_final.Models.AppUser;
 import tania277.project_final.Models.EventItem;
 import tania277.project_final.Models.User;
 
@@ -58,8 +59,8 @@ public class FriendFragment extends Fragment {
         requesttask = new GetFriendRequestsAsyncTask();
 
         //TODO : Should happen dynamically. Dont hard code
-        friendTask.setUserEmail("user@gmail.com");
-        usertask.setUserEmail("user@gmail.com");
+        friendTask.setUserEmail(AppUser.EMAIL);
+        usertask.setUserEmail(AppUser.EMAIL);
 
 
         //Call backend

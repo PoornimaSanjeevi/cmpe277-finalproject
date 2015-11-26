@@ -22,6 +22,7 @@ public class JsonToStringParsers {
         for(int i=0;i<friendRequestArrayForList.length;i++)
         {
             friendRequestArrayForList[i]=friendRequestArrayForList[i].replaceAll("\"", "");
+            Log.i("message:friend requests",friendRequestArrayForList[i]);
             friends.add(friendRequestArrayForList[i]);
         }
         return friends;

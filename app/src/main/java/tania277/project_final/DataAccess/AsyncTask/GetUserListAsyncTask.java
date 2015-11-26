@@ -20,6 +20,7 @@ import com.mongodb.DBObject;
 import tania277.project_final.DataAccess.QueryBuilders.BaseQueryBuilder;
 import tania277.project_final.DataAccess.QueryBuilders.UserQueryBuilder;
 import tania277.project_final.Models.User;
+import tania277.project_final.util.JsonToStringParsers;
 
 
 public class GetUserListAsyncTask extends AsyncTask<ArrayList<User>, Void, ArrayList<User>> {
@@ -30,6 +31,7 @@ public class GetUserListAsyncTask extends AsyncTask<ArrayList<User>, Void, Array
     static String userId;
     static String userEmail ;
 
+    JsonToStringParsers parsers = new JsonToStringParsers();
     public void setUserEmail(String email)
     {
         userEmail=email;
@@ -93,24 +95,12 @@ public class GetUserListAsyncTask extends AsyncTask<ArrayList<User>, Void, Array
                 user.setAvatar("");
                 user.setEmail(userObj.get("email") + "");
 
-                String friendRequestString = userObj.get("friend_requests")+"";
+                String friendRequestsString = userObj.get("friend_requests")+"";
+                Log.i("message: ", "friend requests" + friendRequestsString);
+                user.setFriendRequests(parsers.ConvertTofriendRequestsList(friendRequestsString));
 
-                String[] friendRequestArray1= friendRequestString.split("\\[");
+                Log.i("message: ","fr1"+user.getFriendRequests());
 
-                String[] friendRequestArray2 = friendRequestArray1[1].split("\\]");
-
-                String[] friendRequestArrayForList = friendRequestArray2[0].split(",");
-                List<User> friends = new ArrayList<User>();
-
-
-                for(int i=0;i<friendRequestArrayForList.length;i++)
-                {
-                    User tempFriend = new User();
-                    tempFriend.setName(friendRequestArrayForList[i].toString());
-                    friends.add(tempFriend);
-                    Log.i("message",""+friendRequestArrayForList[i]);
-                }
-                user.setFriends(friends);
                 users.add(user);
             }
 
@@ -118,7 +108,7 @@ public class GetUserListAsyncTask extends AsyncTask<ArrayList<User>, Void, Array
 
         }catch (Exception e) {
             e.getMessage();
-            Log.i("message : ", "exception in getting contacts" + e.toString() + e.getMessage());
+            Log.i("message : ", "exception in getting contacts" + e.toString() );
         }
 
         return users;

@@ -22,8 +22,11 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import tania277.project_final.DataAccess.AsyncTask.GetEventDetailsAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.GetFriendRequestsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetUserAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetUserListAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.SendRequestAsyncTask;
+import tania277.project_final.Models.AppUser;
 import tania277.project_final.Models.EventItem;
 import tania277.project_final.Models.User;
 
@@ -61,6 +64,7 @@ public class AddFriend extends Activity {
                         for(User x: userReturned){
                             User u = new User();
                             u.setName(x.getName());
+                            u.setFriendRequests(x.getFriendRequests());
                             Log.i("message:", "the user from DB is" + x.getEmail());
                             u.setEmail(x.getEmail());
                             users.add(u);
@@ -96,18 +100,30 @@ public class AddFriend extends Activity {
                 }
 
 //                ImageView showpic =(ImageView) findViewById(R.id.showpic);
-                showemail = (TextView) convertView.findViewById(R.id.showemail);
+               // showemail = (TextView) convertView.findViewById(R.id.showemail);
 
                 showname = (TextView) convertView.findViewById(R.id.showname);
 
-                User singleUser = users.get(position);
+                final User singleUser = users.get(position);
+                Log.i("message: ","fr"+singleUser.getFriendRequests());
 
                 Button addfriend = (Button)convertView.findViewById(R.id.addfriend);
                 Log.i("message: ", ""+(addfriend==null));
                 addfriend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.i("message:", "getting to the add friend button");
+
+                        User searchResult = users.get(position);
+                        Log.i("message:", "getting to the add friend button" + (searchResult == null));
+                        for (String request:searchResult.getFriendRequests()) {
+                            Log.i("message: ","request: "+request);
+                        }
+
+                        searchResult.getFriendRequests().add(AppUser.EMAIL);
+
+                        SendRequestAsyncTask requestAsyncTask = new SendRequestAsyncTask();
+                        requestAsyncTask.execute(searchResult);
+
 //                        EventItem searchResult = EventFragment.this.attendingEvents.get(position);
 //
 //                        Log.i("message:", "name: " + searchResult.getName() + "id: " + searchResult.getEventId());
@@ -122,7 +138,7 @@ public class AddFriend extends Activity {
 
                 Log.i("message:",""+(singleUser==null) + (showemail==null));
 //                Picasso.with(getActivity().getApplicationContext()).load(searchResult.getThumbnailURL()).into(thumbnail);
-                showemail.setText(singleUser.getEmail());
+               // showemail.setText(singleUser.getEmail());
                 showname.setText(singleUser.getName());
 
                 Log.i("message", "The User email is when setting" + singleUser.getEmail());

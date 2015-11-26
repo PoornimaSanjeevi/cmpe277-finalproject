@@ -58,9 +58,9 @@ public class UserQueryBuilder {
         String url ="{ \"$set\" :"
                 + "{\"friend_requests\" :[";
 
-        url=url+user.getFriendRequests().get(0);
+        url=url+"\""+user.getFriendRequests().get(0)+"\"";
         for (int i=1;i<user.getFriendRequests().size();i++) {
-            url=url+","+user.getFriendRequests().get(i);
+            url=url+",\""+user.getFriendRequests().get(i)+"\"";
         }
         url=url+"]}}";
         return url;
