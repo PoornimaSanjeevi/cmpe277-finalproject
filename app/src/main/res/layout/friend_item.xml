@@ -11,19 +11,17 @@
         android:layout_marginLeft="20dp">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="20dp"
             android:id="@+id/showpic"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-
             android:id="@+id/showname"
-
             android:layout_marginRight="20dp"/>
 
         <Button
