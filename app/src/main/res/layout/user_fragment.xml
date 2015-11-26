@@ -4,40 +4,31 @@
     android:layout_width="fill_parent"
     android:background="@drawable/b1"
     >
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.cmpe277.project_final.UserFragment"
     android:id="@+id/user_details">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="7dp"
-        android:paddingTop="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="7dp"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="37sp"
             android:textSize="25dp" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="7dp">
         <TextView
             android:id="@+id/emailid"
             android:layout_width="wrap_content"
@@ -46,46 +37,42 @@
             android:layout_marginLeft="50sp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
-            android:textSize="18sp" />
-    </LinearLayout>
+            android:textSize="18sp"
+            android:paddingBottom="7dp"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:paddingBottom="10dp">
-        <ImageView
-            android:id="@+id/profile_pic"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="20dp" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:paddingBottom="10dp">
+            <ImageView
+                android:id="@+id/profile_pic"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="20dp" />
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Run Records"
             android:textStyle="bold"
             android:layout_marginLeft="15sp"
+            android:paddingBottom="20dp"
             android:textSize="18sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginLeft="15sp">
+
         <ListView
             android:id="@+id/run_records"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="200dp"
-            android:dividerHeight="5dp" />
-    </LinearLayout>
+            android:dividerHeight="15px"
+            android:divider="@android:color/transparent"
+            android:layout_marginLeft="15sp"/>
 
+    </LinearLayout>
 </LinearLayout>
-</RelativeLayout>
-    </ScrollView>
+</ScrollView>

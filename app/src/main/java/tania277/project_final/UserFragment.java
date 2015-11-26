@@ -43,8 +43,8 @@ public class UserFragment extends Fragment {
         TextView email = (TextView) rootView.findViewById(R.id.emailid);
         final ImageView profileImgView = (ImageView) rootView.findViewById(R.id.profile_pic);
         run_records = (ListView)rootView.findViewById(R.id.run_records);
-        run_records.setDivider(null);
-        run_records.setDividerHeight(0);
+//        run_records.setDivider(null);
+//        run_records.setDividerHeight(3);
         PrefUtil pu = new PrefUtil(getActivity());
         info.setText("Welcome: " + pu.getUserId());
         info.setShadowLayer(1, 0, 0, Color.BLACK);
