@@ -96,6 +96,7 @@ public class UserFragment extends Fragment {
         catch(Exception e){
             Log.i("message", "Exception" + e.getMessage());
         }
+
     }
     public void updateRunRecords(final List<RunRecord> records){
         this.records = records;
