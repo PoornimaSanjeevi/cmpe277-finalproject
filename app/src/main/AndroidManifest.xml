@@ -42,6 +42,10 @@
             android:name=".AddFriend"
             android:theme="@android:style/Theme.Holo.Dialog">
         </activity>
+        <activity
+            android:name=".InviteFriendsActivity">
+        </activity>
+
         <activity android:name=".ViewFriendActivity"></activity>
     </application>
 

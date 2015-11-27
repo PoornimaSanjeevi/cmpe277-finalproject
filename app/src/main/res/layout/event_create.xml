@@ -106,7 +106,7 @@
         android:id="@+id/invite"
         android:textStyle="bold"
         android:textSize="12sp"
-        android:text=" Add Friends "
+        android:text=" Invite "
         android:textColor="#ffffff"
         android:drawableRight="@drawable/invite"/>
 

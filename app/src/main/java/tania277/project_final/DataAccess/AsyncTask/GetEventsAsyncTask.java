@@ -25,6 +25,19 @@ public class GetEventsAsyncTask extends AsyncTask<EventItem, Void, ArrayList<Eve
     static String OriginalObject = "";
     static String server_output = null;
     static String temp_output = null;
+    static String userEmail ="";
+    static String eventType="";
+
+    public void setUserEmail(String email) {
+        userEmail =email;
+    }
+
+    public void setEventType(String type){
+        eventType =type;
+    }
+
+
+
 
     @Override
     protected ArrayList<EventItem> doInBackground(EventItem... arg0) {
@@ -34,7 +47,17 @@ public class GetEventsAsyncTask extends AsyncTask<EventItem, Void, ArrayList<Eve
         {
             Log.i("message : ", "reached GetEventsAsync");
             EventQueryBuilder qb = new EventQueryBuilder();
-            URL url = new URL(qb.buildEventsGetURL());
+            URL url;
+            Log.i("message: ","P user Email"+userEmail);
+
+
+            if(eventType.compareToIgnoreCase("P")==0){
+                Log.i("message: ","P user Email inside partici"+userEmail);
+                url = new URL(qb.buildEventsParticipatingGetURL(userEmail));}
+            else{
+                Log.i("message: ","P user Email inside invited"+userEmail);
+                url = new URL(qb.buildEventsInvitedGetURL(userEmail));}
+
             Log.i("message : ", "reached Get URL built "+url);
 
             HttpURLConnection conn = (HttpURLConnection) url

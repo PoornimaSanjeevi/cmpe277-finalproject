@@ -15,6 +15,16 @@ public class EventItem {
     private String EndTime;
     private List<User> participants;
 
+    public List<User> getInvitedPeople() {
+        return invitedPeople;
+    }
+
+    public void setInvitedPeople(List<User> invitedPeople) {
+        this.invitedPeople = invitedPeople;
+    }
+
+    private List<User> invitedPeople;
+
     public String getEventId() {
         return EventId;
     }

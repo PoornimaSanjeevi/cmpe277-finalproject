@@ -4,13 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.List;
+
 import tania277.project_final.DataAccess.AsyncTask.CreateEventAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetEventsAsyncTask;
+import tania277.project_final.Models.AppUser;
 import tania277.project_final.Models.EventItem;
+import tania277.project_final.Models.User;
 
 /**
  * Created by Tania on 11/16/15.
@@ -19,8 +24,16 @@ public class CreateEvent extends Activity {
     EditText ename,edate,stime,etime,eloc;
     Button invite, submit,cancel;
     EventItem eventItem = new EventItem();
+
+    static List<User>  invitedPeople;
+
+    public static void setInvitedPeople(List<User> p) {
+        invitedPeople = p;
+    }
+
+
+
     CreateEventAsyncTask createEventAsyncTask = new CreateEventAsyncTask();
-    GetEventsAsyncTask getEventsAsyncTask = new GetEventsAsyncTask();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +41,7 @@ public class CreateEvent extends Activity {
         setContentView(R.layout.event_create);
         submit = (Button)findViewById(R.id.submit);
         cancel = (Button)findViewById(R.id.cancel);
+        invite =(Button) findViewById(R.id.invite);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,7 +54,19 @@ public class CreateEvent extends Activity {
                 onBackPressed();
             }
         });
+        invite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFriendsList();
+            }
+        });
 
+    }
+
+    public void showFriendsList()
+    {
+        Intent intent = new Intent(this, InviteFriendsActivity.class);
+        startActivity(intent);
     }
 
     public void setValuesToMongo(){
@@ -73,7 +99,15 @@ public class CreateEvent extends Activity {
             eventItem.setEndTime(etime.getText().toString());
             eventItem.setLocation(eloc.getText().toString());
 
-            eventItem.setAdmin("user@gmail.com");
+            for (User user: invitedPeople
+                 ) {
+                Log.i("message: ","invited"+ user.getEmail());
+            }
+            eventItem.setInvitedPeople(invitedPeople);
+
+            eventItem.setAdmin(AppUser.EMAIL);
+
+
             createEventAsyncTask.execute(eventItem);
 
     //        getEventsAsyncTask.execute().get();
