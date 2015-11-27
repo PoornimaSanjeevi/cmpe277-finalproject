@@ -99,18 +99,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         loginButton.setReadPermissions(Arrays.asList("email"));
 
         try {
-            if (Profile.getCurrentProfile() != null) {
-                LoginManager.getInstance().logOut();
-            }
+            LoginManager.getInstance().logOut();
         } catch (Exception e) {
 
         }
-        try {
-            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-        } catch (Exception e) {
-
-        }
-        prefUtil.clearData();
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -175,7 +167,25 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+        mGoogleApiClient.connect();
+        mGoogleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+            @Override
+            public void onConnected(Bundle bundle) {
+                try {
+                    Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                    mGoogleApiClient.unregisterConnectionCallbacks(this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 
+            @Override
+            public void onConnectionSuspended(int i) {
+
+            }
+        });
+
+        prefUtil.clearData();
         signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_WIDE);
         signInButton.setScopes(gso.getScopeArray());
