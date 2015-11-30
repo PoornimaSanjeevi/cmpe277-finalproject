@@ -15,9 +15,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import tania277.project_final.DataAccess.QueryBuilders.EventQueryBuilder;
 import tania277.project_final.Models.EventItem;
+import tania277.project_final.util.JsonToStringParsers;
 
 /**
  * Created by Srinidhi on 11/19/2015.
@@ -28,6 +30,7 @@ public class GetEventDetailsAsyncTask extends AsyncTask<EventItem, Void, EventIt
     static String server_output = null;
     static String temp_output = null;
     static String eventId;
+    JsonToStringParsers parsers= new JsonToStringParsers();
 
     public void setUserId(String id)
     {
@@ -99,7 +102,10 @@ public class GetEventDetailsAsyncTask extends AsyncTask<EventItem, Void, EventIt
                 temp.setStartTime(userObj.get("start_time") + "");
                 temp.setEndTime(userObj.get("end_time")+"");
                 temp.setLocation(userObj.get("location") + "");
-//                temp.setParticipants(userObj.get("email")+"");
+
+                String friendsString = userObj.get("participants")+"";
+                List<String> friends = parsers.ConvertTofriendRequestsList(friendsString);
+                temp.setParticipants(friends);
                 //TODO: show participants /Number of participants
 
 

@@ -4,6 +4,7 @@ package tania277.project_final;
  * Created by Tania on 11/16/15.
  */
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -32,7 +33,6 @@ import tania277.project_final.Models.User;
 import tania277.project_final.util.PrefUtil;
 
 public class UserFragment extends Fragment {
-
     ListView run_records;
     List<RunRecord> records;
     CreateUserAsyncTask createUserAsyncTask;
@@ -91,7 +91,9 @@ public class UserFragment extends Fragment {
                 }
                 updateRunRecords(user.getRunRecords());
             }
-            AppUser.EMAIL =user.getEmail();
+
+
+
         }
         catch(Exception e){
             Log.i("message", "Exception" + e.getMessage());

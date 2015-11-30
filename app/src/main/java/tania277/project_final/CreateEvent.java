@@ -16,6 +16,7 @@ import tania277.project_final.DataAccess.AsyncTask.GetEventsAsyncTask;
 import tania277.project_final.Models.AppUser;
 import tania277.project_final.Models.EventItem;
 import tania277.project_final.Models.User;
+import tania277.project_final.util.PrefUtil;
 
 /**
  * Created by Tania on 11/16/15.
@@ -105,7 +106,7 @@ public class CreateEvent extends Activity {
             }
             eventItem.setInvitedPeople(invitedPeople);
 
-            eventItem.setAdmin(AppUser.EMAIL);
+            eventItem.setAdmin(new PrefUtil(this).getEmailId());
 
 
             createEventAsyncTask.execute(eventItem);
@@ -115,6 +116,7 @@ public class CreateEvent extends Activity {
 
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("fragment","1");
             startActivity(intent);
         }
     }

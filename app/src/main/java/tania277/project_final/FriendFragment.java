@@ -27,6 +27,7 @@ import tania277.project_final.DataAccess.AsyncTask.GetUserAsyncTask;
 import tania277.project_final.Models.AppUser;
 import tania277.project_final.Models.EventItem;
 import tania277.project_final.Models.User;
+import tania277.project_final.util.PrefUtil;
 
 /**
  * Created by Tania on 11/16/15.
@@ -34,6 +35,7 @@ import tania277.project_final.Models.User;
 //Display all the Friends
 public class FriendFragment extends Fragment {
 
+    //PrefUtil prefUtil = new PrefUtil(getActivity());
     private ListView showfriendlist;
     ListView showfriendRequests;
     List<User> friendRequests;
@@ -60,9 +62,9 @@ public class FriendFragment extends Fragment {
         usertask = new GetUserAsyncTask();
         requesttask = new GetFriendRequestsAsyncTask();
 
-        //TODO : Should happen dynamically. Dont hard code
-        friendTask.setUserEmail(AppUser.EMAIL);
-        usertask.setUserEmail(AppUser.EMAIL);
+
+        friendTask.setUserEmail(new PrefUtil(getActivity()).getEmailId());
+        usertask.setUserEmail(new PrefUtil(getActivity()).getEmailId());
 
 
         //Call backend
@@ -137,7 +139,7 @@ public class FriendFragment extends Fragment {
                         Log.i("message:", "id: " + searchUser.getUserId() + "email: " + searchUser.getEmail());
 
                         GetUserAsyncTask task2 = new GetUserAsyncTask();
-                        task2.setUserEmail(AppUser.EMAIL);
+                        task2.setUserEmail(new PrefUtil(getActivity()).getEmailId());
                         User meUser = new User();
                         try {
                             meUser = task2.execute().get();
@@ -188,7 +190,7 @@ public class FriendFragment extends Fragment {
                         Log.i("message:", "name: " + searchUser.getName() + "email: " + searchUser.getEmail());
 
                         GetUserAsyncTask task2 = new GetUserAsyncTask();
-                        task2.setUserEmail(AppUser.EMAIL);
+                        task2.setUserEmail(new PrefUtil(getActivity()).getEmailId());
                         User meUser = new User();
                         try {
                             meUser = task2.execute().get();

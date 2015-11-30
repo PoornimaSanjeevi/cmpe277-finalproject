@@ -3,6 +3,7 @@ package tania277.project_final;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
@@ -35,6 +36,7 @@ import tania277.project_final.DataAccess.AsyncTask.SendRequestAsyncTask;
 import tania277.project_final.Models.AppUser;
 import tania277.project_final.Models.EventItem;
 import tania277.project_final.Models.User;
+import tania277.project_final.util.PrefUtil;
 
 /**
  * Created by Tania on 11/20/15.
@@ -43,6 +45,8 @@ public class AddFriend extends Activity {
     private EditText searchInput;
     private ListView friendFound;
     TextView showemail,showname;
+    //PrefUtil prefUtil = new PrefUtil(this);
+
     GetUserListAsyncTask getUserAsyncTask;
     ImageView showpic;
 
@@ -118,11 +122,13 @@ public class AddFriend extends Activity {
 
                         User searchResult = users.get(position);
                         Log.i("message:", "getting to the add friend button");
-                        for (String request:searchResult.getFriendRequests()) {
-                            Log.i("message: ","request: "+request);
+                        for (String request : searchResult.getFriendRequests()) {
+                            Log.i("message: ", "request: " + request);
                         }
 
-                        searchResult.getFriendRequests().add(AppUser.EMAIL);
+
+
+                        searchResult.getFriendRequests().add(new PrefUtil(AddFriend.this).getEmailId());
 
                         SendRequestAsyncTask requestAsyncTask = new SendRequestAsyncTask();
                         requestAsyncTask.execute(searchResult);

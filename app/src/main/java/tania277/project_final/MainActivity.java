@@ -23,7 +23,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
+
+        String newString;
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                newString= null;
+            } else {
+                newString= extras.getString("fragment");
+            }
+        } else {
+            newString= (String) savedInstanceState.getSerializable("fragment");
+        }
+
+
+
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -36,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
+
+        Log.i("message","in Main Activity"+newString);
+
 
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -55,6 +77,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        if(newString!=null)
+        {
+            Log.i("message:", "fragment not null");
+            viewPager.setCurrentItem(Integer.parseInt(newString));
+        }
 
     }
 

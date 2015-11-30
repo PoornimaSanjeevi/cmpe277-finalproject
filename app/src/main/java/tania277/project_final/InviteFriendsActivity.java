@@ -25,6 +25,7 @@ import tania277.project_final.DataAccess.AsyncTask.GetUserListAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.SendRequestAsyncTask;
 import tania277.project_final.Models.AppUser;
 import tania277.project_final.Models.User;
+import tania277.project_final.util.PrefUtil;
 
 /**
  * Created by Srinidhi on 11/26/2015.
@@ -56,7 +57,7 @@ public class InviteFriendsActivity extends Activity {
         });
 
         getFreindsAsyncTask = new GetFriendsAsyncTask();
-        getFreindsAsyncTask.setUserEmail(AppUser.EMAIL);
+        getFreindsAsyncTask.setUserEmail(new PrefUtil(this).getEmailId());
         try {
             myFriendList = getFreindsAsyncTask.execute().get();
 
