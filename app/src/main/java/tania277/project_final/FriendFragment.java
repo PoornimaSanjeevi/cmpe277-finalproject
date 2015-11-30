@@ -184,7 +184,7 @@ public class FriendFragment extends Fragment {
                         try
                         {
                             task1 = new GetFriendsAsyncTask();
-                            task1.setUserEmail(AppUser.EMAIL);
+                            task1.setUserEmail(new PrefUtil(getActivity()).getEmailId());
                             userReturned = task1.execute().get();
 
                             taskupdate = new GetFriendRequestsAsyncTask();
