@@ -106,7 +106,7 @@ public class AddFriend extends Activity {
                 showpic =(ImageView) convertView.findViewById(R.id.showpic);
 
 
-               // showname = (TextView) convertView.findViewById(R.id.showname);
+                showname = (TextView) convertView.findViewById(R.id.showname);
 
                 final User singleUser = users.get(position);
 
@@ -126,6 +126,7 @@ public class AddFriend extends Activity {
 
                         SendRequestAsyncTask requestAsyncTask = new SendRequestAsyncTask();
                         requestAsyncTask.execute(searchResult);
+                        onBackPressed();
 
 //                        EventItem searchResult = EventFragment.this.attendingEvents.get(position);
 //
@@ -140,18 +141,18 @@ public class AddFriend extends Activity {
                 });
 
 
-              //  showname.setText(singleUser.getName());
-//                Glide.with(getApplicationContext()).load(singleUser.getAvatar()).asBitmap().into(showpic);
+                showname.setText(singleUser.getName());
+                Glide.with(getApplicationContext()).load(singleUser.getAvatar()).asBitmap().into(showpic);
 
-                Glide.with(getContext()).load(singleUser.getAvatar()).asBitmap().centerCrop().into(new BitmapImageViewTarget(showpic) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        RoundedBitmapDrawable circularBitmapDrawable =
-                                RoundedBitmapDrawableFactory.create(getApplicationContext().getResources(), resource);
-                        circularBitmapDrawable.setCircular(true);
-                        showpic.setImageDrawable(circularBitmapDrawable);
-                    }
-                });
+//                Glide.with(getContext()).load(singleUser.getAvatar()).asBitmap().centerCrop().into(new BitmapImageViewTarget(showpic) {
+//                    @Override
+//                    protected void setResource(Bitmap resource) {
+//                        RoundedBitmapDrawable circularBitmapDrawable =
+//                                RoundedBitmapDrawableFactory.create(getApplicationContext().getResources(), resource);
+//                        circularBitmapDrawable.setCircular(true);
+//                        showpic.setImageDrawable(circularBitmapDrawable);
+//                    }
+//                });
 
 
 
