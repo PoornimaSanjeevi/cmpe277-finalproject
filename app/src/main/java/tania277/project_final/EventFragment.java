@@ -25,6 +25,7 @@ import tania277.project_final.DataAccess.AsyncTask.GetEventsAsyncTask;
 import tania277.project_final.Models.AppUser;
 import tania277.project_final.Models.EventItem;
 import tania277.project_final.Models.User;
+import tania277.project_final.util.PrefUtil;
 
 /**
  * Created by Tania on 11/16/15.
@@ -32,6 +33,7 @@ import tania277.project_final.Models.User;
 public class EventFragment extends Fragment {
 
     ListView attending_list, invited_list;
+    //PrefUtil prefUtil = new PrefUtil(getActivity());
     List<EventItem> attendingEvents, invitedEvents;
     List<EventItem> returnValuesAttending = new ArrayList<EventItem>();
     List<EventItem> returnValuesInvited = new ArrayList<EventItem>();
@@ -67,10 +69,14 @@ public class EventFragment extends Fragment {
 
         create = (Button)getActivity().findViewById(R.id.create_event);
 
+
         task = new GetEventsAsyncTask();
         task2 = new GetEventsAsyncTask();
-        Log.i("message: ","user email"+AppUser.EMAIL);
-        task.setUserEmail(AppUser.EMAIL);
+        task.setUserEmail(new PrefUtil(getActivity()).getEmailId());
+
+
+
+
         task.setEventType("P");
         try
         {
@@ -215,7 +221,7 @@ public class EventFragment extends Fragment {
                         List<String> tempInvited = new ArrayList<String>();
                         for(int i=0;i<searchResult.getInvitedPeople().size();i++)
                         {
-                            if(searchResult.getInvitedPeople().get(i).trim().equalsIgnoreCase(AppUser.EMAIL))
+                            if(searchResult.getInvitedPeople().get(i).trim().equalsIgnoreCase(new PrefUtil(getActivity()).getEmailId().toString()))
                             {
 
                             }
@@ -226,7 +232,7 @@ public class EventFragment extends Fragment {
                         }
                         searchResult.setInvitedPeople(tempInvited);
 
-                        searchResult.getParticipants().add(AppUser.EMAIL);
+                        searchResult.getParticipants().add(new PrefUtil(getActivity()).getEmailId());
 
                         AcceptEventAsyncTask eventAsyncTask= new AcceptEventAsyncTask();
                         eventAsyncTask.execute(searchResult);
@@ -266,7 +272,7 @@ public class EventFragment extends Fragment {
                         List<String> tempInvited = new ArrayList<String>();
                         for(int i=0;i<searchResult.getInvitedPeople().size();i++)
                         {
-                            if(searchResult.getInvitedPeople().get(i).trim().equalsIgnoreCase(AppUser.EMAIL))
+                            if(searchResult.getInvitedPeople().get(i).trim().equalsIgnoreCase(new PrefUtil(getActivity()).getEmailId()))
                             {
 
                             }
