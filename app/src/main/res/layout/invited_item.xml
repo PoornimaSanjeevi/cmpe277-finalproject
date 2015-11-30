@@ -7,31 +7,56 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
         <TextView
             android:id="@+id/event_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name: "
+                android:textStyle="bold"
+                android:textSize="14sp"/>
         <TextView
             android:id="@+id/event_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name of the event"/>
+            android:textSize="14sp"
+            android:paddingRight="6dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Admin: "
+                android:textStyle="bold"
+                android:textSize="14sp"/>
+
         <TextView
             android:id="@+id/admin_event"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name of the person created the event"/>
+            android:textSize="14sp"
+            android:paddingRight="5dp"/>
+        </LinearLayout>
+
+
         <Button
             android:id="@+id/acceptEvent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Accept"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/approve"/>
         <Button
             android:id="@+id/rejectEvent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Decline"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/disapprove"/>
 
     </LinearLayout>
 </RelativeLayout>

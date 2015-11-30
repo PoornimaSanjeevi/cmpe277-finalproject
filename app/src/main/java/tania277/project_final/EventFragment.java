@@ -3,6 +3,7 @@ package tania277.project_final;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,11 +35,14 @@ public class EventFragment extends Fragment {
     ListView attending_list, invited_list;
     //PrefUtil prefUtil = new PrefUtil(getActivity());
     List<EventItem> attendingEvents, invitedEvents;
-    ArrayList<EventItem> returnValuesAttending = new ArrayList<EventItem>();
-    ArrayList<EventItem> returnValuesInvited = new ArrayList<EventItem>();
+    List<EventItem> returnValuesAttending = new ArrayList<EventItem>();
+    List<EventItem> returnValuesInvited = new ArrayList<EventItem>();
     TextView title_Attending, title_Invited;
     Button create,view;
     View rootView;
+    String nameText,nameText2;
+    GetEventsAsyncTask task,task2,task3, task4;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,9 +52,14 @@ public class EventFragment extends Fragment {
         attending_list = (ListView)rootView.findViewById(R.id.attending_list);
         attending_list.setDivider(null);
         attending_list.setDividerHeight(0);
+
+
+        attending_list.setDivider(null);
+        attending_list.setDividerHeight(0);
         invited_list = (ListView)rootView.findViewById(R.id.invited_list);
         invited_list.setDivider(null);
         invited_list.setDividerHeight(0);
+
         return rootView;
     }
 
@@ -60,13 +69,18 @@ public class EventFragment extends Fragment {
 
         create = (Button)getActivity().findViewById(R.id.create_event);
 
-        GetEventsAsyncTask task = new GetEventsAsyncTask();
+
+        task = new GetEventsAsyncTask();
+        task2 = new GetEventsAsyncTask();
         task.setUserEmail(new PrefUtil(getActivity()).getEmailId());
+
+
+
+
         task.setEventType("P");
         try
         {
             returnValuesAttending = task.execute().get();
-            GetEventsAsyncTask task2 = new GetEventsAsyncTask();
             task2.setEventType("I");
             returnValuesInvited = task2.execute().get();
 
@@ -165,8 +179,9 @@ public class EventFragment extends Fragment {
 
                     }
                 });
-
-                eventName.setText(singleAttendingItem.getName());
+                nameText= singleAttendingItem.getName();
+                nameText = String.valueOf(nameText.charAt(0)).toUpperCase() + nameText.substring(1, nameText.length());
+                eventName.setText(nameText);
                 eventDate.setText(singleAttendingItem.getDate());
                 startTime.setText(singleAttendingItem.getStartTime());
                 eventId.setText((singleAttendingItem.getEventId()));
@@ -225,10 +240,25 @@ public class EventFragment extends Fragment {
                         new DeleteEventRequestAsyncTask().execute(searchResult);
 
 
-//                        Intent intent = new Intent(getActivity().getApplicationContext(), PopupActivity.class);
-//                        intent.putExtra("Event_ID", searchResult.getEventId());
-//                        startActivity(intent);
+                        try
+                        {
+                            task = new GetEventsAsyncTask();
+                            task.setEventType("P");
+                            returnValuesAttending = task.execute().get();
+                            task2 = new GetEventsAsyncTask();
+                            task2.setEventType("I");
+                            returnValuesInvited = task2.execute().get();
 
+                        } catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        } catch (ExecutionException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        updateInvited(returnValuesInvited);
+                        updateAttending(returnValuesAttending);
+                        
                     }
                 });
 
@@ -253,12 +283,28 @@ public class EventFragment extends Fragment {
                         }
                         searchResult.setInvitedPeople(tempInvited);
                         new DeleteEventRequestAsyncTask().execute(searchResult);
+                        try
+                        {
+                            task2 = new GetEventsAsyncTask();
+                            task2.setEventType("I");
+                            returnValuesInvited = task2.execute().get();
+
+                        } catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        } catch (ExecutionException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        updateInvited(returnValuesInvited);
 
                     }
                 });
 
-                eventName.setText(singleInvitedItem.getName());
-                adminEvent.setText(singleInvitedItem.getDate());
+                nameText2= singleInvitedItem.getName();
+                nameText2 = String.valueOf(nameText2.charAt(0)).toUpperCase() + nameText2.substring(1, nameText2.length());
+                eventName.setText(nameText2);
+                adminEvent.setText(singleInvitedItem.getAdmin());
                 eventId.setText((singleInvitedItem.getEventId()));
 
                 return convertView;
@@ -269,11 +315,5 @@ public class EventFragment extends Fragment {
 
     }
 
-////TODO: Add this in the onClick() of list item of attending or invited.
-//    LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//
-//    PopupWindow pw = new PopupWindow(inflater.inflate(R.layout.details_popup, null, false),100,100, true);
-//
-//    pw.showAtLocation(this.findViewById(R.id.popup), Gravity.CENTER, 0, 0);
 
 }
