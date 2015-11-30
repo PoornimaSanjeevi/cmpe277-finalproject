@@ -1,6 +1,7 @@
 package tania277.project_final;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import tania277.project_final.util.PrefUtil;
  */
 public class PopupActivity extends Activity {
 
+    private ListView showParticipantslist;
     TextView showname, showdate, showadmin, showstime, showetime, showloc;
     EventItem item;
     List<User> participants = new ArrayList<User>();
@@ -41,6 +44,7 @@ public class PopupActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.details_popup);
 
+        showParticipantslist = (ListView) findViewById(R.id.showparticipantslist);
         showname = (TextView) findViewById(R.id.showname);
         showdate =(TextView) findViewById(R.id.showdate);
         showadmin =(TextView) findViewById(R.id.showadmin);
@@ -99,7 +103,7 @@ public class PopupActivity extends Activity {
     {
         this.participants = p;
         Log.i("message:", "update participants reached");
-        ArrayAdapter<EventItem> adapter = new ArrayAdapter<EventItem>(getApplicationContext(), R.layout.show_friend_item, p) {
+        ArrayAdapter<User> adapter = new ArrayAdapter<User>(getApplicationContext(), R.layout.show_friend_item, p) {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -107,81 +111,34 @@ public class PopupActivity extends Activity {
                     convertView = getLayoutInflater().inflate(R.layout.show_friend_item, parent, false);
                 }
 
-                TextView showname =(TextView) convertView.findViewById(R.id.event_id);
-                TextView shoeemail = (TextView) convertView.findViewById(R.id.event_name);
+                TextView showname =(TextView) convertView.findViewById(R.id.showname);
+                TextView showemail = (TextView) convertView.findViewById(R.id.showemail);
                 //TextView adminEvent =(TextView) convertView.findViewById(R.id.admin_event);
 
-                EventItem singleInvitedItem = EventFragment.this.invitedEvents.get(position);
-                Button acceptEvent = (Button)convertView.findViewById(R.id.acceptEvent);
-                acceptEvent.setOnClickListener(new View.OnClickListener() {
+                User singleParticipant = participants.get(position);
+                Button viewFriend = (Button)convertView.findViewById(R.id.viewFriend);
+                viewFriend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.i("message:", "getting to the accept Button clicked");
-                        EventItem searchResult = EventFragment.this.invitedEvents.get(position);
+                        Log.i("message:", "getting to the view friend button");
+                        User searchUser = participants.get(position);
+                        Log.i("message:", "name: " + searchUser.getName() + "email: " + searchUser.getEmail());
 
-                        List<String> tempInvited = new ArrayList<String>();
-                        for(int i=0;i<searchResult.getInvitedPeople().size();i++)
-                        {
-                            if(searchResult.getInvitedPeople().get(i).trim().equalsIgnoreCase(new PrefUtil(getActivity()).getEmailId().toString()))
-                            {
-
-                            }
-                            else
-                            {
-                                tempInvited.add(searchResult.getInvitedPeople().get(i));
-                            }
-                        }
-                        searchResult.setInvitedPeople(tempInvited);
-
-                        searchResult.getParticipants().add(new PrefUtil(getActivity()).getEmailId());
-
-                        AcceptEventAsyncTask eventAsyncTask= new AcceptEventAsyncTask();
-                        eventAsyncTask.execute(searchResult);
-
-                        new DeleteEventRequestAsyncTask().execute(searchResult);
-
-
-//                        Intent intent = new Intent(getActivity().getApplicationContext(), PopupActivity.class);
-//                        intent.putExtra("Event_ID", searchResult.getEventId());
-//                        startActivity(intent);
-
+                        Intent intent = new Intent(getApplicationContext(), ViewFriendActivity.class);
+                        intent.putExtra("UserEmail", searchUser.getEmail());
+                        startActivity(intent);
                     }
                 });
 
-                Button rejectEvent = (Button)convertView.findViewById(R.id.rejectEvent);
-                rejectEvent.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.i("message:", "getting to the reject Button clicked");
-                        EventItem searchResult = EventFragment.this.invitedEvents.get(position);
 
-                        List<String> tempInvited = new ArrayList<String>();
-                        for(int i=0;i<searchResult.getInvitedPeople().size();i++)
-                        {
-                            if(searchResult.getInvitedPeople().get(i).trim().equalsIgnoreCase(new PrefUtil(getActivity()).getEmailId()))
-                            {
-
-                            }
-                            else
-                            {
-                                tempInvited.add(searchResult.getInvitedPeople().get(i));
-                            }
-                        }
-                        searchResult.setInvitedPeople(tempInvited);
-                        new DeleteEventRequestAsyncTask().execute(searchResult);
-
-                    }
-                });
-
-                eventName.setText(singleInvitedItem.getName());
-                adminEvent.setText(singleInvitedItem.getDate());
-                eventId.setText((singleInvitedItem.getEventId()));
+                showname.setText(singleParticipant.getName());
+                showemail.setText(singleParticipant.getEmail());
 
                 return convertView;
             }
         };
 
-        invited_list.setAdapter(adapter);
+        showParticipantslist.setAdapter(adapter);
 
     }
 }
