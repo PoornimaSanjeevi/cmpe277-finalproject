@@ -13,17 +13,18 @@ public class EventItem {
     private String Location;
     private String StartTime;
     private String EndTime;
-    private List<User> participants;
+    private List<String> participants;
+    private List<String> invitedPeople;
 
-    public List<User> getInvitedPeople() {
+    public List<String> getInvitedPeople() {
         return invitedPeople;
     }
 
-    public void setInvitedPeople(List<User> invitedPeople) {
+    public void setInvitedPeople(List<String> invitedPeople) {
         this.invitedPeople = invitedPeople;
     }
 
-    private List<User> invitedPeople;
+
 
     public String getEventId() {
         return EventId;
@@ -81,11 +82,11 @@ public class EventItem {
         EndTime = endTime;
     }
 
-    public List<User> getParticipants() {
+    public List<String> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<User> participants) {
+    public void setParticipants(List<String> participants) {
         this.participants = participants;
     }
 

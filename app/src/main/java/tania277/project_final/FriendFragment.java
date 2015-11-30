@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import tania277.project_final.DataAccess.AsyncTask.AcceptFriendAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.DeleteFriendRequestAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetFriendRequestsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetFriendsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetUserAsyncTask;
@@ -123,27 +125,104 @@ public class FriendFragment extends Fragment {
 
                 //TODO: Map Image View
                 TextView showname = (TextView) convertView.findViewById(R.id.showname);
-                TextView showemail = (TextView) convertView.findViewById(R.id.showemail);
+               // TextView showemail = (TextView) convertView.findViewById(R.id.showemail);
 
                 User singleFriend = FriendFragment.this.friendRequests.get(position);
-//                Button viewbutton = (Button) convertView.findViewById(R.id.viewFriend);
-//                viewbutton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Log.i("message:", "getting to the view friend button");
-//                        User searchUser = FriendFragment.this.frnds.get(position);
-//                        Log.i("message:", "name: " + searchUser.getName() + "email: " + searchUser.getEmail());
-//
-//                        Intent intent = new Intent(getActivity().getApplicationContext(), ViewFriendActivity.class);
-//                        intent.putExtra("UserEmail", searchUser.getEmail());
-//                        startActivity(intent);
-//                    }
-//                });
+                Button acceptFriend = (Button) convertView.findViewById(R.id.acceptFriend);
+                acceptFriend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i("message:", "getting to the accept friend request button");
+                        User searchUser = FriendFragment.this.friendRequests.get(position);
+                        Log.i("message:", "id: " + searchUser.getUserId() + "email: " + searchUser.getEmail());
+
+                        GetUserAsyncTask task2 = new GetUserAsyncTask();
+                        task2.setUserEmail(AppUser.EMAIL);
+                        User meUser = new User();
+                        try {
+                            meUser = task2.execute().get();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+
+                        List<String> tempFriendRequests = new ArrayList<String>();
+                       for(int i=0;i<meUser.getFriendRequests().size();i++)
+                       {
+                           if(meUser.getFriendRequests().get(i).trim().equalsIgnoreCase(searchUser.getEmail()))
+                           {
+
+                           }
+                           else
+                           {
+                               tempFriendRequests.add(meUser.getFriendRequests().get(i));
+                           }
+                       }
+                        meUser.setFriendRequests(tempFriendRequests);
+
+                        DeleteFriendRequestAsyncTask task = new DeleteFriendRequestAsyncTask();
+                        task.execute(meUser);
+
+
+
+                        searchUser.getFriends().add(meUser);
+
+                        meUser.getFriends().add(searchUser);
+
+
+                                new AcceptFriendAsyncTask().execute(searchUser);
+                        new AcceptFriendAsyncTask().execute(meUser);
+
+
+
+
+                    }
+                });
+                Button rejectFriend = (Button) convertView.findViewById(R.id.rejectFriend);
+                rejectFriend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i("message:", "getting to the accept friend request button");
+                        User searchUser = FriendFragment.this.friendRequests.get(position);
+                        Log.i("message:", "name: " + searchUser.getName() + "email: " + searchUser.getEmail());
+
+                        GetUserAsyncTask task2 = new GetUserAsyncTask();
+                        task2.setUserEmail(AppUser.EMAIL);
+                        User meUser = new User();
+                        try {
+                            meUser = task2.execute().get();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+
+                        List<String> tempFriendRequests = new ArrayList<String>();
+                        for(int i=0;i<meUser.getFriendRequests().size();i++)
+                        {
+                            if(meUser.getFriendRequests().get(i).trim().equalsIgnoreCase(searchUser.getEmail()))
+                            {
+
+                            }
+                            else
+                            {
+                                tempFriendRequests.add(meUser.getFriendRequests().get(i));
+                            }
+                        }
+                        meUser.setFriendRequests(tempFriendRequests);
+
+                        DeleteFriendRequestAsyncTask task = new DeleteFriendRequestAsyncTask();
+                        task.execute(meUser);
+                    }
+                });
+
+
 
                 //TODO: set avatar for friends
                 //Picasso.with(getActivity().getApplicationContext()).load(searchResult.getThumbnailURL()).into(thumbnail);
                 showname.setText(singleFriend.getName());
-                showemail.setText(singleFriend.getEmail());
+              //  showemail.setText(singleFriend.getEmail());
 
 
                 return convertView;

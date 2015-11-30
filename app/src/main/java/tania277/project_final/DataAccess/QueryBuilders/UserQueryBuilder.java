@@ -58,10 +58,11 @@ public class UserQueryBuilder {
         String url ="{ \"$set\" :"
                 + "{\"friend_requests\" :[";
 
+        if(user.getFriendRequests().size()>0){
         url=url+"\""+user.getFriendRequests().get(0)+"\"";
         for (int i=1;i<user.getFriendRequests().size();i++) {
             url=url+",\""+user.getFriendRequests().get(i)+"\"";
-        }
+        }}
         url=url+"]}}";
         return url;
     }
@@ -71,10 +72,11 @@ public class UserQueryBuilder {
         String url ="{ \"$set\" :"
                 + "{\"friends\" :[";
 
+        if(user.getFriends().size()>0){
         url=url+"\""+user.getFriends().get(0).getEmail()+"\"";
         for (int i=1;i<user.getFriends().size();i++) {
             url=url+",\""+user.getFriends().get(i).getEmail()+"\"";
-        }
+        }}
         url=url+"]}}";
         return url;
     }
@@ -84,10 +86,11 @@ public class UserQueryBuilder {
         String url ="{ \"$set\" :"
                 + "{\"friend_requests\" :[";
 
-        url=url+user.getFriendRequests().get(0);
+        if(user.getFriendRequests().size()>0){
+        url=url+"\""+user.getFriendRequests().get(0)+"\"";
         for (int i=1;i<user.getFriendRequests().size();i++) {
-            url=url+","+user.getFriendRequests().get(i);
-        }
+            url=url+",\""+user.getFriendRequests().get(i)+"\"";
+        }}
         url=url+"]}}";
         return url;
 

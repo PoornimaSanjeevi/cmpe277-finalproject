@@ -39,8 +39,9 @@
             android:theme="@android:style/Theme.Holo.Dialog">
         </activity>
         <activity
-            android:name=".AddFriend"
-            android:theme="@android:style/Theme.Holo.Dialog">
+            android:name=".AddFriend">
+            <!--android:theme="@android:style/Theme.Holo.Dialog" -->
+
         </activity>
         <activity
             android:name=".InviteFriendsActivity">

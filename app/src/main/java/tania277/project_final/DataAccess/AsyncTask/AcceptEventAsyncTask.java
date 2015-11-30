@@ -7,30 +7,31 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import tania277.project_final.DataAccess.QueryBuilders.EventQueryBuilder;
 import tania277.project_final.DataAccess.QueryBuilders.UserQueryBuilder;
+import tania277.project_final.Models.EventItem;
 import tania277.project_final.Models.User;
 
 /**
- * Created by Srinidhi on 11/22/2015.
+ * Created by Srinidhi on 11/29/2015.
  */
-public class DeleteFriendRequestAsyncTask extends AsyncTask<Object, Void, Boolean> {
+public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Object... params) {
-        User user = (User) params[0];
+        EventItem eventItem = (EventItem) params[0];
 
         try {
 
-            Log.i("message:","reaching the delete method");
-            UserQueryBuilder qb = new UserQueryBuilder();
+            EventQueryBuilder qb = new EventQueryBuilder();
 
-            URL url = new URL(qb.buildUserUpdateURL(user.getUserId()));
+            URL url = new URL(qb.buildEventUpdateURL(eventItem.getEventId()));
 
             HttpURLConnection connection = (HttpURLConnection) url
                     .openConnection();
 
             Log.i("message:", "Put URL is " + url);
-            Log.i("message:","Put data is "+qb.deleteRequest(user));
+            Log.i("message:","Put data is "+qb.acceptRequest(eventItem));
 
             connection.setRequestMethod("PUT");
             connection.setDoOutput(true);
@@ -41,7 +42,7 @@ public class DeleteFriendRequestAsyncTask extends AsyncTask<Object, Void, Boolea
             OutputStreamWriter osw = new OutputStreamWriter(
                     connection.getOutputStream());
 
-            osw.write(qb.deleteRequest(user));
+            osw.write(qb.acceptRequest(eventItem));
             osw.flush();
             osw.close();
             if(connection.getResponseCode() <205)

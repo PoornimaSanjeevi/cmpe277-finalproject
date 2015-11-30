@@ -104,7 +104,20 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, User> {
 
                 user.setFriendRequests(parsers.ConvertTofriendRequestsList(friendRequestsString));
 
+                String friendsString = userObj.get("friends")+"";
+                List<String> friends = parsers.ConvertTofriendRequestsList(friendsString);
+
+                List<User> friendsObj = new ArrayList<User>();
+                for (String friend:friends
+                        ) { User u = new User();
+                    u.setEmail(friend);
+                    friendsObj.add(u);
+                }
+                user.setFriends(friendsObj);
+
                 String recordsArray = "{ artificial_records_list: "+userObj.get("run_records")+"}";
+
+
 
                 Object records = com.mongodb.util.JSON.parse(recordsArray);
                 DBObject recordsObj = (DBObject) records;

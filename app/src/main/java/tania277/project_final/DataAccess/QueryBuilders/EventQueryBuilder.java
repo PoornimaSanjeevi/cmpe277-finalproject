@@ -1,6 +1,7 @@
 package tania277.project_final.DataAccess.QueryBuilders;
 
 import tania277.project_final.Models.EventItem;
+import tania277.project_final.Models.User;
 
 /**
  * Created by Tania on 11/19/15.
@@ -12,12 +13,6 @@ public class EventQueryBuilder {
         return "events_runbuddy";
     }
 
-
-
-//    public String buildEventsGetURL()
-//    {
-//        return qb.getBaseUrl()+getEventCollection()+qb.docApiKeyUrl();
-//    }
 
    public String buildEventsSaveURL()
     {
@@ -41,6 +36,11 @@ public class EventQueryBuilder {
         return qb.getBaseUrl()+getEventCollection()+"?q={\"invited\":\""+email+"\"}"+qb.andApiKeyUrl();
     }
 
+    public String buildEventUpdateURL(String doc_id)
+    {
+        return qb.getBaseUrl()+getEventCollection()+qb.docApiKeyUrl(doc_id);
+    }
+
     public String createEvent(EventItem eventItem)
     {
         String url = String
@@ -53,17 +53,47 @@ public class EventQueryBuilder {
 
         url=url+ "\"invited\" : [";
                 if(eventItem.getInvitedPeople().size() > 0) {
-                    url = url + "\""+eventItem.getInvitedPeople().get(0).getEmail() +"\"";
+                    url = url + "\""+eventItem.getInvitedPeople().get(0).trim() +"\"";
                     for(int i=1;i<eventItem.getInvitedPeople().size();i++)
                     {
-                        url=url+ ",\""+eventItem.getInvitedPeople().get(i).getEmail() +"\"";
+                        url=url+ ",\""+eventItem.getInvitedPeople().get(i).trim() +"\"";
                     }
                 }
         url=url+"], ";
 
-        url=url+ "\"participants\" : ["+ "\"" +eventItem.getAdmin()+ "\" ]}";
+        url=url+ "\"participants\" : ["+ "\"" +eventItem.getAdmin().trim()+ "\" ]}";
 
         return url;
+    }
+
+    public String acceptRequest(EventItem item) {
+
+        String url ="{ \"$set\" :"
+                + "{\"participants\" :[";
+
+        if (item.getParticipants().size() > 0) {
+        url=url+"\""+item.getParticipants().get(0).trim()+"\"";
+        for (int i=1;i<item.getParticipants().size();i++) {
+            url=url+",\""+item.getParticipants().get(i).trim()+"\"";
+        }
+        }
+        url=url+"]}}";
+        return url;
+    }
+
+    public String deleteRequest(EventItem item) {
+
+        String url ="{ \"$set\" :"
+                + "{\"invited\" :[";
+
+        if(item.getInvitedPeople().size()>0){
+        url=url+"\""+item.getInvitedPeople().get(0)+"\"";
+        for (int i=1;i<item.getInvitedPeople().size();i++) {
+            url=url+",\""+item.getInvitedPeople().get(i)+"\"";
+        }}
+        url=url+"]}}";
+        return url;
+
     }
 
 }

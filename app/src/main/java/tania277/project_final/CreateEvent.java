@@ -25,9 +25,9 @@ public class CreateEvent extends Activity {
     Button invite, submit,cancel;
     EventItem eventItem = new EventItem();
 
-    static List<User>  invitedPeople;
+    static List<String>  invitedPeople;
 
-    public static void setInvitedPeople(List<User> p) {
+    public static void setInvitedPeople(List<String> p) {
         invitedPeople = p;
     }
 
@@ -99,9 +99,9 @@ public class CreateEvent extends Activity {
             eventItem.setEndTime(etime.getText().toString());
             eventItem.setLocation(eloc.getText().toString());
 
-            for (User user: invitedPeople
+            for (String user: invitedPeople
                  ) {
-                Log.i("message: ","invited"+ user.getEmail());
+                Log.i("message: ","invited"+ user);
             }
             eventItem.setInvitedPeople(invitedPeople);
 

@@ -16,6 +16,7 @@ import java.util.List;
 
 import tania277.project_final.DataAccess.QueryBuilders.UserQueryBuilder;
 import tania277.project_final.Models.User;
+import tania277.project_final.util.JsonToStringParsers;
 
 /**
  * Created by Srinidhi on 11/23/2015.
@@ -26,6 +27,7 @@ public class GetFriendRequestsAsyncTask extends AsyncTask<User, Void, ArrayList<
     static String server_output = null;
     static String temp_output = null;
     static List<String> emailList;
+    JsonToStringParsers parsers = new JsonToStringParsers();
 
     public void setRequestEmails(List<String> emails)
     {
@@ -84,10 +86,30 @@ public class GetFriendRequestsAsyncTask extends AsyncTask<User, Void, ArrayList<
                 DBObject userObj = (DBObject) obj;
 
                 User temp = new User();
+                temp.setUserId(userObj.get("_id").toString());
                 Log.i("message:", "id is" + userObj.get("_id").toString());
                 temp.setName(userObj.get("name").toString());
                 temp.setEmail(userObj.get("email") + "");
                 temp.setAvatar(userObj.get("avatar") + "");
+
+                String friendRequestsString = userObj.get("friend_requests")+"";
+                temp.setFriendRequests(parsers.ConvertTofriendRequestsList(friendRequestsString));
+
+                String friendsString = userObj.get("friends")+"";
+                List<String> friends = parsers.ConvertTofriendRequestsList(friendsString);
+
+                List<User> friendsObj = new ArrayList<User>();
+                for (String friend:friends
+                     ) { User u = new User();
+                    u.setEmail(friend);
+                    friendsObj.add(u);
+                }
+                temp.setFriends(friendsObj);
+
+
+                Log.i("message: ", "friends" + friends);
+
+
                 users.add(temp);
             }
             Log.i("message","DBObjects parsed");

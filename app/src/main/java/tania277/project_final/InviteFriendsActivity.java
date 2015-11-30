@@ -31,7 +31,7 @@ import tania277.project_final.Models.User;
  */
 public class InviteFriendsActivity extends Activity {
     private List<User> myFriendList;
-    private List<User> invitedFriends =new ArrayList<User>();
+    private List<String> invitedFriends =new ArrayList<String>();
     private ListView myFriendsListView;
     Button inviteFriend, doneInvite;
     TextView showname;
@@ -92,7 +92,7 @@ public class InviteFriendsActivity extends Activity {
                     public void onClick(View v) {
 
                         User searchResult = myFriendList.get(position);
-                        invitedFriends.add(searchResult);
+                        invitedFriends.add(searchResult.getEmail());
                         Log.i("message:", "getting to the invite friend button");
 //                        for (String request:searchResult.getFriendRequests()) {
 //                    Log.i("message: ","request: "+request);

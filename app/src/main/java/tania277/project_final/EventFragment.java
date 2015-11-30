@@ -17,10 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import tania277.project_final.DataAccess.AsyncTask.AcceptEventAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.DeleteEventRequestAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetEventDetailsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetEventsAsyncTask;
 import tania277.project_final.Models.AppUser;
 import tania277.project_final.Models.EventItem;
+import tania277.project_final.Models.User;
 
 /**
  * Created by Tania on 11/16/15.
@@ -86,6 +89,8 @@ public class EventFragment extends Fragment {
             e.setLocation(x.getLocation());
             e.setStartTime(x.getStartTime());
             e.setEventId(x.getEventId());
+            e.setInvitedPeople(x.getInvitedPeople());
+            e.setParticipants(x.getParticipants());
             temp.add(e);
         }
         updateAttending(temp);
@@ -101,6 +106,8 @@ public class EventFragment extends Fragment {
             e.setLocation(x.getLocation());
             e.setStartTime(x.getStartTime());
             e.setEventId(x.getEventId());
+            e.setInvitedPeople(x.getInvitedPeople());
+            e.setParticipants(x.getParticipants());
             temp2.add(e);
         }
         updateInvited(temp2);
@@ -186,22 +193,68 @@ public class EventFragment extends Fragment {
                 TextView eventId =(TextView) convertView.findViewById(R.id.event_id);
                 TextView eventName = (TextView) convertView.findViewById(R.id.event_name);
                 TextView adminEvent =(TextView) convertView.findViewById(R.id.admin_event);
-//                TextView eventDate=(TextView) convertView.findViewById(R.id.event_date);
-//                TextView startTime =(TextView)convertView.findViewById(R.id.start_time);
-               EventItem singleInvitedItem = EventFragment.this.invitedEvents.get(position);
-//                Button viewbutton = (Button)convertView.findViewById(R.id.view_event);
-//                viewbutton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Log.i("message:", "getting to the view button");
-//                        EventItem searchResult = EventFragment.this.attendingEvents.get(position);
-//
+
+                EventItem singleInvitedItem = EventFragment.this.invitedEvents.get(position);
+                Button acceptEvent = (Button)convertView.findViewById(R.id.acceptEvent);
+                acceptEvent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i("message:", "getting to the accept Button clicked");
+                        EventItem searchResult = EventFragment.this.invitedEvents.get(position);
+
+                        List<String> tempInvited = new ArrayList<String>();
+                        for(int i=0;i<searchResult.getInvitedPeople().size();i++)
+                        {
+                            if(searchResult.getInvitedPeople().get(i).trim().equalsIgnoreCase(AppUser.EMAIL))
+                            {
+
+                            }
+                            else
+                            {
+                                tempInvited.add(searchResult.getInvitedPeople().get(i));
+                            }
+                        }
+                        searchResult.setInvitedPeople(tempInvited);
+
+                        searchResult.getParticipants().add(AppUser.EMAIL);
+
+                        AcceptEventAsyncTask eventAsyncTask= new AcceptEventAsyncTask();
+                        eventAsyncTask.execute(searchResult);
+
+                        new DeleteEventRequestAsyncTask().execute(searchResult);
+
+
 //                        Intent intent = new Intent(getActivity().getApplicationContext(), PopupActivity.class);
 //                        intent.putExtra("Event_ID", searchResult.getEventId());
 //                        startActivity(intent);
-//
-//                    }
-//                });
+
+                    }
+                });
+
+                Button rejectEvent = (Button)convertView.findViewById(R.id.rejectEvent);
+                rejectEvent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i("message:", "getting to the reject Button clicked");
+                        EventItem searchResult = EventFragment.this.invitedEvents.get(position);
+
+                        List<String> tempInvited = new ArrayList<String>();
+                        for(int i=0;i<searchResult.getInvitedPeople().size();i++)
+                        {
+                            if(searchResult.getInvitedPeople().get(i).trim().equalsIgnoreCase(AppUser.EMAIL))
+                            {
+
+                            }
+                            else
+                            {
+                                tempInvited.add(searchResult.getInvitedPeople().get(i));
+                            }
+                        }
+                        searchResult.setInvitedPeople(tempInvited);
+                        new DeleteEventRequestAsyncTask().execute(searchResult);
+
+                    }
+                });
 
                 eventName.setText(singleInvitedItem.getName());
                 adminEvent.setText(singleInvitedItem.getDate());

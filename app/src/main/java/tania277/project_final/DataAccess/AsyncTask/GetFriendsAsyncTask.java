@@ -85,7 +85,7 @@ public class GetFriendsAsyncTask extends AsyncTask<User, Void, ArrayList<User>> 
                 DBObject userObj = (DBObject) obj;
 
                 User temp = new User();
-                Log.i("message:", "id is" + userObj.get("_id").toString());
+                temp.setUserId(userObj.get("_id").toString());
                 temp.setName(userObj.get("name").toString());
                 temp.setEmail(userObj.get("email") + "");
                 temp.setAvatar(userObj.get("avatar") + "");

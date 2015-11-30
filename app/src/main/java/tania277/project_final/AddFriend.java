@@ -72,16 +72,12 @@ public class AddFriend extends Activity {
                             User u = new User();
                             u.setName(x.getName());
                             u.setFriendRequests(x.getFriendRequests());
-                            Log.i("message:", "the user from DB is" + x.getEmail());
-//                            u.setEmail(x.getEmail());
+                            u.setEmail(x.getEmail());
                             u.setUserId(x.getUserId());
                             u.setAvatar(x.getAvatar());
                             users.add(u);
                         }
-//                        ArrayAdapter<User> userforadapter = new ArrayAdapter<User>(this,)
-//                        setListAdapter(new ArrayAdapter<User>(R.layout.friend_item,R.id.friend_found,userReturned));
                         updateFriends(users);
-//                        Log.i("message:", "Event item obtained" + item.getName());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
@@ -98,12 +94,10 @@ public class AddFriend extends Activity {
     }
     public void updateFriends(List<User> usersIn){
         this.users = usersIn;
-        Log.i("message:", "update attending addapter reached");
         ArrayAdapter<User> adapter = new ArrayAdapter<User>(getApplicationContext(), R.layout.friend_item, usersIn) {
 
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
-                Log.i("message:", "getView in adapter is reached");
                 if (convertView == null) {
                     convertView = getLayoutInflater().inflate(R.layout.friend_item, parent, false);
                 }
@@ -112,19 +106,18 @@ public class AddFriend extends Activity {
                 showpic =(ImageView) convertView.findViewById(R.id.showpic);
 
 
-                showname = (TextView) convertView.findViewById(R.id.showname);
+               // showname = (TextView) convertView.findViewById(R.id.showname);
 
                 final User singleUser = users.get(position);
-                Log.i("message: ","fr"+singleUser.getFriendRequests());
 
                 Button addfriend = (Button)convertView.findViewById(R.id.addfriend);
-                Log.i("message: ", ""+(addfriend==null));
+
                 addfriend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         User searchResult = users.get(position);
-                        Log.i("message:", "getting to the add friend button" + (searchResult == null));
+                        Log.i("message:", "getting to the add friend button");
                         for (String request:searchResult.getFriendRequests()) {
                             Log.i("message: ","request: "+request);
                         }
@@ -147,9 +140,7 @@ public class AddFriend extends Activity {
                 });
 
 
-                showname.setText(singleUser.getName());
-                Log.i("message Avatar:", "" + (showpic == null));
-                Log.i("message Avatar:", "" + singleUser.getAvatar());
+              //  showname.setText(singleUser.getName());
 //                Glide.with(getApplicationContext()).load(singleUser.getAvatar()).asBitmap().into(showpic);
 
                 Glide.with(getContext()).load(singleUser.getAvatar()).asBitmap().centerCrop().into(new BitmapImageViewTarget(showpic) {
@@ -162,12 +153,12 @@ public class AddFriend extends Activity {
                     }
                 });
 
-                Log.i("message", "The User email is when setting" + singleUser.getEmail());
+
 
                 return convertView;
             }
         };
-        Log.i("message:", "adapter ending");
+
         friendFound.setAdapter(adapter);
     }
 }

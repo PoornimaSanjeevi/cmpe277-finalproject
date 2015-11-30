@@ -23,10 +23,12 @@
             android:layout_height="wrap_content"
             android:text="Name of the person created the event"/>
         <Button
+            android:id="@+id/acceptEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Accept"/>
         <Button
+            android:id="@+id/rejectEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Decline"/>
