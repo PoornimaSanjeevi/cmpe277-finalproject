@@ -8,24 +8,20 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <!--<ImageView-->
-        <!--android:id="@+id/showpic"-->
-        <!--android:layout_width="128dp"-->
-        <!--android:layout_height="128dp"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_marginRight="20dp" />-->
+        <ImageView
+        android:id="@+id/showpic"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="7dp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/showname"
             android:layout_marginLeft="15dp"/>
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/showemail"-->
-            <!--android:layout_marginLeft="15dp"-->
-            <!--android:layout_marginRight="15dp"/>-->
+
         <Button
             android:layout_width="40dp"
             android:layout_height="40dp"

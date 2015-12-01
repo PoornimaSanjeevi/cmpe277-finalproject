@@ -12,8 +12,11 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,7 @@ import java.util.concurrent.ExecutionException;
 
 import tania277.project_final.DataAccess.AsyncTask.AcceptFriendAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.DeleteFriendRequestAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.GetEventsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetFriendRequestsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetFriendsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetUserAsyncTask;
@@ -39,12 +43,13 @@ public class FriendFragment extends Fragment {
     private ListView showfriendlist;
     ListView showfriendRequests;
     List<User> friendRequests;
-    GetFriendsAsyncTask friendTask;
+    GetFriendsAsyncTask friendTask,task1;
     GetUserAsyncTask usertask;
-    GetFriendRequestsAsyncTask requesttask;
+    GetFriendRequestsAsyncTask requesttask, taskupdate;
+    List<User> friendRequestSenders = new ArrayList<User>();
 
     //returned from DB
-    ArrayList<User> userReturned;
+    List<User> userReturned;
 
     //List to pass it to adapter
     List<User> frnds;
@@ -76,7 +81,7 @@ public class FriendFragment extends Fragment {
             Log.i("message", "Exception : " + e.getMessage());
         }
 
-        List<User> friendRequestSenders = new ArrayList<User>();
+
 
 
         requesttask.setRequestEmails(user.getFriendRequests());
@@ -127,7 +132,7 @@ public class FriendFragment extends Fragment {
 
                 //TODO: Map Image View
                 TextView showname = (TextView) convertView.findViewById(R.id.showname);
-               // TextView showemail = (TextView) convertView.findViewById(R.id.showemail);
+                ImageView showpic =(ImageView) convertView.findViewById(R.id.showpic);
 
                 User singleFriend = FriendFragment.this.friendRequests.get(position);
                 Button acceptFriend = (Button) convertView.findViewById(R.id.acceptFriend);
@@ -173,8 +178,29 @@ public class FriendFragment extends Fragment {
                         meUser.getFriends().add(searchUser);
 
 
-                                new AcceptFriendAsyncTask().execute(searchUser);
+                        new AcceptFriendAsyncTask().execute(searchUser);
                         new AcceptFriendAsyncTask().execute(meUser);
+
+                        try
+                        {
+                            task1 = new GetFriendsAsyncTask();
+                            task1.setUserEmail(new PrefUtil(getActivity()).getEmailId());
+                            userReturned = task1.execute().get();
+
+                            taskupdate = new GetFriendRequestsAsyncTask();
+                            taskupdate.setRequestEmails(meUser.getFriendRequests());
+                            friendRequestSenders = taskupdate.execute().get();
+
+                        } catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        } catch (ExecutionException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                        updateShowFriends(userReturned);
+                        updateFriendRequestSenders(friendRequestSenders);
 
 
 
@@ -216,15 +242,29 @@ public class FriendFragment extends Fragment {
 
                         DeleteFriendRequestAsyncTask task = new DeleteFriendRequestAsyncTask();
                         task.execute(meUser);
+                        try
+                        {
+                            taskupdate = new GetFriendRequestsAsyncTask();
+                            taskupdate.setRequestEmails(meUser.getFriendRequests());
+                            friendRequestSenders = taskupdate.execute().get();
+
+                        } catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        } catch (ExecutionException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        updateFriendRequestSenders(friendRequestSenders);
                     }
                 });
 
 
 
-                //TODO: set avatar for friends
-                //Picasso.with(getActivity().getApplicationContext()).load(searchResult.getThumbnailURL()).into(thumbnail);
+                //TODO: set avatar for friends Round
                 showname.setText(singleFriend.getName());
-              //  showemail.setText(singleFriend.getEmail());
+                Glide.with(getActivity().getApplicationContext()).load(singleFriend.getAvatar()).asBitmap().into(showpic);
+
 
 
                 return convertView;
@@ -246,8 +286,8 @@ public class FriendFragment extends Fragment {
                 }
 
                 //TODO: Map Image View
+                ImageView showpic = (ImageView)convertView.findViewById(R.id.showpic);
                 TextView showname = (TextView) convertView.findViewById(R.id.showname);
-                TextView showemail = (TextView) convertView.findViewById(R.id.showemail);
 
                 User singleFriend = FriendFragment.this.frnds.get(position);
                 Button viewbutton = (Button) convertView.findViewById(R.id.viewFriend);
@@ -264,10 +304,10 @@ public class FriendFragment extends Fragment {
                     }
                 });
 
-                //TODO: set avatar for friends
-                //Picasso.with(getActivity().getApplicationContext()).load(searchResult.getThumbnailURL()).into(thumbnail);
+                //TODO: set avatar for friends round
+                Glide.with(getActivity().getApplicationContext()).load(singleFriend.getAvatar()).asBitmap().into(showpic);
                 showname.setText(singleFriend.getName());
-                showemail.setText(singleFriend.getEmail());
+
 
 
                 return convertView;

@@ -5,27 +5,29 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
             android:id="@+id/invitefriends"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Invite Friends: "
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/doneInvite"
-            android:text="Done"
-            />
+            android:layout_gravity="center"
+            android:text="Select friends to the invite:"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         <ListView
             android:layout_marginLeft="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/showfriendlist"/>
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:id="@+id/doneInvite"
+            android:layout_gravity="center"
+            android:text="Done"
+            android:background="@drawable/buttonshape"
+            />
 
 
     </LinearLayout>

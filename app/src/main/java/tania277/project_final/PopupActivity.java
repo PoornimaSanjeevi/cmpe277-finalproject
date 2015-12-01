@@ -160,7 +160,7 @@ public class PopupActivity extends Activity {
                 }
 
                 TextView showname =(TextView) convertView.findViewById(R.id.showname);
-                TextView showemail = (TextView) convertView.findViewById(R.id.showemail);
+//                TextView showemail = (TextView) convertView.findViewById(R.id.showemail);
                 //TextView adminEvent =(TextView) convertView.findViewById(R.id.admin_event);
 
                 User singleParticipant = participants.get(position);
@@ -180,7 +180,7 @@ public class PopupActivity extends Activity {
 
 
                 showname.setText(singleParticipant.getName());
-                showemail.setText(singleParticipant.getEmail());
+//                showemail.setText(singleParticipant.getEmail());
 
                 return convertView;
             }
