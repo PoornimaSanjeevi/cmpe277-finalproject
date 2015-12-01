@@ -6,8 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:layout_marginLeft="20dp">
+        android:layout_gravity="center">
 
         <ImageView
             android:layout_width="40dp"
@@ -23,11 +22,22 @@
             android:id="@+id/showname"
             android:layout_marginRight="5dp"/>
 
-        <Button
+        <CheckBox
+            android:id="@+id/sendinvite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/sendinvite"
-            android:background="@drawable/send_friend_request"/>
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:paddingRight="10dp"
+            />
+
+        <!--<Button-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:id="@+id/sendinvite"-->
+            <!--android:background="@drawable/send_friend_request"/>-->
 
     </LinearLayout>
 

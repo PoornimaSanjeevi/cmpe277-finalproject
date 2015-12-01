@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import tania277.project_final.DataAccess.AsyncTask.GetFriendsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetUserListAsyncTask;
@@ -84,55 +86,29 @@ public class InviteFriendsActivity extends Activity {
 
                 showpic =(ImageView) convertView.findViewById(R.id.showpic);
                 showname = (TextView) convertView.findViewById(R.id.showname);
-                inviteFriend =(Button) convertView.findViewById(R.id.sendinvite);
 
-                final User singleFriend = myFriendList.get(position);
 
-                inviteFriend.setOnClickListener(new View.OnClickListener() {
+                final CheckBox sendinvite=(CheckBox)convertView.findViewById(R.id.sendinvite);
+
+                sendinvite.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         User searchResult = myFriendList.get(position);
                         invitedFriends.add(searchResult.getEmail());
                         Log.i("message:", "getting to the invite friend button");
-//                        for (String request:searchResult.getFriendRequests()) {
-//                    Log.i("message: ","request: "+request);
-//                }
-//
-//                searchResult.getFriendRequests().add(AppUser.EMAIL);
-//
-//                SendRequestAsyncTask requestAsyncTask = new SendRequestAsyncTask();
-//                requestAsyncTask.execute(searchResult);
-
-//                        EventItem searchResult = EventFragment.this.attendingEvents.get(position);
-//
-//                        Log.i("message:", "name: " + searchResult.getName() + "id: " + searchResult.getEventId());
-//
-////                        addToPlayList(searchResult.getId(), searchResult.getTitle());
-//                        Intent intent = new Intent(getActivity().getApplicationContext(), PopupActivity.class);
-//                        intent.putExtra("Event_ID", searchResult.getEventId());
-//                        startActivity(intent);
-
                     }
                 });
 
 
+                final User singleFriend = myFriendList.get(position);
                 showname.setText(singleFriend.getName());
-
-                Glide.with(getContext()).load(singleFriend.getAvatar()).asBitmap().centerCrop().into(new BitmapImageViewTarget(showpic) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        RoundedBitmapDrawable circularBitmapDrawable =
-                                RoundedBitmapDrawableFactory.create(getApplicationContext().getResources(), resource);
-                        circularBitmapDrawable.setCircular(true);
-                        showpic.setImageDrawable(circularBitmapDrawable);
-                    }
-                });
+                Glide.with(getApplicationContext()).load(singleFriend.getAvatar()).asBitmap().into(showpic);
                 return convertView;
             }
         };
         Log.i("message:", "adapter ending");
         myFriendsListView.setAdapter(adapter);
     }
+
 }
 
