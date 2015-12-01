@@ -148,6 +148,7 @@ public class PopupActivity extends Activity {
         }
 
         new DeleteEventRequestAsyncTask().execute(getEventItem());
+        onBackPressed();
     }
 
     public void updateParticipants(List<User> p)
