@@ -81,6 +81,8 @@ public class EventQueryBuilder {
         return url;
     }
 
+
+
     public String deleteRequest(EventItem item) {
 
         String url ="{ \"$set\" :"
@@ -95,5 +97,7 @@ public class EventQueryBuilder {
         return url;
 
     }
+
+
 
 }

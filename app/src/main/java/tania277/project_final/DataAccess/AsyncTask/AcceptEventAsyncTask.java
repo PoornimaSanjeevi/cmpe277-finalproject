@@ -47,7 +47,7 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
             osw.close();
             if(connection.getResponseCode() <205)
             {
-                Log.i("message:", "Update success");
+                //Log.i("message:", "Update success");
                 return true;
             }
             else
