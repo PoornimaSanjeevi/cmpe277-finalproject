@@ -6,17 +6,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="10dp"
         android:paddingTop="25dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Event name: "
-            android:textSize="21sp"/>
+            android:text="Name: "
+            android:textStyle="bold"
+            android:textSize="16sp"/>
         <TextView
-            android:layout_width="100dp"
-            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
             android:layout_height="wrap_content"
             android:id="@+id/showname"/>
     </LinearLayout>
@@ -25,102 +26,109 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-        android:paddingLeft="10dp"
+        android:paddingLeft="5dp"
         android:paddingBottom="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Event Admin: "
-            android:textSize="21sp"/>
+            android:text="Admin: "
+            android:textSize="16sp"
+            android:textStyle="bold"/>
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/showadmin"
-            android:textSize="18sp"/>
+            android:textSize="14sp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="10dp"
+        android:paddingLeft="5dp"
         android:paddingBottom="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Event Date:"
-            android:textSize="21sp"/>
+            android:text="Date: "
+            android:textStyle="bold"
+            android:textSize="16sp"/>
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/showdate"
-            android:textSize="18sp"/>
+            android:textSize="14sp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="10dp"
+        android:paddingLeft="5dp"
         android:paddingBottom="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Start time: "
-            android:textSize="21sp"/>
+            android:textSize="16sp"
+            android:textStyle="bold"/>
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/showstime"
-            android:textSize="18sp"/>
+            android:textSize="14sp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="10dp"
+        android:paddingLeft="5dp"
         android:paddingBottom="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="End time: "
-            android:textSize="21sp"/>
+            android:textSize="16sp"
+            android:textStyle="bold"/>
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/showetime"
-            android:textSize="18sp"/>
+            android:textSize="14sp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="10dp"
+        android:paddingLeft="5dp"
         android:paddingBottom="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Event Location: "
-            android:textSize="21sp"/>
+            android:text="Location: "
+            android:textSize="16sp"
+            android:textStyle="bold"/>
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/showloc"
-            android:textSize="18sp"/>
+            android:textSize="14sp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="5dp">
         <TextView
             android:id="@+id/friends"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:text="Participants: "
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingBottom="10dp"/>
         <ListView
             android:layout_marginLeft="15sp"
             android:layout_width="wrap_content"
@@ -129,11 +137,12 @@
     </LinearLayout>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
         android:layout_gravity="center"
         android:text="Start"
         android:textSize="18sp"
+        android:background="@drawable/buttonshape"
         android:id="@+id/start_event"/>
 
 </LinearLayout>

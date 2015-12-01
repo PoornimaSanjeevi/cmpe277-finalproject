@@ -9,8 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +113,7 @@ public class PopupActivity extends Activity {
                 if (convertView == null) {
                     convertView = getLayoutInflater().inflate(R.layout.show_friend_item, parent, false);
                 }
-
+                ImageView showpic = (ImageView)convertView.findViewById(R.id.showpic);
                 TextView showname =(TextView) convertView.findViewById(R.id.showname);
 //                TextView showemail = (TextView) convertView.findViewById(R.id.showemail);
                 //TextView adminEvent =(TextView) convertView.findViewById(R.id.admin_event);
@@ -130,7 +133,7 @@ public class PopupActivity extends Activity {
                     }
                 });
 
-
+                Glide.with(getApplicationContext()).load(singleParticipant.getAvatar()).asBitmap().into(showpic);
                 showname.setText(singleParticipant.getName());
 //                showemail.setText(singleParticipant.getEmail());
 

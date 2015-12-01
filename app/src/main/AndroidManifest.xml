@@ -48,7 +48,10 @@
             android:theme="@android:style/Theme.Holo.Dialog">
         </activity>
 
-        <activity android:name=".ViewFriendActivity"></activity>
+        <activity
+            android:name=".ViewFriendActivity"
+            android:theme="@android:style/Theme.Holo.Dialog">
+        </activity>
     </application>
 
 </manifest>
