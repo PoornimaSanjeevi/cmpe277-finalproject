@@ -3,6 +3,9 @@
     <string name="app_id">1731140313780720</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Logout</string>
+    <string name="pick_time">Pick time</string>
+
+    <string name="selectdate">Pick time</string>
     <!--<color name="background">#66ffcc</color>-->
 </resources>
 

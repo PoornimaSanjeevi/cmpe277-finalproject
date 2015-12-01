@@ -63,8 +63,11 @@ public class UserFragment extends Fragment {
                 profileImgView.setImageDrawable(circularBitmapDrawable);
             }
         });
+
         return rootView;
     }
+
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -129,4 +132,6 @@ public class UserFragment extends Fragment {
 
         run_records.setAdapter(adapter);
     }
+
+
 }

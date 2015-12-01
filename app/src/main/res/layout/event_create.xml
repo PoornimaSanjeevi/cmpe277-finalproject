@@ -39,12 +39,25 @@
             android:layout_height="wrap_content"
             android:text="Date: "
             android:textSize="18sp"/>
+
         <EditText
             android:layout_width="200dp"
             android:inputType="date"
             android:layout_height="wrap_content"
             android:id="@+id/edate"/>
+
+        <ImageButton
+            android:id="@+id/imageButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/eDate"
+            android:layout_toRightOf="@+id/editText"
+            android:contentDescription="@string/selectdate"
+            android:cropToPadding="true"
+            android:src="@drawable/calendar_icon" />
+
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -61,6 +74,14 @@
             android:inputType="time"
             android:layout_height="wrap_content"
             android:id="@+id/stime"/>
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/eDate"
+            android:layout_toRightOf="@+id/stime"
+            android:cropToPadding="true"
+            android:src="@drawable/clock" />
     </LinearLayout>
 
     <LinearLayout
@@ -78,6 +99,14 @@
             android:inputType="time"
             android:layout_height="wrap_content"
             android:id="@+id/etime"/>
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/eDate"
+            android:layout_toRightOf="@+id/stime"
+            android:cropToPadding="true"
+            android:src="@drawable/clock" />
     </LinearLayout>
 
     <LinearLayout
