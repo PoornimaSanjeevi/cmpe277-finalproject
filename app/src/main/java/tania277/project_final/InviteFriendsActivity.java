@@ -37,6 +37,7 @@ public class InviteFriendsActivity extends Activity {
     Button inviteFriend, doneInvite;
     TextView showname;
     ImageView showpic;
+    String prevActivity="";
 
 
 
@@ -48,10 +49,29 @@ public class InviteFriendsActivity extends Activity {
         myFriendsListView = (ListView)findViewById(R.id.showfriendlist);
         doneInvite =(Button) findViewById(R.id.doneInvite);
 
+
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                prevActivity= null;
+            } else {
+                prevActivity= extras.getString("previous");
+            }
+        } else {
+            prevActivity= (String) savedInstanceState.getSerializable("previous");
+        }
+
         doneInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateEvent.setInvitedPeople(invitedFriends);
+                if(prevActivity.equalsIgnoreCase("CreateEvent")){
+                    Log.i("message:","run buddy Create");
+                   CreateEvent.setInvitedPeople(invitedFriends);
+                }
+                else if(prevActivity.equalsIgnoreCase("PopupActivity"))
+                {
+                    Log.i("message: ","run buddy Add more");
+                    PopupActivity.setInvitedPeople(invitedFriends);}
                 onBackPressed();
             }
         });
@@ -94,28 +114,8 @@ public class InviteFriendsActivity extends Activity {
 
                         User searchResult = myFriendList.get(position);
                         invitedFriends.add(searchResult.getEmail());
-                        Log.i("message:", "getting to the invite friend button");
-//                        for (String request:searchResult.getFriendRequests()) {
-//                    Log.i("message: ","request: "+request);
-//                }
-//
-//                searchResult.getFriendRequests().add(AppUser.EMAIL);
-//
-//                SendRequestAsyncTask requestAsyncTask = new SendRequestAsyncTask();
-//                requestAsyncTask.execute(searchResult);
-
-//                        EventItem searchResult = EventFragment.this.attendingEvents.get(position);
-//
-//                        Log.i("message:", "name: " + searchResult.getName() + "id: " + searchResult.getEventId());
-//
-////                        addToPlayList(searchResult.getId(), searchResult.getTitle());
-//                        Intent intent = new Intent(getActivity().getApplicationContext(), PopupActivity.class);
-//                        intent.putExtra("Event_ID", searchResult.getEventId());
-//                        startActivity(intent);
-
                     }
                 });
-
 
                 showname.setText(singleFriend.getName());
 

@@ -19,6 +19,7 @@ import java.util.concurrent.ExecutionException;
 import tania277.project_final.DataAccess.AsyncTask.AcceptEventAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.DeleteEventRequestAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetEventDetailsAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.GetEventsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetFriendRequestsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetUserListAsyncTask;
 import tania277.project_final.Models.EventItem;
@@ -35,6 +36,18 @@ public class PopupActivity extends Activity {
     EventItem item;
     List<User> participants = new ArrayList<User>();
     List<User> returnedParticipants = new ArrayList<User>();
+    Button invite, done;
+
+    public EventItem getEventItem()
+    {
+        return item;
+    }
+
+    static List<String>  invitedPeople = new ArrayList<>();
+
+    public static void setInvitedPeople(List<String> p) {
+        invitedPeople = p;
+    }
 
     // this below task returns users in general
     //TODO: name is confusing. Refactor
@@ -43,6 +56,25 @@ public class PopupActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.details_popup);
+        invite =(Button) findViewById(R.id.invite);
+        done =(Button) findViewById(R.id.done);
+
+        invite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFriendsList();
+            }
+        });
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("message","run buddy"+"done");
+                UpdateEvent();
+            }
+        });
+
+
 
         showParticipantslist = (ListView) findViewById(R.id.showparticipantslist);
         showname = (TextView) findViewById(R.id.showname);
@@ -95,8 +127,24 @@ public class PopupActivity extends Activity {
         showstime.setText(item.getStartTime());
         showetime.setText(item.getEndTime());
 
+    }
 
+    public void showFriendsList()
+    {
+        Intent intent = new Intent(this, InviteFriendsActivity.class);
+        intent.putExtra("previous", "PopupActivity");
+        startActivity(intent);
 
+    }
+
+    public void UpdateEvent()
+    {
+        for (String invited:invitedPeople
+             ) {
+            getEventItem().getInvitedPeople().add(invited);
+        }
+
+        new DeleteEventRequestAsyncTask().execute(getEventItem());
     }
 
     public void updateParticipants(List<User> p)

@@ -103,9 +103,17 @@ public class GetEventDetailsAsyncTask extends AsyncTask<EventItem, Void, EventIt
                 temp.setEndTime(userObj.get("end_time")+"");
                 temp.setLocation(userObj.get("location") + "");
 
-                String friendsString = userObj.get("participants")+"";
-                List<String> friends = parsers.ConvertTofriendRequestsList(friendsString);
-                temp.setParticipants(friends);
+                //TODO: parser name is ambiguious
+                String participantsString = userObj.get("participants")+"";
+                List<String> participants = parsers.ConvertTofriendRequestsList(participantsString);
+                temp.setParticipants(participants);
+
+                String invitedString = userObj.get("invited")+"";
+                List<String> invited = parsers.ConvertTofriendRequestsList(invitedString);
+                temp.setInvitedPeople(invited);
+
+
+
                 //TODO: show participants /Number of participants
 
 

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tania277.project_final.DataAccess.AsyncTask.CreateEventAsyncTask;
@@ -26,7 +27,7 @@ public class CreateEvent extends Activity {
     Button invite, submit,cancel;
     EventItem eventItem = new EventItem();
 
-    static List<String>  invitedPeople;
+    static List<String>  invitedPeople = new ArrayList<>();
 
     public static void setInvitedPeople(List<String> p) {
         invitedPeople = p;
@@ -67,6 +68,7 @@ public class CreateEvent extends Activity {
     public void showFriendsList()
     {
         Intent intent = new Intent(this, InviteFriendsActivity.class);
+        intent.putExtra("previous","CreateEvent");
         startActivity(intent);
     }
 
@@ -100,11 +102,9 @@ public class CreateEvent extends Activity {
             eventItem.setEndTime(etime.getText().toString());
             eventItem.setLocation(eloc.getText().toString());
 
-            for (String user: invitedPeople
-                 ) {
-                Log.i("message: ","invited"+ user);
-            }
+
             eventItem.setInvitedPeople(invitedPeople);
+            invitedPeople = new ArrayList<String>();
 
             eventItem.setAdmin(new PrefUtil(this).getEmailId());
 
