@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
-    <!--android:background="@drawable/run">-->
+    android:padding="16dp"
+    android:background="@drawable/trophy1">
 
     <TextView
         android:id="@+id/info"
@@ -34,10 +34,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_alignBottom="@+id/profile_img"
-            android:layout_centerHorizontal="true" />
-            <!--android:layout_marginTop="200dp"-->
-            <!--android:layout_marginLeft="65dp"-->
-            <!--android:gravity="center" />-->
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp" />
+
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
