@@ -6,6 +6,7 @@
     <string name="pick_time">Pick time</string>
 
     <string name="selectdate">Pick time</string>
+    <color name="TransparentGrey">#4F000000</color>
     <!--<color name="background">#66ffcc</color>-->
 </resources>
 

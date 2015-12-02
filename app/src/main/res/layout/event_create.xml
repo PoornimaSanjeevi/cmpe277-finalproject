@@ -23,7 +23,7 @@
             android:text="Event name: "
             android:textSize="18sp"/>
         <EditText
-            android:layout_width="200dp"
+            android:layout_width="100dp"
             android:inputType="text"
             android:layout_height="wrap_content"
             android:id="@+id/ename"/>
@@ -41,20 +41,20 @@
             android:textSize="18sp"/>
 
         <EditText
-            android:layout_width="200dp"
+            android:layout_width="100dp"
             android:inputType="date"
             android:layout_height="wrap_content"
             android:id="@+id/edate"/>
 
         <ImageButton
             android:id="@+id/imageButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignBottom="@+id/eDate"
             android:layout_toRightOf="@+id/editText"
             android:contentDescription="@string/selectdate"
             android:cropToPadding="true"
-            android:src="@drawable/calendar_icon" />
+            android:src="@drawable/calender" />
 
     </LinearLayout>
 
@@ -70,14 +70,14 @@
             android:text="Start time: "
             android:textSize="18sp"/>
         <EditText
-            android:layout_width="200dp"
+            android:layout_width="100dp"
             android:inputType="time"
             android:layout_height="wrap_content"
             android:id="@+id/stime"/>
         <ImageButton
             android:id="@+id/imageButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignBottom="@+id/eDate"
             android:layout_toRightOf="@+id/stime"
             android:cropToPadding="true"
@@ -95,14 +95,14 @@
             android:text="End time: "
             android:textSize="18sp"/>
         <EditText
-            android:layout_width="200dp"
+            android:layout_width="100dp"
             android:inputType="time"
             android:layout_height="wrap_content"
             android:id="@+id/etime"/>
         <ImageButton
             android:id="@+id/imageButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignBottom="@+id/eDate"
             android:layout_toRightOf="@+id/stime"
             android:cropToPadding="true"
@@ -121,7 +121,7 @@
             android:text="Event Location: "
             android:textSize="18sp"/>
         <EditText
-            android:layout_width="200dp"
+            android:layout_width="100dp"
             android:inputType="text"
             android:layout_height="wrap_content"
             android:id="@+id/eloc"/>
