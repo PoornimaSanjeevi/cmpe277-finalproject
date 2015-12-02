@@ -23,7 +23,7 @@ public class JsonToStringParsers {
         {
             friendRequestArrayForList[i]=friendRequestArrayForList[i].replaceAll("\"", "");
             Log.i("message:friend requests",friendRequestArrayForList[i]);
-            friends.add(friendRequestArrayForList[i]);
+            friends.add(friendRequestArrayForList[i].trim());
         }
         return friends;
     }
@@ -39,8 +39,8 @@ public class JsonToStringParsers {
         for(int i=0;i<recordsArray3.length;i++)
         {
             recordsArray3[i]=recordsArray3[i].replaceAll("\"","");
-            records.add(recordsArray3[i]);
-            Log.i("message", "" + recordsArray3[i]);
+            records.add(recordsArray3[i].trim());
+            Log.i("message", "run records run buddy" + recordsArray3[i]);
         }
         return records;
     }

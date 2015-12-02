@@ -59,9 +59,9 @@ public class UserQueryBuilder {
                 + "{\"friend_requests\" :[";
 
         if(user.getFriendRequests().size()>0){
-        url=url+"\""+user.getFriendRequests().get(0)+"\"";
+        url=url+"\""+user.getFriendRequests().get(0).trim()+"\"";
         for (int i=1;i<user.getFriendRequests().size();i++) {
-            url=url+",\""+user.getFriendRequests().get(i)+"\"";
+            url=url+",\""+user.getFriendRequests().get(i).trim()+"\"";
         }}
         url=url+"]}}";
         return url;
@@ -73,9 +73,9 @@ public class UserQueryBuilder {
                 + "{\"friends\" :[";
 
         if(user.getFriends().size()>0){
-        url=url+"\""+user.getFriends().get(0).getEmail()+"\"";
+        url=url+"\""+user.getFriends().get(0).getEmail().trim()+"\"";
         for (int i=1;i<user.getFriends().size();i++) {
-            url=url+",\""+user.getFriends().get(i).getEmail()+"\"";
+            url=url+",\""+user.getFriends().get(i).getEmail().trim()+"\"";
         }}
         url=url+"]}}";
         return url;
@@ -87,9 +87,9 @@ public class UserQueryBuilder {
                 + "{\"friend_requests\" :[";
 
         if(user.getFriendRequests().size()>0){
-        url=url+"\""+user.getFriendRequests().get(0)+"\"";
+        url=url+"\""+user.getFriendRequests().get(0).trim()+"\"";
         for (int i=1;i<user.getFriendRequests().size();i++) {
-            url=url+",\""+user.getFriendRequests().get(i)+"\"";
+            url=url+",\""+user.getFriendRequests().get(i).trim()+"\"";
         }}
         url=url+"]}}";
         return url;
@@ -104,7 +104,7 @@ public class UserQueryBuilder {
                                 + "\"friends\": [ ],\n"
                                 + "\"run_records\": [ ],\n"
                                 + "\"friend_requests\": [ ] }",
-                        user.getEmail(), user.getName(),user.getAvatar());
+                        user.getEmail().trim(), user.getName().trim(),user.getAvatar().trim());
     }
 
 

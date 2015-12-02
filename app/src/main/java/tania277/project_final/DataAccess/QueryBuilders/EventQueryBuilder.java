@@ -48,8 +48,8 @@ public class EventQueryBuilder {
                                 + "\"admin\": \"%s\", \"date\": \"%s\", "
                                 + "\"start_time\": \"%s\", "+ "\"end_time\": \"%s\","
                                 + " \"location\": \"%s\" ,",
-                        eventItem.getName(), eventItem.getAdmin(),eventItem.getDate(), eventItem.getStartTime()
-                        ,eventItem.getEndTime(),eventItem.getLocation());
+                        eventItem.getName().trim(), eventItem.getAdmin().trim(),eventItem.getDate().trim(), eventItem.getStartTime().trim()
+                        ,eventItem.getEndTime().trim(),eventItem.getLocation().trim());
 
         url=url+ "\"invited\" : [";
                 if(eventItem.getInvitedPeople().size() > 0) {
@@ -89,9 +89,9 @@ public class EventQueryBuilder {
                 + "{\"invited\" :[";
 
         if(item.getInvitedPeople().size()>0){
-        url=url+"\""+item.getInvitedPeople().get(0)+"\"";
+        url=url+"\""+item.getInvitedPeople().get(0).trim()+"\"";
         for (int i=1;i<item.getInvitedPeople().size();i++) {
-            url=url+",\""+item.getInvitedPeople().get(i)+"\"";
+            url=url+",\""+item.getInvitedPeople().get(i).trim()+"\"";
         }}
         url=url+"]}}";
         return url;

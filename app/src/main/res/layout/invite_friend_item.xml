@@ -33,11 +33,13 @@
             android:paddingRight="10dp"
             />
 
-        <!--<Button-->
-            <!--android:layout_width="40dp"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:id="@+id/sendinvite"-->
-            <!--android:background="@drawable/send_friend_request"/>-->
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:textSize="10sp"
+            android:id="@+id/displayMessage"
+            android:background="@drawable/buttonshape"
+            />
 
     </LinearLayout>
 

@@ -40,6 +40,11 @@ public class InviteFriendsActivity extends Activity {
     TextView showname;
     ImageView showpic;
     String prevActivity="";
+    ArrayList<String> participants;
+    ArrayList<String> invited;
+
+    //ArrayList<String> test = data.getStringArrayListExtra("test");
+
 
 
 
@@ -56,13 +61,20 @@ public class InviteFriendsActivity extends Activity {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
                 prevActivity= null;
+                participants =new ArrayList<String>();
+                invited= new ArrayList<String>();
             } else {
                 prevActivity= extras.getString("previous");
+                participants = extras.getStringArrayList("plist");
+                invited = extras.getStringArrayList("ilist");
             }
         } else {
             prevActivity= (String) savedInstanceState.getSerializable("previous");
+            participants=savedInstanceState.getStringArrayList("plist");
+            invited = savedInstanceState.getStringArrayList("ilist");
         }
 
+        Log.i("message:","participants"+participants );
         doneInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +95,7 @@ public class InviteFriendsActivity extends Activity {
         try {
             myFriendList = getFreindsAsyncTask.execute().get();
 
-            updateFriendList(myFriendList);
+            updateFriendList(myFriendList, participants);
         }catch(Exception e)
         {
             e.printStackTrace();
@@ -92,7 +104,7 @@ public class InviteFriendsActivity extends Activity {
 
     }
 
-    public void updateFriendList(List<User> myfriends)
+    public void updateFriendList(List<User> myfriends, final List<String> participants)
     {
         this.myFriendList = myfriends;
         ArrayAdapter<User> adapter = new ArrayAdapter<User>(getApplicationContext(), R.layout.invite_friend_item, myfriends) {
@@ -104,12 +116,32 @@ public class InviteFriendsActivity extends Activity {
                 }
 
 
-                showpic =(ImageView) convertView.findViewById(R.id.showpic);
+                showpic = (ImageView) convertView.findViewById(R.id.showpic);
                 showname = (TextView) convertView.findViewById(R.id.showname);
 
+                final User singleFriend = myFriendList.get(position);
 
-                final CheckBox sendinvite=(CheckBox)convertView.findViewById(R.id.sendinvite);
+                if (participants.contains(singleFriend.getEmail())) {
 
+                    final CheckBox sendinvite = (CheckBox) convertView.findViewById(R.id.sendinvite);
+
+                    Button displayMessage =(Button) convertView.findViewById(R.id.displayMessage);
+                    displayMessage.setText("Participant");
+                    sendinvite.setVisibility(View.GONE);
+                }
+                else if(invited.contains(singleFriend.getEmail()))
+                {
+                    final CheckBox sendinvite = (CheckBox) convertView.findViewById(R.id.sendinvite);
+                    Button displayMessage =(Button) convertView.findViewById(R.id.displayMessage);
+                    displayMessage.setText("Invited");
+                    sendinvite.setVisibility(View.GONE);
+
+                }
+                else{
+
+                final CheckBox sendinvite = (CheckBox) convertView.findViewById(R.id.sendinvite);
+                    Button displayMessage =(Button) convertView.findViewById(R.id.displayMessage);
+                    displayMessage.setVisibility(View.GONE);
                 sendinvite.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -119,9 +151,10 @@ public class InviteFriendsActivity extends Activity {
                         Log.i("message:", "getting to the invite friend button");
                     }
                 });
+            }
 
 
-                final User singleFriend = myFriendList.get(position);
+
                 showname.setText(singleFriend.getName());
                 Glide.with(getApplicationContext()).load(singleFriend.getAvatar()).asBitmap().into(showpic);
                 return convertView;

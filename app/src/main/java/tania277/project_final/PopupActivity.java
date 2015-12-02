@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -136,6 +137,15 @@ public class PopupActivity extends Activity {
     {
         Intent intent = new Intent(this, InviteFriendsActivity.class);
         intent.putExtra("previous", "PopupActivity");
+        Log.i("message","participants number"+returnedParticipants.size());
+        List<String> participants = new ArrayList<>();
+        for (User u:
+             returnedParticipants) {
+            Log.i("message:","1 participants"+u.getEmail().trim());
+            participants.add(u.getEmail().trim());
+        }
+        intent.putStringArrayListExtra("plist", (ArrayList<String>) item.getParticipants());
+        intent.putStringArrayListExtra("ilist",(ArrayList<String>) item.getInvitedPeople());
         startActivity(intent);
 
     }

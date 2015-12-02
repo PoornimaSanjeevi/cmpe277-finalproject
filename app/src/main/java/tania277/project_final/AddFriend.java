@@ -5,6 +5,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -25,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -45,9 +47,13 @@ public class AddFriend extends Activity {
     private EditText searchInput;
     private ListView friendFound;
     TextView showemail,showname;
+    List<String> friends= new ArrayList<>();
+    List<String> friendRequests = new ArrayList<>();
+    User appUser = new User();
     //PrefUtil prefUtil = new PrefUtil(this);
 
     GetUserListAsyncTask getUserAsyncTask;
+    GetUserAsyncTask appUserAsyncTask;
     ImageView showpic;
 
     List<User> users;
@@ -80,8 +86,20 @@ public class AddFriend extends Activity {
                             u.setUserId(x.getUserId());
                             u.setAvatar(x.getAvatar());
                             users.add(u);
-                        }
-                        updateFriends(users);
+
+                            appUserAsyncTask = new GetUserAsyncTask();
+
+
+                            appUser = appUserAsyncTask.execute().get();
+
+                            for (User frnd:appUser.getFriends()
+                                 ) {
+
+                                friends.add((frnd.getEmail().trim()));
+                            }
+                            }
+                        Log.i("message:" ,"myfrnds" +friends +appUser.getFriendRequests());
+                        updateFriends(users, friends, appUser.getFriendRequests());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
@@ -96,8 +114,10 @@ public class AddFriend extends Activity {
 
 
     }
-    public void updateFriends(List<User> usersIn){
+    public void updateFriends(List<User> usersIn, final List<String> f, final List<String> fr){
         this.users = usersIn;
+        this.friends =f;
+        this.friendRequests =fr;
         ArrayAdapter<User> adapter = new ArrayAdapter<User>(getApplicationContext(), R.layout.friend_item, usersIn) {
 
             @Override
@@ -114,25 +134,45 @@ public class AddFriend extends Activity {
 
                 final User singleUser = users.get(position);
 
-                Button addfriend = (Button)convertView.findViewById(R.id.addfriend);
-
-                addfriend.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        User searchResult = users.get(position);
-                        Log.i("message:", "getting to the add friend button");
-                        for (String request : searchResult.getFriendRequests()) {
-                            Log.i("message: ", "request: " + request);
-                        }
 
 
 
-                        searchResult.getFriendRequests().add(new PrefUtil(AddFriend.this).getEmailId());
+                if(singleUser.getEmail().trim().equalsIgnoreCase(new PrefUtil(AddFriend.this).getEmailId()))
+                {
+                    Button addfriend = (Button) convertView.findViewById(R.id.addfriend);
+                    addfriend.setVisibility(View.GONE);
+                }
+                else if(friends.contains(singleUser.getEmail().trim()))
+                {
+                    Button addfriend = (Button) convertView.findViewById(R.id.addfriend);
+                    addfriend.setVisibility(View.GONE);
 
-                        SendRequestAsyncTask requestAsyncTask = new SendRequestAsyncTask();
-                        requestAsyncTask.execute(searchResult);
-                        onBackPressed();
+                }
+                else if(friendRequests.contains(singleUser.getEmail().trim()))
+                {
+                    Button addfriend = (Button) convertView.findViewById(R.id.addfriend);
+                    addfriend.setVisibility(View.GONE);
+
+                }
+                else {
+                               Button addfriend = (Button) convertView.findViewById(R.id.addfriend);
+//|| (!friendRequests.contains(singleUser.getEmail())) || (!friends.contains(singleUser.getEmail()))
+                    addfriend.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            User searchResult = users.get(position);
+                            Log.i("message:", "getting to the add friend button");
+                            for (String request : searchResult.getFriendRequests()) {
+                                Log.i("message: ", "request: " + request);
+                            }
+
+
+                            searchResult.getFriendRequests().add(new PrefUtil(AddFriend.this).getEmailId());
+
+                            SendRequestAsyncTask requestAsyncTask = new SendRequestAsyncTask();
+                            requestAsyncTask.execute(searchResult);
+                            onBackPressed();
 
 //                        EventItem searchResult = EventFragment.this.attendingEvents.get(position);
 //
@@ -143,8 +183,11 @@ public class AddFriend extends Activity {
 //                        intent.putExtra("Event_ID", searchResult.getEventId());
 //                        startActivity(intent);
 
-                    }
-                });
+                        }
+                    });
+                }
+
+
 
 
                 showname.setText(singleUser.getName());
