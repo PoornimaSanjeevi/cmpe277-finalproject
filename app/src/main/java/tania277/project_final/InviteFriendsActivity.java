@@ -40,7 +40,7 @@ public class InviteFriendsActivity extends Activity {
     TextView showname;
     ImageView showpic;
     String prevActivity="";
-    ArrayList<String> participants;
+    ArrayList<String> participants=new ArrayList<>();
     ArrayList<String> invited;
 
     //ArrayList<String> test = data.getStringArrayListExtra("test");
@@ -121,7 +121,7 @@ public class InviteFriendsActivity extends Activity {
 
                 final User singleFriend = myFriendList.get(position);
 
-                if (participants.contains(singleFriend.getEmail())) {
+                if ( participants!=null && participants.contains(singleFriend.getEmail())) {
 
                     final CheckBox sendinvite = (CheckBox) convertView.findViewById(R.id.sendinvite);
 
@@ -129,7 +129,7 @@ public class InviteFriendsActivity extends Activity {
                     displayMessage.setText("Participant");
                     sendinvite.setVisibility(View.GONE);
                 }
-                else if(invited.contains(singleFriend.getEmail()))
+                else if(invited!=null && invited.contains(singleFriend.getEmail()))
                 {
                     final CheckBox sendinvite = (CheckBox) convertView.findViewById(R.id.sendinvite);
                     Button displayMessage =(Button) convertView.findViewById(R.id.displayMessage);
