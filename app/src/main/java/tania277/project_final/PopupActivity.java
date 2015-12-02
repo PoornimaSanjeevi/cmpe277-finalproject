@@ -77,8 +77,6 @@ public class PopupActivity extends Activity {
             }
         });
 
-
-
         showParticipantslist = (ListView) findViewById(R.id.showparticipantslist);
         showname = (TextView) findViewById(R.id.showname);
         showdate =(TextView) findViewById(R.id.showdate);

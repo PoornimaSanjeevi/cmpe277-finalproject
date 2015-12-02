@@ -41,7 +41,8 @@ public class EventFragment extends Fragment {
     Button create,view;
     View rootView;
     String nameText,nameText2;
-    GetEventsAsyncTask task,task2,task3, task4;
+    GetEventsAsyncTask task,task2;
+    ViewGroup.LayoutParams params;
 
 
     @Override
@@ -50,8 +51,8 @@ public class EventFragment extends Fragment {
         title_Attending =(TextView)getActivity().findViewById(R.id.attending);
         title_Invited =(TextView)getActivity().findViewById(R.id.invited);
         attending_list = (ListView)rootView.findViewById(R.id.attending_list);
-        attending_list.setDivider(null);
-        attending_list.setDividerHeight(0);
+//        attending_list.setDivider(null);
+//        attending_list.setDividerHeight(0);
 
 
         attending_list.setDivider(null);
@@ -150,7 +151,7 @@ public class EventFragment extends Fragment {
 //                : View.VISIBLE );
 //    }
 
-    public void updateAttending(List<EventItem> attendingItems){
+    public void updateAttending(final List<EventItem> attendingItems){
         EventFragment.this.attendingEvents = attendingItems;
         Log.i("message:", "update attending addapter reached");
         ArrayAdapter<EventItem> adapter = new ArrayAdapter<EventItem>(getActivity().getApplicationContext(), R.layout.attending_item, attendingItems) {
@@ -191,8 +192,25 @@ public class EventFragment extends Fragment {
         };
 
         attending_list.setAdapter(adapter);
+        setAttendingHeight(attendingItems);
+
     }
 
+
+    public void setAttendingHeight(List<EventItem> list){
+        params = attending_list.getLayoutParams();
+        if (list.size()==0){
+            params.height = 0;
+            attending_list.setLayoutParams(params);
+            attending_list.requestLayout();
+        }
+        else {
+            params.height = list.size()*175;
+            attending_list.setLayoutParams(params);
+            attending_list.requestLayout();
+        }
+
+    }
 
     public void updateInvited(List<EventItem> invitedItems)
     {
@@ -312,6 +330,23 @@ public class EventFragment extends Fragment {
         };
 
         invited_list.setAdapter(adapter);
+        setInvitedHeight(invitedItems);
+
+    }
+
+
+    public void setInvitedHeight(List<EventItem> list){
+        params = invited_list.getLayoutParams();
+        if (list.size()==0){
+            params.height = 0;
+            invited_list.setLayoutParams(params);
+            invited_list.requestLayout();
+        }
+        else {
+            params.height = list.size()*175;
+            invited_list.setLayoutParams(params);
+            invited_list.requestLayout();
+        }
 
     }
 

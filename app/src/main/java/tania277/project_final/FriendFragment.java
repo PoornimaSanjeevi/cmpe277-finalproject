@@ -46,6 +46,7 @@ public class FriendFragment extends Fragment {
     GetFriendsAsyncTask friendTask,task1;
     GetUserAsyncTask usertask;
     GetFriendRequestsAsyncTask requesttask, taskupdate;
+    ViewGroup.LayoutParams params;
     List<User> friendRequestSenders = new ArrayList<User>();
 
     //returned from DB
@@ -272,7 +273,25 @@ public class FriendFragment extends Fragment {
         };
 
         showfriendRequests.setAdapter(adapter);
+        setFriendRequestHeight(users);
     }
+
+    public void setFriendRequestHeight(List<User> list){
+        params = showfriendRequests.getLayoutParams();
+        if (list.size()==0){
+            params.height = 0;
+            showfriendRequests.setLayoutParams(params);
+            showfriendRequests.requestLayout();
+        }
+        else {
+            params.height = list.size()*175;
+            showfriendRequests.setLayoutParams(params);
+            showfriendRequests.requestLayout();
+        }
+
+    }
+
+
 
     public void updateShowFriends(List<User> users) {
         FriendFragment.this.frnds = users;
@@ -315,5 +334,25 @@ public class FriendFragment extends Fragment {
         };
 
         showfriendlist.setAdapter(adapter);
+        setShowFriendHeight(users);
     }
+
+    public void setShowFriendHeight(List<User> list){
+        params = showfriendlist.getLayoutParams();
+        if (list.size()==0){
+            params.height = 0;
+            showfriendlist.setLayoutParams(params);
+            showfriendlist.requestLayout();
+        }
+        else {
+            params.height = list.size()*150;
+            showfriendlist.setLayoutParams(params);
+            showfriendlist.requestLayout();
+        }
+
+    }
+
+
+
+
 }

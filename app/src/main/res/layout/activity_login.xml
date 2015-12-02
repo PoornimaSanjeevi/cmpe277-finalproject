@@ -3,20 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@drawable/run2">
+    android:padding="16dp">
+    <!--android:background="@drawable/run">-->
 
     <TextView
         android:id="@+id/info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to Run Buddy!"
+        android:text="Run with your buddies, with RunBuddy!"
         android:textStyle="bold"
         android:textColor="#0033cc"
-        android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:layout_alignParentTop="true"
         android:textSize="20sp"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="5dp"
+        android:shadowColor="@color/TransparentGrey"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="0.05"/>
 
     <ImageView
         android:id="@+id/profile_img"
@@ -24,31 +28,27 @@
         android:layout_height="200dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/info"/>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:layout_below="@id/profile_img">
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            />
-        <TextView
-            android:id="@+id/dunny1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp" />
+            android:layout_alignBottom="@+id/profile_img"
+            android:layout_centerHorizontal="true" />
+            <!--android:layout_marginTop="200dp"-->
+            <!--android:layout_marginLeft="65dp"-->
+            <!--android:gravity="center" />-->
+
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            android:layout_gravity="center_horizontal"
-            android:text ="Login"
-            tools:visibility="gone" />
+            android:layout_gravity="center"
+            android:layout_below="@+id/login_button"
+            android:layout_centerHorizontal="true" />
+            <!--android:layout_marginTop="250dp"-->
+            <!--android:layout_marginLeft="60dp"/>-->
         <Button
             android:id="@+id/sign_out_button"
             android:layout_width="fill_parent"
@@ -56,6 +56,5 @@
             android:layout_weight="1"
             android:visibility="gone"
             android:text="Signout from Google" />
-    </LinearLayout>
 
 </RelativeLayout>
