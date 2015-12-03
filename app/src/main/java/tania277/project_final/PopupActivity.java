@@ -3,7 +3,6 @@ package tania277.project_final;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,20 +14,15 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import tania277.project_final.DataAccess.AsyncTask.AcceptEventAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.DeleteEventRequestAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetEventDetailsAsyncTask;
-import tania277.project_final.DataAccess.AsyncTask.GetEventsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetFriendRequestsAsyncTask;
-import tania277.project_final.DataAccess.AsyncTask.GetUserListAsyncTask;
 import tania277.project_final.Models.EventItem;
 import tania277.project_final.Models.User;
-import tania277.project_final.util.PrefUtil;
 
 /**
  * Created by Tania on 11/19/15.
@@ -40,7 +34,7 @@ public class PopupActivity extends Activity {
     EventItem item;
     List<User> participants = new ArrayList<User>();
     List<User> returnedParticipants = new ArrayList<User>();
-    Button invite, done;
+    Button invite, done, start;
 
     public EventItem getEventItem()
     {
@@ -62,6 +56,8 @@ public class PopupActivity extends Activity {
         setContentView(R.layout.details_popup);
         invite =(Button) findViewById(R.id.invite);
         done =(Button) findViewById(R.id.done);
+        start= (Button) findViewById(R.id.start_event);
+
 
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,13 +131,6 @@ public class PopupActivity extends Activity {
     {
         Intent intent = new Intent(this, InviteFriendsActivity.class);
         intent.putExtra("previous", "PopupActivity");
-        Log.i("message","participants number"+returnedParticipants.size());
-        List<String> participants = new ArrayList<>();
-        for (User u:
-             returnedParticipants) {
-            Log.i("message:","1 participants"+u.getEmail().trim());
-            participants.add(u.getEmail().trim());
-        }
         intent.putStringArrayListExtra("plist", (ArrayList<String>) item.getParticipants());
         intent.putStringArrayListExtra("ilist",(ArrayList<String>) item.getInvitedPeople());
         startActivity(intent);

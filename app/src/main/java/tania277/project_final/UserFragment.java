@@ -89,10 +89,12 @@ public class UserFragment extends Fragment {
             } else {
 
                 Log.i("message:", "Event item obtained" + user.getName());
-                for (RunRecord record : user.getRunRecords()) {
-                    Log.i("message: ", "" + record.getEventName() + record.getDistanceRan() + record.getTimeRan());
+                if(user.getRunRecords()!=null) {
+                    for (RunRecord record : user.getRunRecords()) {
+                        Log.i("message: ", "" + record.getEventName() + record.getDistanceRan() + record.getTimeRan());
+                    }
+                    updateRunRecords(user.getRunRecords());
                 }
-                updateRunRecords(user.getRunRecords());
             }
 
 

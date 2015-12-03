@@ -83,12 +83,12 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, User> {
             String mongoarray = "{ artificial_basicdb_list: "+server_output+"}";
             Object o = com.mongodb.util.JSON.parse(mongoarray);
 
-            Log.i("message","mongo array created");
+
 
             DBObject dbObj = (DBObject) o;
             BasicDBList dbusers = (BasicDBList) dbObj.get("artificial_basicdb_list");
 
-            Log.i("message","DBObjects created");
+
 
             for (Object obj : dbusers) {
                 DBObject userObj = (DBObject) obj;
@@ -115,27 +115,58 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, User> {
                 }
                 user.setFriends(friendsObj);
 
-                String recordsArray = "{ artificial_records_list: "+userObj.get("run_records")+"}";
-
-
-
-                Object records = com.mongodb.util.JSON.parse(recordsArray);
-                DBObject recordsObj = (DBObject) records;
-                BasicDBList dbRecords = (BasicDBList) recordsObj.get("artificial_records_list");
-
+                //************************************************************************
                 List<RunRecord> runRecordList = new ArrayList<RunRecord>();
+                Log.i("message_runbuddy","DB string"+userObj.get("run_records"));
 
-                int i=1;
-                for (Object record : dbRecords) {
-                    DBObject recordObj = (DBObject) record;
-                    RunRecord runRecord = new RunRecord();
-                    List<String> recordsList =parsers.ConvertToRecords(recordObj.get(i + "") + "");
-                    runRecord.setEventName(recordsList.get(0));
-                    runRecord.setDistanceRan(recordsList.get(1));
-                    runRecord.setTimeRan(recordsList.get(2));
-                    runRecordList.add(runRecord);
-                    i++;
+                //remove {}
+                String[] recordsArrayA =userObj.get("run_records").toString().split("\\{");
+                String[] recordsArrayB =recordsArrayA[1].split("\\}");
+
+                //remove :
+                String[] recordsArrayC=recordsArrayB[0].split(":");
+
+                for(int i=0;i<recordsArrayC.length;i++)
+                {
+                    if(recordsArrayC[i].contains("["))
+                    {
+                        List<String> recordsList =parsers.ConvertToRecords(recordsArrayC[i]);
+                        RunRecord runRecord = new RunRecord();
+                        runRecord.setEventName(recordsList.get(0));
+                        runRecord.setDistanceRan(recordsList.get(1));
+                        runRecord.setTimeRan(recordsList.get(2));
+                        runRecordList.add(runRecord);
+                    }
                 }
+
+                Log.i("message_runbuddy: ","After parsing"+runRecordList);
+                //*********************************************************************
+
+
+//                String recordsArray = "{ artificial_records_list: "+userObj.get("run_records")+"}";
+//                Log.i("message:","run_buddy: records"+recordsArray);
+//
+//
+//                Object records = com.mongodb.util.JSON.parse(recordsArray);
+//
+//
+//                DBObject recordsObj = (DBObject) records;
+//                BasicDBList dbRecords = (BasicDBList) recordsObj.get("artificial_records_list");
+//
+//                List<RunRecord> runRecordList = new ArrayList<RunRecord>();
+//
+//                int i=1;
+//                for (Object record : dbRecords) {
+//                    DBObject recordObj = (DBObject) record;
+//                    RunRecord runRecord = new RunRecord();
+//                    Log.i("message:", "run_buddy: inside for"+recordObj.get(i + ""));
+//                    List<String> recordsList =parsers.ConvertToRecords(recordObj.get(i + "") + "");
+//                    runRecord.setEventName(recordsList.get(0));
+//                    runRecord.setDistanceRan(recordsList.get(1));
+//                    runRecord.setTimeRan(recordsList.get(2));
+//                    runRecordList.add(runRecord);
+//                    i++;
+//                }
                 user.setRunRecords(runRecordList);
             }
             Log.i("message", "DBObjects parsed");
