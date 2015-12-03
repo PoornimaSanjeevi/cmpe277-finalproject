@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:descendantFocusability="beforeDescendants">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
+    android:paddingRight="15dp"
+    android:background="@drawable/card_background_selector"
+    android:descendantFocusability="afterDescendants">
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="148dp"
+        app:liteMode="true"
+        app:mapType="normal" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,13 +43,6 @@
         android:id="@+id/showtime"
         android:textSize="16sp"
         android:paddingRight="8dp"/>
-    <Button
-        android:text="Show"
-        android:textSize="12sp"
-        android:id="@+id/view_run_record"
-        android:textColor="#FFFFFF"
-        android:layout_width="50dp"
-        android:layout_height="20dp"
-        android:background="@drawable/buttonshape"/>
 
 </LinearLayout>
+    </FrameLayout>

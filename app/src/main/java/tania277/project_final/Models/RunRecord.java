@@ -8,6 +8,14 @@ public class RunRecord {
     String timeRan;
     String distanceRan;
 
+    public  RunRecord(){}
+
+    public RunRecord(String e, String d, String t){
+        eventName = e;
+        distanceRan = d;
+        timeRan = t;
+    }
+
     public String getEventName() {
         return eventName;
     }

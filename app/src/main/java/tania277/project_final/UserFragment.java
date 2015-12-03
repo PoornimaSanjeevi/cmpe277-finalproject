@@ -25,6 +25,7 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.util.List;
 
+import tania277.project_final.Adapter.RunRecordAdapter;
 import tania277.project_final.DataAccess.AsyncTask.CreateUserAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetUserAsyncTask;
 import tania277.project_final.Models.AppUser;
@@ -39,6 +40,7 @@ public class UserFragment extends Fragment {
 //    ArrayList<EventItem> returnValues = new ArrayList<EventItem>();
     View rootView;
     User user;
+    RunRecordAdapter runRecordAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,9 +48,8 @@ public class UserFragment extends Fragment {
         TextView info = (TextView) rootView.findViewById(R.id.info);
         TextView email = (TextView) rootView.findViewById(R.id.emailid);
         final ImageView profileImgView = (ImageView) rootView.findViewById(R.id.profile_pic);
-        run_records = (ListView)rootView.findViewById(R.id.run_records);
-//        run_records.setDivider(null);
-//        run_records.setDividerHeight(3);
+
+
         PrefUtil pu = new PrefUtil(getActivity());
         info.setText("Welcome: " + pu.getUserId());
         info.setShadowLayer(1, 0, 0, Color.BLACK);
@@ -74,6 +75,9 @@ public class UserFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         PrefUtil pu = new PrefUtil(getActivity());
         GetUserAsyncTask getUserDetailsAsyncTask = new GetUserAsyncTask();
+        run_records = (ListView)rootView.findViewById(R.id.run_records);
+        run_records.addHeaderView(new View(getActivity()));
+        run_records.addFooterView(new View(getActivity()));
 
         getUserDetailsAsyncTask.setUserEmail(pu.getEmailId());
         try {
@@ -92,7 +96,16 @@ public class UserFragment extends Fragment {
                 for (RunRecord record : user.getRunRecords()) {
                     Log.i("message: ", "" + record.getEventName() + record.getDistanceRan() + record.getTimeRan());
                 }
-                updateRunRecords(user.getRunRecords());
+
+                runRecordAdapter = new RunRecordAdapter(getActivity().getApplicationContext(), R.layout.run_record_item);
+
+                for (int i = 0; i < 10; i++) {
+                    Log.i("message_runbuddy","inside for");
+                    RunRecord card = new RunRecord("Card " + (i+1) + " Line 1", "Card " + (i+1) + " Line 2", "Card " + (i+1));
+                    runRecordAdapter.add(card);
+                }
+                run_records.setAdapter(runRecordAdapter);
+
             }
 
 
