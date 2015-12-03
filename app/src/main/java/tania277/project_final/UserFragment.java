@@ -93,19 +93,17 @@ public class UserFragment extends Fragment {
             } else {
 
                 Log.i("message:", "Event item obtained" + user.getName());
-                for (RunRecord record : user.getRunRecords()) {
-                    Log.i("message: ", "" + record.getEventName() + record.getDistanceRan() + record.getTimeRan());
+                if(user.getRunRecords()!=null) {
+                    runRecordAdapter = new RunRecordAdapter(getActivity().getApplicationContext(), R.layout.run_record_item);
+
+                    for (int i = 0; i < 10; i++) {
+                        Log.i("message_runbuddy","inside for");
+                        RunRecord card = new RunRecord("Card " + (i+1) + " Line 1", "Card " + (i+1) + " Line 2", "Card " + (i+1));
+                        runRecordAdapter.add(card);
+                    }
+                    run_records.setAdapter(runRecordAdapter);
+//                    updateRunRecords(user.getRunRecords());
                 }
-
-                runRecordAdapter = new RunRecordAdapter(getActivity().getApplicationContext(), R.layout.run_record_item);
-
-                for (int i = 0; i < 10; i++) {
-                    Log.i("message_runbuddy","inside for");
-                    RunRecord card = new RunRecord("Card " + (i+1) + " Line 1", "Card " + (i+1) + " Line 2", "Card " + (i+1));
-                    runRecordAdapter.add(card);
-                }
-                run_records.setAdapter(runRecordAdapter);
-
             }
 
 

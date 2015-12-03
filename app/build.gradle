@@ -24,7 +24,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        multiDexEnabled= true
+
     }
     buildTypes {
         release {
@@ -64,6 +64,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-plus:8.3.0'
     compile 'com.google.android.gms:play-services-auth:8.3.0'
     compile 'com.google.code.gson:gson:1.7.2'
-    compile 'com.google.android.gms:play-services:8.3.0'
+//    compile 'com.google.android.gms:play-services:8.3.0'
     androidTestCompile 'com.android.support:support-annotations:23.0.1'
 }

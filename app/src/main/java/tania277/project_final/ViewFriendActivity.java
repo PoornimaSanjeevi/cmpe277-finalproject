@@ -80,7 +80,9 @@ public class ViewFriendActivity extends Activity {
             Log.i("message", "Exception" + e.getMessage());
         }
 
-        updateRunRecords(friend.getRunRecords());
+        if(friend.getRunRecords()!=null) {
+            updateRunRecords(friend.getRunRecords());
+        }
         //Map UI
         Glide.with(this).load(friend.getAvatar()).asBitmap().centerCrop().into(new BitmapImageViewTarget(showpic) {
             @Override

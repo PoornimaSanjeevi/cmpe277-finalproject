@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.MapView;
+//import com.google.android.gms.maps.MapView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class RunRecordAdapter  extends ArrayAdapter<RunRecord> {
         TextView line1;
         TextView line2;
         TextView line3;
-        MapView mapView;
+//        MapView mapView;
     }
 
     public RunRecordAdapter(Context context, int textViewResourceId) {
@@ -64,7 +64,7 @@ public class RunRecordAdapter  extends ArrayAdapter<RunRecord> {
             viewHolder.line1 = (TextView) row.findViewById(R.id.showename);
             viewHolder.line2 = (TextView) row.findViewById(R.id.showdistance);
             viewHolder.line3 = (TextView) row.findViewById(R.id.showtime);
-            viewHolder.mapView = (MapView) row.findViewById(R.id.map_view);
+//            viewHolder.mapView = (MapView) row.findViewById(R.id.map_view);
             row.setTag(viewHolder);
         } else {
             viewHolder = (CardViewHolder)row.getTag();

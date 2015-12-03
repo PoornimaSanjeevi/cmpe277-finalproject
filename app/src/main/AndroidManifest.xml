@@ -61,6 +61,7 @@
             android:theme="@android:style/Theme.Holo.Dialog"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation">
         </activity>
+
     </application>
 
 </manifest>
