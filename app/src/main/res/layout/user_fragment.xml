@@ -20,13 +20,12 @@
             android:id="@+id/info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:paddingTop="10dp"
             android:paddingBottom="7dp"
             android:textStyle="bold"
+            android:layout_gravity="center"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="37sp"
             android:textSize="25dp" />
 
         <TextView

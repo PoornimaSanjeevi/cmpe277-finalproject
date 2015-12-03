@@ -215,18 +215,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-//    private void updateUI(boolean signedIn) {
-//        if (signedIn) {
-//            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-//            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
-//        } else {
-//            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-//            findViewById(R.id.sign_out_button).setVisibility(View.GONE);
-//        }
-//    }
 
     public void succLogin(String userId, String photoURL, String emailId) {
-        info.setText("Welcome " + userId);
+//        info.setText("Welcome " + userId);
         prefUtil.saveUserInfo(userId, photoURL, emailId);
 //        Glide.with(LoginActivity.this)
 //                .load(photoURL)
@@ -239,18 +230,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         startActivity(intent);
     }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode,
-//                                           @NonNull String permissions[],
-//                                           @NonNull int[] grantResults) {
-//        if (requestCode == RC_PERM_GET_ACCOUNTS) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-////                showSignedInUI();
-//            } else {
-//                Log.d(TAG, "GET_ACCOUNTS Permission Denied.");
-//            }
-//        }
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
