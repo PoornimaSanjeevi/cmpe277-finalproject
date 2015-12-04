@@ -10,7 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-//import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.vision.barcode.Barcode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class RunRecordAdapter  extends ArrayAdapter<RunRecord> {
         TextView line1;
         TextView line2;
         TextView line3;
-//        MapView mapView;
+        MapView mapView;
     }
 
     public RunRecordAdapter(Context context, int textViewResourceId) {
@@ -75,6 +76,8 @@ public class RunRecordAdapter  extends ArrayAdapter<RunRecord> {
         viewHolder.line3.setText(card.getTimeRan());
         return row;
     }
+
+
 
     public Bitmap decodeToBitmap(byte[] decodedByte) {
         return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
