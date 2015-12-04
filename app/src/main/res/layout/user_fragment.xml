@@ -68,10 +68,13 @@
             android:id="@+id/run_records"
             android:layout_width="wrap_content"
             android:layout_height="200dp"
-            android:dividerHeight="15px"
-            android:divider="@android:color/transparent"
+            android:divider="@null"
+            android:dividerHeight="10dp"
+            android:listSelector="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
             android:layout_marginLeft="15sp"/>
 
+        <!--android:divider="@android:color/transparent"-->
     </LinearLayout>
 </LinearLayout>
 </ScrollView>
