@@ -156,8 +156,7 @@ public class AddFriend extends Activity {
                 }
                 else {
                                Button addfriend = (Button) convertView.findViewById(R.id.addfriend);
-//|| (!friendRequests.contains(singleUser.getEmail())) || (!friends.contains(singleUser.getEmail()))
-                    addfriend.setOnClickListener(new View.OnClickListener() {
+                               addfriend.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
