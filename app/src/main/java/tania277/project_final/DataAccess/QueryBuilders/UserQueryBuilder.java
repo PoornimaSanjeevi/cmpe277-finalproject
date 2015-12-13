@@ -104,7 +104,7 @@ public class UserQueryBuilder {
                                 + "\"friends\": [ ],\n"
                                 + "\"run_records\": { },\n"
                                 + "\"friend_requests\": [ ],"
-                                + "\"current_location\": [ ] }",
+                                + "\"current_location\": [\"0|1\" ] }",
                         user.getEmail().trim(), user.getName().trim(),user.getAvatar().trim());
     }
 

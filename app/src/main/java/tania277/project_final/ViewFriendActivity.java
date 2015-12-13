@@ -114,8 +114,19 @@ public class ViewFriendActivity extends Activity {
                 TextView showtime=(TextView) convertView.findViewById(R.id.showtime);
 
 
-                RunRecord singleRunRecord = runRecords.get(position);
-
+                Button map=(Button) convertView.findViewById(R.id.mapBtn);
+                final RunRecord singleRunRecord = runRecords.get(position);
+                map.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(v.getContext(), PlotTrack.class);
+                        intent.putExtra("latlongs", singleRunRecord.getPath());
+                        intent.putExtra("distance", singleRunRecord.getDistanceRan());
+                        intent.putExtra("timeTaken", singleRunRecord.getTimeRan());
+                        intent.putExtra("name", singleRunRecord.getEventName());
+                        startActivity(intent);
+                    }
+                });
 
                 showename.setText(singleRunRecord.getEventName());
                 showdistance.setText(singleRunRecord.getDistanceRan());

@@ -95,8 +95,10 @@ public class GetFriendRequestsAsyncTask extends AsyncTask<List<String>, Void, Ar
                 temp.setEmail(userObj.get("email") + "");
                 temp.setAvatar(userObj.get("avatar") + "");
                 Log.i("message:", "1");
-                Log.i("message", "latLang " +"in friends before parse"+userObj.get("current_location").toString() );
-                temp.setLatLang(parsers.ConvertToLatLang(userObj.get("current_location").toString()));
+                if(userObj.containsField("current_location")) {
+                    Log.i("message", "latLang " +"in friends before parse"+userObj.get("current_location").toString() );
+                    temp.setLatLang(parsers.ConvertToLatLang(userObj.get("current_location").toString()));
+                }
 
                 String friendRequestsString = userObj.get("friend_requests")+"";
                 temp.setFriendRequests(parsers.ConvertTofriendRequestsList(friendRequestsString));

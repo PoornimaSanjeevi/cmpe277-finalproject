@@ -68,20 +68,17 @@ public class JsonToStringParsers {
 
         String[] one = DBString.split("\\[");
         String[] two = one[1].split("\\]");
+        LatLang latLang = new LatLang();
 
-        String[] array1=two[0].split("\\|");
+        if(two[0].contains("\\|")) {
+            String[] array1 = two[0].split("\\|");
 
 
-        for(int i=0;i<array1.length;i++){
-           // Log.i("message:","latLang 3 "+array1[i]);
-        }
-
-            LatLang latLang = new LatLang();
             latLang.setLatitude(array1[0]);
             latLang.setLongitude(array1[1]);
 
-        //Log.i("message","latLang 4"+latLang.getLatitude()+latLang.getLongitude());
-
+            //Log.i("message","latLang 4"+latLang.getLatitude()+latLang.getLongitude());
+        }
         return latLang;
     }
 

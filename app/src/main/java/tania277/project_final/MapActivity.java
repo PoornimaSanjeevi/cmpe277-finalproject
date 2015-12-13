@@ -123,7 +123,7 @@ public class MapActivity extends AppCompatActivity
     String eventName;
     String currUser;
     String latlongstr;
-    GetEventsAsyncTask task= new GetEventsAsyncTask();
+    GetEventsAsyncTask task = new GetEventsAsyncTask();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,20 +141,37 @@ public class MapActivity extends AppCompatActivity
         PrefUtil pu = new PrefUtil(this);
         currUser = pu.getEmailId();
 
-        findViewById(R.id.btnPlot).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                endTS = System.currentTimeMillis();
-                mGoogleApiClient.disconnect();
-                Intent intent = new Intent(v.getContext(), PlotTrack.class);
-                intent.putExtra("latlongs", latlongstr);
-                intent.putExtra("distance", distance);
-                intent.putExtra("timeTaken", (int) ((endTS - startTS) / 60000));
-                intent.putExtra("name", eventName);
-                startActivity(intent);
-            }
-        });
+//        findViewById(R.id.btnPlot).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                mGoogleApiClient.disconnect();
+//                User user = new User();
+//                try {
+//                    user = new GetUserAsyncTask().execute(new PrefUtil(MapActivity.this).getEmailId()).get();
+//
+//                    for (RunRecord runRecord : user.getRunRecords()) {
+//
+//
+//                        if (runRecord.getEventId().trim().equalsIgnoreCase(item.getEventId())) {
+//                            Intent intent = new Intent(v.getContext(), PlotTrack.class);
+//                            intent.putExtra("latlongs", runRecord.getPath());
+//                            intent.putExtra("distance", runRecord.getDistanceRan());
+//                            intent.putExtra("timeTaken", runRecord.getTimeRan());
+//                            intent.putExtra("name", eventName);
+//                            startActivity(intent);
+//                            break;
+//                        }
+//
+//
+//                    }
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
 
         if (savedInstanceState == null) {
@@ -182,24 +199,12 @@ public class MapActivity extends AppCompatActivity
                     distance += distFrom(locHistory.get(i), locHistory.get(i + 1));
                 }
                 distance = (double) Math.round(distance * 100.0) / 100.0;
-                StringBuilder sb = new StringBuilder();
-                if (locHistory.size() > 0) {
-                    sb.append(locHistory.get(0));
-                    for (int i = 1; i < locHistory.size(); i++) {
-                        sb.append(":");
-                        sb.append(locHistory.get(i));
-                    }
-                }
-                latlongstr = sb.toString();
                 // TODO Update run record
                 mGoogleApiClient.disconnect();
                 locHistory.clear();
-//                Intent intent = new Intent(v.getContext(), MainActivity.class);
-//                startActivity(intent);
-
 
                 item.getParticipants().remove(new PrefUtil(MapActivity.this).getEmailId());
-                item.getFinishedUsers().add(new PrefUtil(MapActivity.this).getEmailId());
+               // item.getFinishedUsers().add(new PrefUtil(MapActivity.this).getEmailId());
 
                 //Update DB
                 User user = new User();
@@ -210,11 +215,10 @@ public class MapActivity extends AppCompatActivity
 
 
                         if (runRecord.getEventId().trim().equalsIgnoreCase(item.getEventId())) {
-                            Log.i("message:latLang inside", "");
                             runRecord.setDistanceRan(distance + "");
                             runRecord.setTimeRan("" + (endTS - startTS) / 60000);
-                            Log.i("message:latLang", "" + runRecord.getPath());
-
+                            latlongstr = runRecord.getPath();
+                            break;
                         }
 
 
@@ -226,10 +230,9 @@ public class MapActivity extends AppCompatActivity
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                startActivity(intent);
             }
-
-
-
         });
     }
 
@@ -252,9 +255,9 @@ public class MapActivity extends AppCompatActivity
         return dist;
     }
 
-//    @Override
-//    public void onBackPressed() {
-//    }
+    @Override
+    public void onBackPressed() {
+    }
 
     public void addOrUpdateMarkers() {
         for (int i = 0; i < participants.size(); i++) {
@@ -478,27 +481,26 @@ public class MapActivity extends AppCompatActivity
         try {
             user = new GetUserAsyncTask().execute(new PrefUtil(this).getEmailId()).get();
             user.setLatLang(new LatLang(location.getLatitude() + "", "" + location.getLongitude()));
-            boolean present=false;
+            boolean present = false;
             for (RunRecord runRecord : user.getRunRecords()) {
 
 
                 if (runRecord.getEventId().trim().equalsIgnoreCase(item.getEventId())) {
                     Log.i("message:latLang inside", "");
-                    runRecord.setPath(runRecord.getPath() + "|" + location.getLatitude() + "=" + location.getLatitude());
+                    runRecord.setPath(runRecord.getPath() + "|" + location.getLatitude() + "=" + location.getLongitude());
                     Log.i("message:latLang", "" + runRecord.getPath());
-                    present=true;
+                    present = true;
                 }
 
 
             }
-            if(!present)
-            {
+            if (!present) {
                 RunRecord runRecord1 = new RunRecord();
                 runRecord1.setEventId(item.getEventId());
                 runRecord1.setEventName(item.getName());
                 runRecord1.setDistanceRan("");
                 runRecord1.setTimeRan("");
-                runRecord1.setPath(location.getLatitude() + "=" + location.getLatitude());
+                runRecord1.setPath(location.getLatitude() + "=" + location.getLongitude());
                 user.getRunRecords().add(runRecord1);
                 Log.i("message:latLang", "" + runRecord1.getPath());
             }
@@ -539,9 +541,11 @@ public class MapActivity extends AppCompatActivity
         try {
             users = new GetFriendRequestsAsyncTask().execute(item.getParticipants()).get();
             for (User user1 : users) {
-                String currLocation = user1.getLatLang().getLatitude() + "," + user1.getLatLang().getLongitude();
-                latlongs.put(user1.getEmail(), currLocation);
-                Log.i("message:", "particiants" + user1.getEmail() + " - " + currLocation);
+                if (user1.getLatLang() != null) {
+                    String currLocation = user1.getLatLang().getLatitude() + "," + user1.getLatLang().getLongitude();
+                    latlongs.put(user1.getEmail(), currLocation);
+                    Log.i("message:", "particiants" + user1.getEmail() + " - " + currLocation);
+                }
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
