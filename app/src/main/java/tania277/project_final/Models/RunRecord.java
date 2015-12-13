@@ -1,12 +1,33 @@
 package tania277.project_final.Models;
 
+import java.util.List;
+
 /**
  * Created by Srinidhi on 11/23/2015.
  */
 public class RunRecord {
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    String eventId;
     String eventName;
     String timeRan;
     String distanceRan;
+
+    public List<LatLang> getPath() {
+        return path;
+    }
+
+    public void setPath(List<LatLang> path) {
+        this.path = path;
+    }
+
+    List<LatLang> path;
 
     public  RunRecord(){}
 

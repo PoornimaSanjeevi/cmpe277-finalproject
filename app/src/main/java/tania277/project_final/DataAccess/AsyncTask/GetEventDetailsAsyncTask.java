@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tania277.project_final.DataAccess.QueryBuilders.EventQueryBuilder;
+import tania277.project_final.Models.CurrentLocationAllParticipants;
 import tania277.project_final.Models.EventItem;
 import tania277.project_final.util.JsonToStringParsers;
 
@@ -75,7 +76,7 @@ public class GetEventDetailsAsyncTask extends AsyncTask<EventItem, Void, EventIt
                 server_output = temp_output;
             }
 
-            Log.i("message","server output read");
+            Log.i("message","server output read" +server_output);
 
 
 
@@ -94,19 +95,64 @@ public class GetEventDetailsAsyncTask extends AsyncTask<EventItem, Void, EventIt
                 DBObject userObj = (DBObject) obj;
 
                // EventItem temp = new EventItem();
-                Log.i("message:","id is"+userObj.get("_id").toString());
+                Log.i("message:", "id is" + userObj.get("_id").toString());
                 temp.setEventId(userObj.get("_id").toString());
                 temp.setName(userObj.get("name") + "");
-                temp.setAdmin(userObj.get("admin")+"");
+                temp.setAdmin(userObj.get("admin") + "");
                 temp.setDate(userObj.get("date") + "");
                 temp.setStartTime(userObj.get("start_time") + "");
-                temp.setEndTime(userObj.get("end_time")+"");
+                temp.setEndTime(userObj.get("end_time") + "");
                 temp.setLocation(userObj.get("location") + "");
+
+
+                List<CurrentLocationAllParticipants> list = new ArrayList<>();
+                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1111
+               Log.i("srinidhi123456789", userObj.get("current_location") + "");
+                String DBString =userObj.get("current_location").toString().trim();
+                String[] array1=DBString.split("\\[");
+                if(array1.length>1) {
+                    Log.i("srinidhi123456789", "1"+array1.length);
+                    String[] array2 = array1[1].split("\\]");
+                    if(array2.length>0){
+                        Log.i("srinidhi123456789", "2");
+                        if(array2[0].contains(",")){
+                     String[] array3 = array2[0].trim().split(",");
+                        Log.i("srinidhi123456789", "3"+array3.length);
+
+
+                for(int i=0;i<array3.length;i++)
+                {
+                    Log.i("srinidhi123456789", "4");
+                    List<String> values=parsers.ConvertToParticipantsLocation(array3[i]);
+                    CurrentLocationAllParticipants p = new CurrentLocationAllParticipants();
+                    p.setEmailId(values.get(0));
+                    p.setLatitude(values.get(1));
+                    p.setLongitude(values.get(2));
+                    list.add(p);
+                }}
+
+                    else if(array2[0].contains(":"))
+                        {
+                            List<String> values=parsers.ConvertToParticipantsLocation(array2[0]);
+                            CurrentLocationAllParticipants p = new CurrentLocationAllParticipants();
+                            p.setEmailId(values.get(0));
+                            p.setLatitude(values.get(1));
+                            p.setLongitude(values.get(2));
+                            list.add(p);
+                        }
+                    }}
+
+              temp.setCurrentLocationsAllParticipants(list);
+
+                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
                 //TODO: parser name is ambiguious
                 String participantsString = userObj.get("participants")+"";
                 List<String> participants = parsers.ConvertTofriendRequestsList(participantsString);
                 temp.setParticipants(participants);
+
+
 
                 String invitedString = userObj.get("invited")+"";
                 List<String> invited = parsers.ConvertTofriendRequestsList(invitedString);
@@ -122,11 +168,11 @@ public class GetEventDetailsAsyncTask extends AsyncTask<EventItem, Void, EventIt
             Log.i("message", "DBObjects parsed");
 
 
-            Log.i("message","DBObject parsed");
+            Log.i("message", "DBObject parsed");
 
         }catch (Exception e) {
             e.getMessage();
-            Log.i("message : ", "exception in getting contacts" + e.toString() + e.getMessage());
+            Log.i("message : ", "exception in getting contacts12345678" + e.toString() + e.getMessage());
         }
 
         return temp;

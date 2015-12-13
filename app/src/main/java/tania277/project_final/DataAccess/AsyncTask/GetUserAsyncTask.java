@@ -132,9 +132,11 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, User> {
                     {
                         List<String> recordsList =parsers.ConvertToRecords(recordsArrayC[i]);
                         RunRecord runRecord = new RunRecord();
-                        runRecord.setEventName(recordsList.get(0));
-                        runRecord.setDistanceRan(recordsList.get(1));
-                        runRecord.setTimeRan(recordsList.get(2));
+                        runRecord.setEventId(recordsList.get(0));
+                        runRecord.setEventName(recordsList.get(1));
+                        runRecord.setDistanceRan(recordsList.get(2));
+                        runRecord.setTimeRan(recordsList.get(3));
+                        runRecord.setPath(parsers.ConvertToLatLang(recordsList.get(4)));
                         runRecordList.add(runRecord);
                     }
                 }

@@ -167,7 +167,7 @@ public class AddFriend extends Activity {
                             }
 
 
-                            searchResult.getFriendRequests().add(new PrefUtil(AddFriend.this).getEmailId());
+                            searchResult.getFriendRequests().add(new PrefUtil(AddFriend.this).getEmailId().trim());
 
                             SendRequestAsyncTask requestAsyncTask = new SendRequestAsyncTask();
                             requestAsyncTask.execute(searchResult);

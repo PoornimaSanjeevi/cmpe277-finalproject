@@ -102,9 +102,55 @@ public class UserQueryBuilder {
                 .format(" {\"email\": \"%s\", "
                                 + "\"name\": \"%s\", \"avatar\": \"%s\","
                                 + "\"friends\": [ ],\n"
-                                + "\"run_records\": [ ],\n"
+                                + "\"run_records\": { },\n"
                                 + "\"friend_requests\": [ ] }",
                         user.getEmail().trim(), user.getName().trim(),user.getAvatar().trim());
+    }
+
+    public String updateCoordinates(User user) {
+
+        String url ="{ \"$set\" :"
+                + "{\"run_records\" :{";
+
+        if(user.getRunRecords().size()>0){
+            url=url+"\"1\" : ["+user.getRunRecords().get(0).getEventId().trim()+"\"";
+            url=url+"\","+user.getRunRecords().get(0).getEventName().trim()+"\"";
+            url=url+"\","+user.getRunRecords().get(0).getDistanceRan().trim()+"\"";
+            url=url+"\","+user.getRunRecords().get(0).getTimeRan().trim()+"\"";
+
+            if(user.getRunRecords().get(0).getPath().size()>0) {
+                url = url + "\"," + user.getRunRecords().get(0).getPath().get(0).getLatitude()
+                        + "," + user.getRunRecords().get(0).getPath().get(0).getLongitude()
+                        + "\"";
+
+                for (int i = 1; i < user.getRunRecords().get(0).getPath().size(); i++) {
+                    url = url + ",\"," + user.getRunRecords().get(0).getPath().get(i).getLatitude()
+                            + "," + user.getRunRecords().get(0).getPath().get(i).getLongitude()
+                            + "\"";
+                }
+            }
+
+
+            for (int i=1;i<user.getRunRecords().size();i++) {
+                url=url+",\""+i+1+"\" : ["+user.getRunRecords().get(i).getEventId().trim()+"\"";
+                url=url+"\","+user.getRunRecords().get(i).getEventName().trim()+"\"";
+                url=url+"\","+user.getRunRecords().get(i).getDistanceRan().trim()+"\"";
+                url=url+"\","+user.getRunRecords().get(i).getTimeRan().trim()+"\"";
+
+                if(user.getRunRecords().get(i).getPath().size()>0) {
+                    url = url + "\"," + user.getRunRecords().get(i).getPath().get(0).getLatitude()
+                            + "," + user.getRunRecords().get(i).getPath().get(0).getLongitude()
+                            + "\"";
+
+                    for (int j = 1; j < user.getRunRecords().get(i).getPath().size(); j++) {
+                        url = url + ",\"," + user.getRunRecords().get(i).getPath().get(j).getLatitude()
+                                + "," + user.getRunRecords().get(i).getPath().get(j).getLongitude()
+                                + "\"";
+                    }
+                }
+            }}
+        url=url+"]}}";
+        return url;
     }
 
 

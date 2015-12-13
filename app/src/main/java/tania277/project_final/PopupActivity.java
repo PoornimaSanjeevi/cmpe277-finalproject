@@ -21,6 +21,7 @@ import java.util.concurrent.ExecutionException;
 import tania277.project_final.DataAccess.AsyncTask.DeleteEventRequestAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetEventDetailsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetFriendRequestsAsyncTask;
+import tania277.project_final.Models.CurrentLocationAllParticipants;
 import tania277.project_final.Models.EventItem;
 import tania277.project_final.Models.User;
 
@@ -58,6 +59,14 @@ public class PopupActivity extends Activity {
         done =(Button) findViewById(R.id.done);
         start= (Button) findViewById(R.id.start_event);
 
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), MapActivity.class);
+                intent.putExtra("eventItem",getEventItem());
+                startActivity(intent);
+            }
+        });
 
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +111,15 @@ public class PopupActivity extends Activity {
 
         try {
             item=getEventDetailsAsyncTask.execute().get();
-            Log.i("message:", "Event item obtained" + item.getName());
+            Log.i("message:", "Event item obtained");
+            for(int i=0;i<item.getCurrentLocationsAllParticipants().size();i++)
+            {
+                CurrentLocationAllParticipants c =item.getCurrentLocationsAllParticipants().get(i);
+                Log.i("message:","current locations"+c.getEmailId());
+                Log.i("message:","lat" +c.getLatitude());
+                Log.i("message:","lat" +c.getLongitude());
+
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

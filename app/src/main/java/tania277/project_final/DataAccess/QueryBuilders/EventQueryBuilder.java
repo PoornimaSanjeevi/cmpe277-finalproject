@@ -1,5 +1,7 @@
 package tania277.project_final.DataAccess.QueryBuilders;
 
+import android.util.Log;
+
 import tania277.project_final.Models.EventItem;
 import tania277.project_final.Models.User;
 
@@ -61,7 +63,9 @@ public class EventQueryBuilder {
                 }
         url=url+"], ";
 
-        url=url+ "\"participants\" : ["+ "\"" +eventItem.getAdmin().trim()+ "\" ]}";
+        url=url+ "\"participants\" : ["+ "\"" +eventItem.getAdmin().trim()+ "\" ],";
+
+        url=url+"\"current_location\" :[ ]}";
 
         return url;
     }
@@ -96,6 +100,30 @@ public class EventQueryBuilder {
         url=url+"]}}";
         return url;
 
+    }
+
+    public String updateCurrentLocation(EventItem item)
+    {
+        String url ="{ \"$set\" :"
+                + "{\"current_location\" :[";
+
+        Log.i("message:","items count"+item.getCurrentLocationsAllParticipants().size());
+        if(item.getCurrentLocationsAllParticipants().size()>0){
+            url=url+"\""+item.getCurrentLocationsAllParticipants().get(0).getEmailId()
+                    +":"+item.getCurrentLocationsAllParticipants().get(0).getLatitude()
+                    +":"+item.getCurrentLocationsAllParticipants().get(0).getLongitude()
+                    +"\"";
+
+
+            for (int i=1;i<item.getCurrentLocationsAllParticipants().size();i++) {
+
+                url=url+",\""+item.getCurrentLocationsAllParticipants().get(i).getEmailId()
+                        +":"+item.getCurrentLocationsAllParticipants().get(i).getLatitude()
+                        +":"+item.getCurrentLocationsAllParticipants().get(i).getLongitude()
+                        +"\"";
+            }}
+        url=url+"]}}";
+        return url;
     }
 
 

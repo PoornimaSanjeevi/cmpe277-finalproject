@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-library android:name="com.google.android.maps" />
 
 
@@ -57,6 +59,10 @@
         <activity
             android:name=".InviteFriendsActivity"
             android:theme="@android:style/Theme.Holo.Dialog"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation">
+        </activity>
+        <activity
+            android:name=".MapActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation">
         </activity>
 

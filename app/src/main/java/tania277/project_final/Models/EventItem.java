@@ -1,11 +1,12 @@
 package tania277.project_final.Models;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Tania on 11/16/15.
  */
-public class EventItem {
+public class EventItem implements Serializable{
     private String EventId;
     private String Name;
     private String Admin;
@@ -15,6 +16,15 @@ public class EventItem {
     private String EndTime;
     private List<String> participants;
     private List<String> invitedPeople;
+    private List<CurrentLocationAllParticipants> CurrentLocationsAllParticipants;
+
+    public List<CurrentLocationAllParticipants> getCurrentLocationsAllParticipants() {
+        return CurrentLocationsAllParticipants;
+    }
+
+    public void setCurrentLocationsAllParticipants(List<CurrentLocationAllParticipants> currentLocationsAllParticipants) {
+        CurrentLocationsAllParticipants = currentLocationsAllParticipants;
+    }
 
     public List<String> getInvitedPeople() {
         return invitedPeople;
