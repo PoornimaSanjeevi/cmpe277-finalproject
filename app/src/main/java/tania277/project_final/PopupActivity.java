@@ -83,6 +83,17 @@ public class PopupActivity extends Activity {
             }
         });
 
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), MapActivity.class);
+                intent.putExtra("eventId", item.getEventId());
+                intent.putExtra("eventName", item.getName());
+                intent.putStringArrayListExtra("plist", (ArrayList<String>) item.getParticipants());
+                startActivity(intent);
+            }
+        });
+
         showParticipantslist = (ListView) findViewById(R.id.showparticipantslist);
         showname = (TextView) findViewById(R.id.showname);
         showdate =(TextView) findViewById(R.id.showdate);
