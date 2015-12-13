@@ -16,6 +16,17 @@ public class EventItem implements Serializable{
     private String EndTime;
     private List<String> participants;
     private List<String> invitedPeople;
+    private List<String> finishedUsers;
+
+    public List<String> getFinishedUsers() {
+        return finishedUsers;
+    }
+
+    public void setFinishedUsers(List<String> finishedUsers) {
+        this.finishedUsers = finishedUsers;
+    }
+
+
 
 
     public List<String> getInvitedPeople() {

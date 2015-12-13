@@ -1,11 +1,12 @@
 package tania277.project_final.Models;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Srinidhi on 11/23/2015.
  */
-public class RunRecord {
+public class RunRecord implements Serializable {
     public String getEventId() {
         return eventId;
     }

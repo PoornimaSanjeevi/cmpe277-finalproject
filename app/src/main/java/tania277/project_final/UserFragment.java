@@ -4,6 +4,7 @@ package tania277.project_final;
  * Created by Tania on 11/16/15.
  */
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ import tania277.project_final.Adapter.RunRecordAdapter;
 import tania277.project_final.DataAccess.AsyncTask.CreateUserAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetUserAsyncTask;
 import tania277.project_final.Models.AppUser;
+import tania277.project_final.Models.EventItem;
 import tania277.project_final.Models.RunRecord;
 import tania277.project_final.Models.User;
 import tania277.project_final.util.PrefUtil;
@@ -125,9 +128,12 @@ public class UserFragment extends Fragment {
                     convertView = getActivity().getLayoutInflater().inflate(R.layout.run_record_item, parent, false);
                 }
 
+
                 TextView showename =(TextView) convertView.findViewById(R.id.showename);
                 TextView showdistance = (TextView) convertView.findViewById(R.id.showdistance);
                 TextView showtime=(TextView) convertView.findViewById(R.id.showtime);
+
+
 
 
                 RunRecord singleRunRecord = records.get(position);

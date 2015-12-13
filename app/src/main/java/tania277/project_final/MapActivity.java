@@ -199,6 +199,7 @@ public class MapActivity extends AppCompatActivity
 
 
                 item.getParticipants().remove(new PrefUtil(MapActivity.this).getEmailId());
+                item.getFinishedUsers().add(new PrefUtil(MapActivity.this).getEmailId());
 
                 //Update DB
                 User user = new User();

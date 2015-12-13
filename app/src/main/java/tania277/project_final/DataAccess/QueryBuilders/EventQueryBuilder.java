@@ -65,7 +65,7 @@ public class EventQueryBuilder {
 
         url=url+ "\"participants\" : ["+ "\"" +eventItem.getAdmin().trim()+ "\" ],";
 
-        url=url+"\"current_location\" :[ ]}";
+        url=url+"\"finished_users\" :[ ]}";
 
         return url;
     }

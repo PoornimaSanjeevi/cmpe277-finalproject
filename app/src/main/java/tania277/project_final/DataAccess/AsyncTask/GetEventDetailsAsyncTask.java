@@ -119,6 +119,10 @@ public class GetEventDetailsAsyncTask extends AsyncTask<EventItem, Void, EventIt
                 List<String> invited = parsers.ConvertTofriendRequestsList(invitedString);
                 temp.setInvitedPeople(invited);
 
+                String finishedString = userObj.get("finished_users")+"";
+                List<String> finished = parsers.ConvertTofriendRequestsList(finishedString);
+                temp.setFinishedUsers(finished);
+
 
 
                 //TODO: show participants /Number of participants
