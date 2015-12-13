@@ -1,6 +1,7 @@
 package tania277.project_final.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.MapView;
@@ -18,11 +20,14 @@ import java.util.List;
 
 
 import tania277.project_final.Models.RunRecord;
+import tania277.project_final.PlotTrack;
 import tania277.project_final.R;
+import tania277.project_final.UserFragment;
 
 public class RunRecordAdapter  extends ArrayAdapter<RunRecord> {
     private static final String TAG = "RunRecordAdapter";
     private List<RunRecord> cardList = new ArrayList<RunRecord>();
+    UserFragment uf;
 
     static class CardViewHolder {
         TextView line1;
@@ -31,8 +36,9 @@ public class RunRecordAdapter  extends ArrayAdapter<RunRecord> {
         MapView mapView;
     }
 
-    public RunRecordAdapter(Context context, int textViewResourceId) {
+    public RunRecordAdapter(Context context, int textViewResourceId, UserFragment userFragment) {
         super(context, textViewResourceId);
+        uf = userFragment;
     }
 
     @Override
@@ -70,10 +76,22 @@ public class RunRecordAdapter  extends ArrayAdapter<RunRecord> {
         } else {
             viewHolder = (CardViewHolder)row.getTag();
         }
-        RunRecord card = getItem(position);
+        final RunRecord card = getItem(position);
         viewHolder.line1.setText(card.getEventName());
         viewHolder.line2.setText(card.getDistanceRan());
         viewHolder.line3.setText(card.getTimeRan());
+        Button map=(Button) row.findViewById(R.id.mapBtn);
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), PlotTrack.class);
+                intent.putExtra("latlongs", card.getPath());
+                intent.putExtra("distance", card.getDistanceRan());
+                intent.putExtra("timeTaken", card.getTimeRan());
+                intent.putExtra("name", card.getEventName());
+                uf.startActivity(intent);
+            }
+        });
         return row;
     }
 

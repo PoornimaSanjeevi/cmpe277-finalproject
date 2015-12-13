@@ -25,9 +25,9 @@ public class PlotTrack extends AppCompatActivity
 
     private GoogleMap mMap;
     String latLongs;
-    double distance;
+    String distance;
     String name;
-    int timeTaken;
+    String timeTaken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +38,9 @@ public class PlotTrack extends AppCompatActivity
         mapFragment.getMapAsync(this);
         Intent intent = getIntent();
         latLongs = intent.getStringExtra("latlongs");
-        distance = intent.getDoubleExtra("distance", 0.0);
+        distance = intent.getStringExtra("distance");
         name = intent.getStringExtra("name");
-        timeTaken = intent.getIntExtra("timeTaken", 0);
+        timeTaken = intent.getStringExtra("timeTaken");
         TextView t = (TextView) findViewById(R.id.info);
         t.setText("Event: " + name + "\nDistance:" + distance + " mts\nTime: " + timeTaken + " mins");
     }
@@ -48,12 +48,12 @@ public class PlotTrack extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
-        String[] lls = latLongs.split(":");
+        String[] lls = latLongs.split("\\|");
         PolylineOptions rectOptions = new PolylineOptions();
 
         int i = 0;
         for (String ll : lls) {
-            String[] parts = ll.split(",");
+            String[] parts = ll.split("=");
             LatLng l1 = new LatLng(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]));
             if (i == 0) {
                 mMap.addMarker(new MarkerOptions()
@@ -61,7 +61,7 @@ public class PlotTrack extends AppCompatActivity
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                         .title("START"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(l1, 14));
-            } else if (i == lls.length-1) {
+            } else if (i == lls.length - 1) {
                 mMap.addMarker(new MarkerOptions()
                         .position(l1).draggable(false)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))

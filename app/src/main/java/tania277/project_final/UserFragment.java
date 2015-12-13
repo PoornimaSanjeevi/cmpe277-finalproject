@@ -4,6 +4,7 @@ package tania277.project_final;
  * Created by Tania on 11/16/15.
  */
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -16,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -94,7 +97,7 @@ public class UserFragment extends Fragment {
 
                 Log.i("message:", "Event item obtained" + user.getName());
                 if(user.getRunRecords()!=null) {
-                    runRecordAdapter = new RunRecordAdapter(getActivity().getApplicationContext(), R.layout.run_record_item);
+                    runRecordAdapter = new RunRecordAdapter(getActivity().getApplicationContext(), R.layout.run_record_item, this);
 
                     for (int i = 0; i < user.getRunRecords().size(); i++) {
                         Log.i("message_runbuddy","inside for");
@@ -129,8 +132,20 @@ public class UserFragment extends Fragment {
                 TextView showdistance = (TextView) convertView.findViewById(R.id.showdistance);
                 TextView showtime=(TextView) convertView.findViewById(R.id.showtime);
 
+                Button map=(Button) convertView.findViewById(R.id.mapBtn);
+               final RunRecord singleRunRecord = records.get(position);
+                map.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(v.getContext(), PlotTrack.class);
+                        intent.putExtra("latlongs", singleRunRecord.getPath());
+                        intent.putExtra("distance", singleRunRecord.getDistanceRan());
+                        intent.putExtra("timeTaken", singleRunRecord.getTimeRan());
+                        intent.putExtra("name", singleRunRecord.getEventName());
+                        startActivity(intent);
+                    }
+                });
 
-                RunRecord singleRunRecord = records.get(position);
 
 
                 showename.setText(singleRunRecord.getEventName());
