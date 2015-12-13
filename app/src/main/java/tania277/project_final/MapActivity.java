@@ -212,9 +212,9 @@ public class MapActivity extends AppCompatActivity
         return dist;
     }
 
-    @Override
-    public void onBackPressed() {
-    }
+//    @Override
+//    public void onBackPressed() {
+//    }
 
     public void addOrUpdateMarkers() {
         for (int i = 0; i < participants.size(); i++) {
