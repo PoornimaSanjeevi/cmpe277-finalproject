@@ -1,0 +1,440 @@
+package tania277.project_final;
+
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import tania277.project_final.util.PermissionUtils;
+import tania277.project_final.util.PrefUtil;
+
+public class MapActivity extends AppCompatActivity
+        implements
+        OnMapReadyCallback,
+        ActivityCompat.OnRequestPermissionsResultCallback,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+    protected static final String TAG = "location-updates";
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 30000;
+
+    /**
+     * The fastest rate for active location updates. Exact. Updates will never be more frequent
+     * than this value.
+     */
+    public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
+            UPDATE_INTERVAL_IN_MILLISECONDS / 2;
+
+    // Keys for storing activity state in the Bundle.
+    protected final static String REQUESTING_LOCATION_UPDATES_KEY = "requesting-location-updates-key";
+    protected final static String LOCATION_KEY = "location-key";
+    protected final static String LAST_UPDATED_TIME_STRING_KEY = "last-updated-time-string-key";
+
+    float colors[] = {BitmapDescriptorFactory.HUE_AZURE, BitmapDescriptorFactory.HUE_BLUE, BitmapDescriptorFactory.HUE_CYAN, BitmapDescriptorFactory.HUE_GREEN, BitmapDescriptorFactory.HUE_MAGENTA, BitmapDescriptorFactory.HUE_ORANGE, BitmapDescriptorFactory.HUE_RED, BitmapDescriptorFactory.HUE_ROSE, BitmapDescriptorFactory.HUE_VIOLET, BitmapDescriptorFactory.HUE_YELLOW};
+    /**
+     * Provides the entry point to Google Play services.
+     */
+    protected GoogleApiClient mGoogleApiClient;
+
+    /**
+     * Stores parameters for requests to the FusedLocationProviderApi.
+     */
+    protected LocationRequest mLocationRequest;
+
+    /**
+     * Represents a geographical location.
+     */
+    protected Location mCurrentLocation;
+    /**
+     * Request code for location permission request.
+     *
+     * @see #onRequestPermissionsResult(int, String[], int[])
+     */
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+
+    /**
+     * Flag indicating whether a requested permission has been denied after returning in
+     * {@link #onRequestPermissionsResult(int, String[], int[])}.
+     */
+    private boolean mPermissionDenied = false;
+    // Labels.
+    protected String mLatitudeLabel;
+    protected String mLongitudeLabel;
+    protected String mLastUpdateTimeLabel;
+    String eventId;
+    List<String> participants;
+    /**
+     * Time when the location was updated represented as a String.
+     */
+    protected String mLastUpdateTime;
+    boolean firstLoc = true;
+    private GoogleMap mMap;
+    Map<String, Marker> markers = new HashMap<String, Marker>();
+    Map<String, String> latlongs = new HashMap<String, String>();
+
+    List<String> locHistory = new ArrayList<String>();
+    long startTS;
+    long endTS;
+    double distance = 0.0;
+    String eventName;
+    String currUser;
+    String latlongstr;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.my_location);
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        mapFragment.setHasOptionsMenu(true);
+        eventId = this.getIntent().getStringExtra("eventId");
+        eventName = this.getIntent().getStringExtra("eventName");
+        participants = this.getIntent().getStringArrayListExtra("plist");
+        buildGoogleApiClient();
+        startTS = System.currentTimeMillis();
+        PrefUtil pu = new PrefUtil(this);
+        currUser = pu.getEmailId();
+        findViewById(R.id.btnStop).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                endTS = System.currentTimeMillis();
+                for (int i = 0; i < locHistory.size() - 1; i++) {
+                    distance += distFrom(locHistory.get(i), locHistory.get(i + 1));
+                }
+                distance = (double) Math.round(distance * 100.0) / 100.0;
+                StringBuilder sb = new StringBuilder();
+                sb.append(locHistory.get(0));
+                for (int i = 1; i < locHistory.size(); i++) {
+                    sb.append(":");
+                    sb.append(locHistory.get(i));
+                }
+                latlongstr = sb.toString();
+                // TODO Update run record
+                mGoogleApiClient.disconnect();
+                locHistory.clear();
+//                Intent intent = new Intent(v.getContext(), MainActivity.class);
+//                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.btnPlot).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                endTS = System.currentTimeMillis();
+                mGoogleApiClient.disconnect();
+                Intent intent = new Intent(v.getContext(), PlotTrack.class);
+                intent.putExtra("latlongs", latlongstr);
+                intent.putExtra("distance", distance);
+                intent.putExtra("timeTaken", (int) ((endTS - startTS) / 60000));
+                intent.putExtra("name", eventName);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public static double distFrom(String ll1, String ll2) {
+        String[] p1 = ll1.split(",");
+        double lat1 = Double.parseDouble(p1[0]);
+        double lng1 = Double.parseDouble(p1[1]);
+
+        String[] p2 = ll2.split(",");
+        double lat2 = Double.parseDouble(p2[0]);
+        double lng2 = Double.parseDouble(p2[1]);
+        double earthRadius = 6371000; //meters
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLng = Math.toRadians(lng2 - lng1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        float dist = (float) (earthRadius * c);
+        return dist;
+    }
+
+    @Override
+    public void onBackPressed() {
+    }
+
+    public void addOrUpdateMarkers() {
+        for (int i = 0; i < participants.size(); i++) {
+            String currPart = participants.get(i);
+            if (latlongs.containsKey(currPart)) {
+                String[] ll = latlongs.get(currPart).split(",");
+                double lat = Double.parseDouble(ll[0]);
+                double lon = Double.parseDouble(ll[1]);
+                LatLng l1 = new LatLng(lat, lon);
+                Marker m1 = markers.get(currPart);
+                if (m1 == null) {
+                    m1 = mMap.addMarker(new MarkerOptions()
+                            .position(l1).draggable(false)
+                            .icon(BitmapDescriptorFactory.defaultMarker(colors[i % colors.length]))
+                            .title(currPart));
+
+                    markers.put(currPart, m1);
+
+                } else {
+                    m1.setPosition(l1);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        mMap = map;
+
+//        mMap.setOnMyLocationButtonClickListener(this);
+        enableMyLocation();
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String provider = locationManager.getBestProvider(criteria, true);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {            // TODO: Consider calling
+            //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for Activity#requestPermissions for more details.
+            return;
+        }
+        Location myLocation = locationManager.getLastKnownLocation(provider);
+
+        // Get latitude of the current location
+        double latitude = myLocation.getLatitude();
+
+        // Get longitude of the current location
+        double longitude = myLocation.getLongitude();
+
+        // Create a LatLng object for the current location
+        LatLng latLng = new LatLng(latitude, longitude);
+
+        // Show the current location in Google Map
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+        // Zoom in the Google Map
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+//        mRequestingLocationUpdates = true;
+    }
+
+    /**
+     * Enables the My Location layer if the fine location permission has been granted.
+     */
+    private void enableMyLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission to access the location is missing.
+            PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.ACCESS_FINE_LOCATION, true);
+        } else if (mMap != null) {
+            // Access to the location has been granted to the app.
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+        }
+    }
+
+//    @Override
+//    public boolean onMyLocationButtonClick() {
+//        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
+//        // Return false so that we don't consume the event and the default behavior still occurs
+//        // (the camera animates to the user's current position).
+//        return false;
+//    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
+            return;
+        }
+
+        if (PermissionUtils.isPermissionGranted(permissions, grantResults,
+                Manifest.permission.ACCESS_FINE_LOCATION)) {
+            // Enable the my location layer if the permission has been granted.
+            enableMyLocation();
+        } else {
+            // Display the missing permission error dialog when the fragments resume.
+            mPermissionDenied = true;
+        }
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        Log.i(TAG, "Building GoogleApiClient");
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        createLocationRequest();
+    }
+
+    /**
+     * Sets up the location request. Android has two location request settings:
+     * {@code ACCESS_COARSE_LOCATION} and {@code ACCESS_FINE_LOCATION}. These settings control
+     * the accuracy of the current location. This sample uses ACCESS_FINE_LOCATION, as defined in
+     * the AndroidManifest.xml.
+     * <p/>
+     * When the ACCESS_FINE_LOCATION setting is specified, combined with a fast update
+     * interval (5 seconds), the Fused Location Provider API returns location updates that are
+     * accurate to within a few feet.
+     * <p/>
+     * These settings are appropriate for mapping applications that show real-time location
+     * updates.
+     */
+    protected void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+
+        // Sets the desired interval for active location updates. This interval is
+        // inexact. You may not receive updates at all if no location sources are available, or
+        // you may receive them slower than requested. You may also receive updates faster than
+        // requested if other applications are requesting location at a faster interval.
+        mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+
+        // Sets the fastest rate for active location updates. This interval is exact, and your
+        // application will never receive updates faster than this value.
+        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        if (mPermissionDenied) {
+            // Permission was not granted, display error dialog.
+            showMissingPermissionError();
+            mPermissionDenied = false;
+        }
+    }
+
+    /**
+     * Displays a dialog with error message explaining that the location permission is missing.
+     */
+    private void showMissingPermissionError() {
+        PermissionUtils.PermissionDeniedDialog
+                .newInstance(true).show(getSupportFragmentManager(), "dialog");
+    }
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        Log.i(TAG, "Connected to GoogleApiClient");
+
+        // If the initial location was never previously requested, we use
+        // FusedLocationApi.getLastLocation() to get it. If it was previously requested, we store
+        // its value in the Bundle and check for it in onCreate(). We
+        // do not request it again unless the user specifically requests location updates by pressing
+        // the Start Updates button.
+        //
+        // Because we cache the value of the initial location in the Bundle, it means that if the
+        // user launches the activity,
+        // moves to a new location, and then changes the device orientation, the original location
+        // is displayed as the activity is re-created.
+        if (mCurrentLocation == null) {
+            mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+//            updateUI();
+        }
+        startLocationUpdates();
+    }
+
+    /**
+     * Requests location updates from the FusedLocationApi.
+     */
+    protected void startLocationUpdates() {
+        // The final argument to {@code requestLocationUpdates()} is a LocationListener
+        // (http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient, mLocationRequest, this);
+    }
+
+    /**
+     * Callback that fires when the location changes.
+     */
+    @Override
+    public void onLocationChanged(Location location) {
+        mCurrentLocation = location;
+        mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+        double lat = location.getLatitude();
+        double lon = location.getLongitude();
+        String cl = lat + "," + lon;
+        if (!firstLoc) {
+            locHistory.add(cl);
+        }
+        firstLoc = false;
+        // TODO update current location to db and get others current location
+        for (String p : participants) {
+            String currLocation = cl;
+            latlongs.put(p, currLocation);
+        }
+        addOrUpdateMarkers();
+//        mMap.addMarker(new MarkerOptions()
+//                .position(new LatLng(location.getLatitude(), location.getLongitude()))
+//                );
+        Toast.makeText(this, currUser + ":" + cl, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionSuspended(int cause) {
+        // The connection to Google Play services was lost for some reason. We call connect() to
+        // attempt to re-establish the connection.
+        Log.i(TAG, "Connection suspended");
+        mGoogleApiClient.connect();
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
+        // onConnectionFailed.
+        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
+    }
+}
