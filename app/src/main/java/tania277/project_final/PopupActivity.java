@@ -59,14 +59,14 @@ public class PopupActivity extends Activity {
         done =(Button) findViewById(R.id.done);
         start= (Button) findViewById(R.id.start_event);
 
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), MapActivity.class);
-                intent.putExtra("eventItem",getEventItem());
-                startActivity(intent);
-            }
-        });
+//        start.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getBaseContext(), MapActivity.class);
+//                intent.putExtra("eventItem",getEventItem());
+//                startActivity(intent);
+//            }
+//        });
 
         invite.setOnClickListener(new View.OnClickListener() {
             @Override

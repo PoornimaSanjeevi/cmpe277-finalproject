@@ -62,23 +62,25 @@ public class JsonToStringParsers {
 
     public LatLang ConvertToLatLang(String DBString)
     {
-        //Log.i("message: 1 latLang ",DBString);
+//        Log.i("message: 1 latLang ",DBString);
         DBString=DBString.replace("\"","").trim();
-        //Log.i("message: 2 latLang ",DBString);
+//        Log.i("message: 2 latLang ",DBString);
 
         String[] one = DBString.split("\\[");
         String[] two = one[1].split("\\]");
         LatLang latLang = new LatLang();
+//        Log.i("message: 3 latLang ",two[0]);
+//        if(two[0].contains("\\|")) {
+//            Log.i("message: 3.5 latLang ",two[0]);
 
-        if(two[0].contains("\\|")) {
             String[] array1 = two[0].split("\\|");
 
 
             latLang.setLatitude(array1[0]);
             latLang.setLongitude(array1[1]);
 
-            //Log.i("message","latLang 4"+latLang.getLatitude()+latLang.getLongitude());
-        }
+//            Log.i("message", "latLang 4" + latLang.getLatitude() + latLang.getLongitude());
+//        }
         return latLang;
     }
 

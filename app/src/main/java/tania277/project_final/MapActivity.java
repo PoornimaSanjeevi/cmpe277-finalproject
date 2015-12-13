@@ -58,7 +58,7 @@ public class MapActivity extends AppCompatActivity
         ActivityCompat.OnRequestPermissionsResultCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     protected static final String TAG = "location-updates";
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 30000;
     EventItem item;
 
     /**
@@ -264,20 +264,24 @@ public class MapActivity extends AppCompatActivity
             String currPart = participants.get(i);
             if (latlongs.containsKey(currPart)) {
                 String[] ll = latlongs.get(currPart).split(",");
-                double lat = Double.parseDouble(ll[0]);
-                double lon = Double.parseDouble(ll[1]);
-                LatLng l1 = new LatLng(lat, lon);
-                Marker m1 = markers.get(currPart);
-                if (m1 == null) {
-                    m1 = mMap.addMarker(new MarkerOptions()
-                            .position(l1).draggable(false)
-                            .icon(BitmapDescriptorFactory.defaultMarker(colors[i % colors.length]))
-                            .title(currPart));
+                try {
+                    double lat = Double.parseDouble(ll[0]);
+                    double lon = Double.parseDouble(ll[1]);
+                    LatLng l1 = new LatLng(lat, lon);
+                    Marker m1 = markers.get(currPart);
+                    if (m1 == null) {
+                        m1 = mMap.addMarker(new MarkerOptions()
+                                .position(l1).draggable(false)
+                                .icon(BitmapDescriptorFactory.defaultMarker(colors[i % colors.length]))
+                                .title(currPart));
 
-                    markers.put(currPart, m1);
+                        markers.put(currPart, m1);
 
-                } else {
-                    m1.setPosition(l1);
+                    } else {
+                        m1.setPosition(l1);
+                    }
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -542,7 +546,8 @@ public class MapActivity extends AppCompatActivity
         try {
             users = new GetFriendRequestsAsyncTask().execute(item.getParticipants()).get();
             for (User user1 : users) {
-                if (user1.getLatLang() != null && user1.getLatLang().getLatitude() != null && !user1.getLatLang().getLatitude().equals("null")) {
+                Log.i("T", user1.getName());
+                if (user1.getLatLang() != null && user1.getLatLang().getLatitude() != null) {
                     String currLocation = user1.getLatLang().getLatitude() + "," + user1.getLatLang().getLongitude();
                     latlongs.put(user1.getEmail(), currLocation);
                     Log.i("message:", "particiants" + user1.getEmail() + " - " + currLocation);
