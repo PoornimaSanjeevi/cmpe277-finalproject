@@ -103,7 +103,8 @@ public class UserQueryBuilder {
                                 + "\"name\": \"%s\", \"avatar\": \"%s\","
                                 + "\"friends\": [ ],\n"
                                 + "\"run_records\": { },\n"
-                                + "\"friend_requests\": [ ] }",
+                                + "\"friend_requests\": [ ],"
+                                + "\"current_location\": [ ] }",
                         user.getEmail().trim(), user.getName().trim(),user.getAvatar().trim());
     }
 
@@ -113,19 +114,19 @@ public class UserQueryBuilder {
                 + "{\"run_records\" :{";
 
         if(user.getRunRecords().size()>0){
-            url=url+"\"1\" : ["+user.getRunRecords().get(0).getEventId().trim()+"\"";
-            url=url+"\","+user.getRunRecords().get(0).getEventName().trim()+"\"";
-            url=url+"\","+user.getRunRecords().get(0).getDistanceRan().trim()+"\"";
-            url=url+"\","+user.getRunRecords().get(0).getTimeRan().trim()+"\"";
+            url=url+"\"1\" : [ \""+user.getRunRecords().get(0).getEventId().trim()+"\"";
+            url=url+",\""+user.getRunRecords().get(0).getEventName().trim()+"\"";
+            url=url+",\""+user.getRunRecords().get(0).getDistanceRan().trim()+"\"";
+            url=url+",\""+user.getRunRecords().get(0).getTimeRan().trim()+"\"";
 
             if(user.getRunRecords().get(0).getPath().size()>0) {
-                url = url + "\"," + user.getRunRecords().get(0).getPath().get(0).getLatitude()
-                        + "," + user.getRunRecords().get(0).getPath().get(0).getLongitude()
+                url = url + ",\"" + user.getRunRecords().get(0).getPath().get(0).getLatitude()
+                        + "=" + user.getRunRecords().get(0).getPath().get(0).getLongitude()
                         + "\"";
 
                 for (int i = 1; i < user.getRunRecords().get(0).getPath().size(); i++) {
-                    url = url + ",\"," + user.getRunRecords().get(0).getPath().get(i).getLatitude()
-                            + "," + user.getRunRecords().get(0).getPath().get(i).getLongitude()
+                    url = url + "|\"" + user.getRunRecords().get(0).getPath().get(i).getLatitude()
+                            + "=" + user.getRunRecords().get(0).getPath().get(i).getLongitude()
                             + "\"";
                 }
             }
@@ -139,15 +140,16 @@ public class UserQueryBuilder {
 
                 if(user.getRunRecords().get(i).getPath().size()>0) {
                     url = url + "\"," + user.getRunRecords().get(i).getPath().get(0).getLatitude()
-                            + "," + user.getRunRecords().get(i).getPath().get(0).getLongitude()
-                            + "\"";
+                            + "=" + user.getRunRecords().get(i).getPath().get(0).getLongitude()
+                           ;
 
                     for (int j = 1; j < user.getRunRecords().get(i).getPath().size(); j++) {
-                        url = url + ",\"," + user.getRunRecords().get(i).getPath().get(j).getLatitude()
-                                + "," + user.getRunRecords().get(i).getPath().get(j).getLongitude()
-                                + "\"";
+                        url = url + "|" + user.getRunRecords().get(i).getPath().get(j).getLatitude()
+                                + "=" + user.getRunRecords().get(i).getPath().get(j).getLongitude()
+                                ;
                     }
-                }
+
+                url=url+"\"";}
             }}
         url=url+"]}}";
         return url;

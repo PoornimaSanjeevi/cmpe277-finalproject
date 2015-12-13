@@ -94,13 +94,13 @@ public class JsonToStringParsers {
         String[] array1=DBString.trim().split("\\|");
         for(int i=0;i<array1.length;i++) {
 
-            //Log.i("message","latLang 5"+array1[i]);
+            Log.i("message","latLang user"+array1[i]);
             String[] array2 = array1[i].split("=");
             LatLang latLang = new LatLang();
             latLang.setLatitude(array2[0]);
             latLang.setLongitude(array2[1]);
 
-            //Log.i("message:","latLang 6 in user run record"+latLang.getLatitude()+latLang.getLongitude());
+            Log.i("message:", "latLang user in user run record" + latLang.getLatitude() + latLang.getLongitude());
 
             list.add(latLang);
         }

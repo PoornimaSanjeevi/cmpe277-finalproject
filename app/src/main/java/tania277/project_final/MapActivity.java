@@ -41,6 +41,7 @@ import tania277.project_final.DataAccess.AsyncTask.GetEventDetailsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetFriendRequestsAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.GetUserAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.UpdateCurrentLocationAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.UpdatePathCoordinatesAsyncTask;
 import tania277.project_final.Models.CurrentLocationAllParticipants;
 import tania277.project_final.Models.EventItem;
 import tania277.project_final.Models.LatLang;
@@ -438,11 +439,17 @@ public class MapActivity extends AppCompatActivity
             user = new GetUserAsyncTask().execute(new PrefUtil(this).getEmailId()).get();
             user.setLatLang(new LatLang(location.getLatitude() + "", "" + location.getLongitude()));
             for (RunRecord runRecord : user.getRunRecords()) {
+                for(LatLang latLang:runRecord.getPath())
+                {
+                    Log.i("message: ","my latLangs"+latLang.getLatitude()+"..."+latLang.getLongitude());
+                }
+
                 if (runRecord.getEventId().trim().equalsIgnoreCase(item.getEventId())) {
                     runRecord.getPath().add(new LatLang(location.getLatitude() + "", "" + location.getLongitude()));
                 }
 
             }
+            new UpdatePathCoordinatesAsyncTask().execute(user);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
