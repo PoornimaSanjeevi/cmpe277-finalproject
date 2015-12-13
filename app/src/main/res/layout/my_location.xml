@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/layout">
-=======
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,7 +7,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     >
 
->>>>>>> 6065ec3ae4fcf5cb7fdac79f94fd69cfa9ff013e
+
 
     <fragment
         android:id="@+id/map"
@@ -20,9 +15,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-<<<<<<< HEAD
-</FrameLayout>
-=======
+
     <Button
         android:id="@+id/btnStop"
         android:layout_width="wrap_content"
@@ -45,4 +38,3 @@
         android:text="Plot"
         android:textColor="@android:color/black" />
 </RelativeLayout>
->>>>>>> 6065ec3ae4fcf5cb7fdac79f94fd69cfa9ff013e

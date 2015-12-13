@@ -90,6 +90,8 @@ public class PopupActivity extends Activity {
                 intent.putExtra("eventId", item.getEventId());
                 intent.putExtra("eventName", item.getName());
                 intent.putStringArrayListExtra("plist", (ArrayList<String>) item.getParticipants());
+
+                intent.putExtra("eventItem",item);
                 startActivity(intent);
             }
         });

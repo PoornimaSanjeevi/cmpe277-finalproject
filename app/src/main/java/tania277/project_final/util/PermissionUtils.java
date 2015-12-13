@@ -39,11 +39,7 @@ public abstract class PermissionUtils {
      * be shown to the user, displays a dialog that triggers the request.
      */
     public static void requestPermission(AppCompatActivity activity, int requestId,
-<<<<<<< HEAD
                                          String permission, boolean finishActivity) {
-=======
-            String permission, boolean finishActivity) {
->>>>>>> 6065ec3ae4fcf5cb7fdac79f94fd69cfa9ff013e
         if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
             // Display a dialog with rationale.
             PermissionUtils.RationaleDialog.newInstance(requestId, finishActivity)
@@ -62,11 +58,7 @@ public abstract class PermissionUtils {
      * @see android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback
      */
     public static boolean isPermissionGranted(String[] grantPermissions, int[] grantResults,
-<<<<<<< HEAD
                                               String permission) {
-=======
-            String permission) {
->>>>>>> 6065ec3ae4fcf5cb7fdac79f94fd69cfa9ff013e
         for (int i = 0; i < grantPermissions.length; i++) {
             if (permission.equals(grantPermissions[i])) {
                 return grantResults[i] == PackageManager.PERMISSION_GRANTED;
