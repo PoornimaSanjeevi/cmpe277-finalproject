@@ -230,6 +230,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

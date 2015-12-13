@@ -103,7 +103,7 @@ public class MapActivity extends AppCompatActivity
     protected String mLastUpdateTimeLabel;
     String eventId;
     List<String> participants;
-    GetEventDetailsAsyncTask getEventDetailsAsyncTask=new GetEventDetailsAsyncTask();
+    GetEventDetailsAsyncTask getEventDetailsAsyncTask = new GetEventDetailsAsyncTask();
     /**
      * Time when the location was updated represented as a String.
      */
@@ -177,18 +177,18 @@ public class MapActivity extends AppCompatActivity
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                item= null;
+            if (extras == null) {
+                item = null;
             } else {
-                item= (EventItem)extras.getSerializable("eventItem");
+                item = (EventItem) extras.getSerializable("eventItem");
             }
         } else {
-            item= (EventItem) savedInstanceState.getSerializable("eventItem");
+            item = (EventItem) savedInstanceState.getSerializable("eventItem");
         }
         getEventDetailsAsyncTask.setUserId(item.getEventId());
-        try{
-        getEventDetailsAsyncTask.execute().get();}
-        catch (Exception e){
+        try {
+            getEventDetailsAsyncTask.execute().get();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -426,11 +426,6 @@ public class MapActivity extends AppCompatActivity
         }
         firstLoc = false;
         // TODO update current location to db and get others current location
-        for (String p : participants) {
-            String currLocation = cl;
-            latlongs.put(p, currLocation);
-        }
-        addOrUpdateMarkers();
 //        mMap.addMarker(new MarkerOptions()
 //                .position(new LatLng(location.getLatitude(), location.getLongitude()))
 //                );
@@ -438,14 +433,13 @@ public class MapActivity extends AppCompatActivity
 
 
 //Update DB
-        User user=new User();
+        User user = new User();
         try {
             user = new GetUserAsyncTask().execute(new PrefUtil(this).getEmailId()).get();
-            user.setLatLang(new LatLang(location.getLatitude()+"",""+location.getLongitude()));
-            for(RunRecord runRecord:user.getRunRecords())
-            {
-                if(runRecord.getEventId().trim().equalsIgnoreCase(item.getEventId())) {
-                runRecord.getPath().add(new LatLang(location.getLatitude()+"",""+location.getLongitude()));
+            user.setLatLang(new LatLang(location.getLatitude() + "", "" + location.getLongitude()));
+            for (RunRecord runRecord : user.getRunRecords()) {
+                if (runRecord.getEventId().trim().equalsIgnoreCase(item.getEventId())) {
+                    runRecord.getPath().add(new LatLang(location.getLatitude() + "", "" + location.getLongitude()));
                 }
 
             }
@@ -484,15 +478,17 @@ public class MapActivity extends AppCompatActivity
         List<User> users;
         try {
             users = new GetFriendRequestsAsyncTask().execute(item.getParticipants()).get();
-            for(User user1:users)
-            {
-                Log.i("message:","particiants"+user1.getLatLang().getLatitude()+"..."+user1.getLatLang().getLongitude());
+            for (User user1 : users) {
+                String currLocation = user1.getLatLang().getLatitude() + "," + user1.getLatLang().getLongitude();
+                latlongs.put(user1.getEmail(), currLocation);
+                Log.i("message:", "particiants" + user1.getEmail() + " - " + currLocation);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+        addOrUpdateMarkers();
     }
 
     @Override
