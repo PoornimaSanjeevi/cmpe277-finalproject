@@ -58,7 +58,7 @@ public class MapActivity extends AppCompatActivity
         ActivityCompat.OnRequestPermissionsResultCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     protected static final String TAG = "location-updates";
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 30000;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
     EventItem item;
 
     /**
@@ -468,6 +468,7 @@ public class MapActivity extends AppCompatActivity
         if (!firstLoc) {
             locHistory.add(cl);
         }
+        latlongs.put(currUser, cl);
         firstLoc = false;
         // TODO update current location to db and get others current location
 //        mMap.addMarker(new MarkerOptions()
@@ -541,7 +542,7 @@ public class MapActivity extends AppCompatActivity
         try {
             users = new GetFriendRequestsAsyncTask().execute(item.getParticipants()).get();
             for (User user1 : users) {
-                if (user1.getLatLang() != null) {
+                if (user1.getLatLang() != null && user1.getLatLang().getLatitude() != null) {
                     String currLocation = user1.getLatLang().getLatitude() + "," + user1.getLatLang().getLongitude();
                     latlongs.put(user1.getEmail(), currLocation);
                     Log.i("message:", "particiants" + user1.getEmail() + " - " + currLocation);
