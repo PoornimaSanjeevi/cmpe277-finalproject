@@ -157,6 +157,32 @@ public class MapActivity extends AppCompatActivity
                 locHistory.clear();
 //                Intent intent = new Intent(v.getContext(), MainActivity.class);
 //                startActivity(intent);
+
+
+                User user = new User();
+                try {
+                    user = new GetUserAsyncTask().execute(new PrefUtil(MapActivity.this).getEmailId()).get();
+
+                    for (RunRecord runRecord : user.getRunRecords()) {
+
+
+                        if (runRecord.getEventId().trim().equalsIgnoreCase(item.getEventId())) {
+                            Log.i("message:latLang inside", "");
+                            runRecord.setDistanceRan(distance+"");
+                            runRecord.setTimeRan(""+(endTS-startTS)/60000);
+                            Log.i("message:latLang", "" + runRecord.getPath());
+
+                        }
+
+
+                    }
+
+                    new UpdatePathCoordinatesAsyncTask().execute(user);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -439,16 +465,29 @@ public class MapActivity extends AppCompatActivity
         try {
             user = new GetUserAsyncTask().execute(new PrefUtil(this).getEmailId()).get();
             user.setLatLang(new LatLang(location.getLatitude() + "", "" + location.getLongitude()));
+            boolean present=false;
             for (RunRecord runRecord : user.getRunRecords()) {
-                for(LatLang latLang:runRecord.getPath())
-                {
-                    Log.i("message: ","my latLangs"+latLang.getLatitude()+"..."+latLang.getLongitude());
-                }
+
 
                 if (runRecord.getEventId().trim().equalsIgnoreCase(item.getEventId())) {
-                    runRecord.getPath().add(new LatLang(location.getLatitude() + "", "" + location.getLongitude()));
+                    Log.i("message:latLang inside", "");
+                    runRecord.setPath(runRecord.getPath() + "|" + location.getLatitude() + "=" + location.getLatitude());
+                    Log.i("message:latLang", "" + runRecord.getPath());
+                    present=true;
                 }
 
+
+            }
+            if(!present)
+            {
+                RunRecord runRecord1 = new RunRecord();
+                runRecord1.setEventId(item.getEventId());
+                runRecord1.setEventName(item.getName());
+                runRecord1.setDistanceRan("");
+                runRecord1.setTimeRan("");
+                runRecord1.setPath(location.getLatitude() + "=" + location.getLatitude());
+                user.getRunRecords().add(runRecord1);
+                Log.i("message:latLang", "" + runRecord1.getPath());
             }
             new UpdatePathCoordinatesAsyncTask().execute(user);
         } catch (InterruptedException e) {

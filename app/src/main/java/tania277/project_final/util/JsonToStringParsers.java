@@ -85,12 +85,9 @@ public class JsonToStringParsers {
         return latLang;
     }
 
-    public List<LatLang> ConvertToLatLangList(String DBString)
+    public List<LatLang> ConvertToLatLangString(String DBString)
     {
         List<LatLang> list = new ArrayList<>();
-
-
-
         String[] array1=DBString.trim().split("\\|");
         for(int i=0;i<array1.length;i++) {
 

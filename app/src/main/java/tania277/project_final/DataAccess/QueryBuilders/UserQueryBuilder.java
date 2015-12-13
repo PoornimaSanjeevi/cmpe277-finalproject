@@ -118,40 +118,42 @@ public class UserQueryBuilder {
             url=url+",\""+user.getRunRecords().get(0).getEventName().trim()+"\"";
             url=url+",\""+user.getRunRecords().get(0).getDistanceRan().trim()+"\"";
             url=url+",\""+user.getRunRecords().get(0).getTimeRan().trim()+"\"";
+            url=url+",\""+user.getRunRecords().get(0).getPath().trim()+"\"]";
 
-            if(user.getRunRecords().get(0).getPath().size()>0) {
-                url = url + ",\"" + user.getRunRecords().get(0).getPath().get(0).getLatitude()
-                        + "=" + user.getRunRecords().get(0).getPath().get(0).getLongitude()
-                        + "\"";
-
-                for (int i = 1; i < user.getRunRecords().get(0).getPath().size(); i++) {
-                    url = url + "|\"" + user.getRunRecords().get(0).getPath().get(i).getLatitude()
-                            + "=" + user.getRunRecords().get(0).getPath().get(i).getLongitude()
-                            + "\"";
-                }
-            }
+//            if(user.getRunRecords().get(0).getPath().size()>0) {
+//                url = url + ",\"" + user.getRunRecords().get(0).getPath().get(0).getLatitude()
+//                        + "=" + user.getRunRecords().get(0).getPath().get(0).getLongitude()
+//                        + "\"";
+//
+//                for (int i = 1; i < user.getRunRecords().get(0).getPath().size(); i++) {
+//                    url = url + "|\"" + user.getRunRecords().get(0).getPath().get(i).getLatitude()
+//                            + "=" + user.getRunRecords().get(0).getPath().get(i).getLongitude()
+//                            + "\"";
+//                }
+//            }
 
 
             for (int i=1;i<user.getRunRecords().size();i++) {
-                url=url+",\""+i+1+"\" : ["+user.getRunRecords().get(i).getEventId().trim()+"\"";
-                url=url+"\","+user.getRunRecords().get(i).getEventName().trim()+"\"";
-                url=url+"\","+user.getRunRecords().get(i).getDistanceRan().trim()+"\"";
-                url=url+"\","+user.getRunRecords().get(i).getTimeRan().trim()+"\"";
+                url=url+",\""+(i+1)+"\" : [ \""+user.getRunRecords().get(i).getEventId().trim()+"\"";
+                url=url+",\""+user.getRunRecords().get(i).getEventName().trim()+"\"";
+                url=url+",\""+user.getRunRecords().get(i).getDistanceRan().trim()+"\"";
+                url=url+",\""+user.getRunRecords().get(i).getTimeRan().trim()+"\"";
+                url=url+",\""+user.getRunRecords().get(i).getPath().trim()+"\"]";
 
-                if(user.getRunRecords().get(i).getPath().size()>0) {
-                    url = url + "\"," + user.getRunRecords().get(i).getPath().get(0).getLatitude()
-                            + "=" + user.getRunRecords().get(i).getPath().get(0).getLongitude()
-                           ;
-
-                    for (int j = 1; j < user.getRunRecords().get(i).getPath().size(); j++) {
-                        url = url + "|" + user.getRunRecords().get(i).getPath().get(j).getLatitude()
-                                + "=" + user.getRunRecords().get(i).getPath().get(j).getLongitude()
-                                ;
-                    }
-
-                url=url+"\"";}
+//                if(user.getRunRecords().get(i).getPath().size()>0) {
+//                    url = url + "\"," + user.getRunRecords().get(i).getPath().get(0).getLatitude()
+//                            + "=" + user.getRunRecords().get(i).getPath().get(0).getLongitude()
+//                           ;
+//
+//                    for (int j = 1; j < user.getRunRecords().get(i).getPath().size(); j++) {
+//                        url = url + "|" + user.getRunRecords().get(i).getPath().get(j).getLatitude()
+//                                + "=" + user.getRunRecords().get(i).getPath().get(j).getLongitude()
+//                                ;
+//                    }
+//
+//                url=url+"\"";}
             }}
-        url=url+"]}}";
+        url=url+"}}}";
         return url;
     }
 

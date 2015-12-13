@@ -19,15 +19,19 @@ public class RunRecord {
     String timeRan;
     String distanceRan;
 
-    public List<LatLang> getPath() {
+    public String getPath() {
         return path;
     }
 
-    public void setPath(List<LatLang> path) {
+    public void setPath(String path) {
         this.path = path;
     }
 
-    List<LatLang> path;
+    String path;
+
+
+
+
 
     public  RunRecord(){}
 

@@ -139,7 +139,7 @@ public class GetUserAsyncTask extends AsyncTask<String, Void, User> {
                         runRecord.setDistanceRan(recordsList.get(2));
                         runRecord.setTimeRan(recordsList.get(3));
                         Log.i("message:","latLang : before parse in user"+recordsList.get(4));
-                        runRecord.setPath(parsers.ConvertToLatLangList(recordsList.get(4)));
+                        runRecord.setPath(recordsList.get(4));
                         runRecordList.add(runRecord);
                     }
                 }
