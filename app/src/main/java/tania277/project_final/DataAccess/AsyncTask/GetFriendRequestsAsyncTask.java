@@ -21,7 +21,7 @@ import tania277.project_final.util.JsonToStringParsers;
 /**
  * Created by Srinidhi on 11/23/2015.
  */
-public class GetFriendRequestsAsyncTask extends AsyncTask<User, Void, ArrayList<User>> {
+public class GetFriendRequestsAsyncTask extends AsyncTask<List<String>, Void, ArrayList<User>> {
     static BasicDBObject eventItem = null;
     static String OriginalObject = "";
     static String server_output = null;
@@ -35,12 +35,15 @@ public class GetFriendRequestsAsyncTask extends AsyncTask<User, Void, ArrayList<
     }
 
     @Override
-    protected ArrayList<User> doInBackground(User... arg0) {
+    protected ArrayList<User> doInBackground(List<String>... arg0) {
+
+        if(arg0.length>0)
+            emailList=arg0[0];
 
         ArrayList<User> users = new ArrayList<User>();
         try
         {
-            Log.i("message : ", "reached GetEventsAsync");
+            Log.i("message : ", "reached ");
             UserQueryBuilder qb = new UserQueryBuilder();
             URL url = new URL(qb.buildFriendRequestsGetURL(emailList));
             Log.i("message : ", "reached Get URL built "+url);
@@ -86,18 +89,23 @@ public class GetFriendRequestsAsyncTask extends AsyncTask<User, Void, ArrayList<
                 DBObject userObj = (DBObject) obj;
 
                 User temp = new User();
-                temp.setUserId(userObj.get("_id").toString());
-                Log.i("message:", "id is" + userObj.get("_id").toString());
-                temp.setName(userObj.get("name").toString());
+                temp.setUserId(userObj.get("_id")+"");
+                Log.i("message:", "id is" + userObj.get("_id") + "");
+                temp.setName(userObj.get("name") + "");
                 temp.setEmail(userObj.get("email") + "");
                 temp.setAvatar(userObj.get("avatar") + "");
+                Log.i("message:", "1");
+                Log.i("message", "latLang " +"in friends before parse"+userObj.get("current_location").toString() );
+                temp.setLatLang(parsers.ConvertToLatLang(userObj.get("current_location").toString()));
 
                 String friendRequestsString = userObj.get("friend_requests")+"";
                 temp.setFriendRequests(parsers.ConvertTofriendRequestsList(friendRequestsString));
 
+                Log.i("message:", "2");
                 String friendsString = userObj.get("friends")+"";
                 List<String> friends = parsers.ConvertTofriendRequestsList(friendsString);
 
+                Log.i("message:", "3");
                 List<User> friendsObj = new ArrayList<User>();
                 for (String friend:friends
                      ) { User u = new User();
@@ -105,18 +113,18 @@ public class GetFriendRequestsAsyncTask extends AsyncTask<User, Void, ArrayList<
                     friendsObj.add(u);
                 }
                 temp.setFriends(friendsObj);
-
+                Log.i("message:", "4");
 
                 Log.i("message: ", "friends" + friends);
 
-
+                Log.i("message:", "5");
                 users.add(temp);
             }
             Log.i("message","DBObjects parsed");
 
         }catch (Exception e) {
-            e.getMessage();
-            Log.i("message : ", "exception in getting contacts" + e.toString() + e.getMessage());
+            e.printStackTrace();
+            Log.i("message : ", "exception in getting contacts" + e.getMessage());
         }
         return users;
     }

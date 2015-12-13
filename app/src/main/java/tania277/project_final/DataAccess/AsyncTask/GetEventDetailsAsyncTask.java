@@ -105,45 +105,6 @@ public class GetEventDetailsAsyncTask extends AsyncTask<EventItem, Void, EventIt
                 temp.setLocation(userObj.get("location") + "");
 
 
-                List<CurrentLocationAllParticipants> list = new ArrayList<>();
-                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1111
-               Log.i("srinidhi123456789", userObj.get("current_location") + "");
-                String DBString =userObj.get("current_location").toString().trim();
-                String[] array1=DBString.split("\\[");
-                if(array1.length>1) {
-                    Log.i("srinidhi123456789", "1"+array1.length);
-                    String[] array2 = array1[1].split("\\]");
-                    if(array2.length>0){
-                        Log.i("srinidhi123456789", "2");
-                        if(array2[0].contains(",")){
-                     String[] array3 = array2[0].trim().split(",");
-                        Log.i("srinidhi123456789", "3"+array3.length);
-
-
-                for(int i=0;i<array3.length;i++)
-                {
-                    Log.i("srinidhi123456789", "4");
-                    List<String> values=parsers.ConvertToParticipantsLocation(array3[i]);
-                    CurrentLocationAllParticipants p = new CurrentLocationAllParticipants();
-                    p.setEmailId(values.get(0));
-                    p.setLatitude(values.get(1));
-                    p.setLongitude(values.get(2));
-                    list.add(p);
-                }}
-
-                    else if(array2[0].contains(":"))
-                        {
-                            List<String> values=parsers.ConvertToParticipantsLocation(array2[0]);
-                            CurrentLocationAllParticipants p = new CurrentLocationAllParticipants();
-                            p.setEmailId(values.get(0));
-                            p.setLatitude(values.get(1));
-                            p.setLongitude(values.get(2));
-                            list.add(p);
-                        }
-                    }}
-
-              temp.setCurrentLocationsAllParticipants(list);
-
                 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 

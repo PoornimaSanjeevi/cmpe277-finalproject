@@ -8,7 +8,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import tania277.project_final.DataAccess.QueryBuilders.EventQueryBuilder;
+import tania277.project_final.DataAccess.QueryBuilders.UserQueryBuilder;
 import tania277.project_final.Models.EventItem;
+import tania277.project_final.Models.User;
 
 /**
  * Created by Srinidhi on 12/12/2015.
@@ -17,21 +19,18 @@ public class UpdateCurrentLocationAsyncTask extends AsyncTask<Object, Void, Bool
 
     @Override
     protected Boolean doInBackground(Object... params) {
-        EventItem item = (EventItem) params[0];
+        User user = (User) params[0];
 
         try {
+            UserQueryBuilder qb = new UserQueryBuilder();
 
-
-            Log.i("message:", "reaching the delete method");
-            EventQueryBuilder qb = new EventQueryBuilder();
-
-            URL url = new URL(qb.buildEventUpdateURL(item.getEventId()));
+            URL url = new URL(qb.buildUserUpdateURL(user.getUserId()));
 
             HttpURLConnection connection = (HttpURLConnection) url
                     .openConnection();
 
             Log.i("message:", "Put URL is " + url);
-            Log.i("message:","Put data is "+qb.updateCurrentLocation(item));
+            Log.i("message:","Put data is "+qb.updateCurrentLocation(user));
 
             connection.setRequestMethod("PUT");
             connection.setDoOutput(true);
@@ -42,7 +41,7 @@ public class UpdateCurrentLocationAsyncTask extends AsyncTask<Object, Void, Bool
             OutputStreamWriter osw = new OutputStreamWriter(
                     connection.getOutputStream());
 
-            osw.write(qb.updateCurrentLocation(item));
+            osw.write(qb.updateCurrentLocation(user));
             osw.flush();
             osw.close();
             if(connection.getResponseCode() <205)

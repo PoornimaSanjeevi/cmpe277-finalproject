@@ -16,15 +16,7 @@ public class EventItem implements Serializable{
     private String EndTime;
     private List<String> participants;
     private List<String> invitedPeople;
-    private List<CurrentLocationAllParticipants> CurrentLocationsAllParticipants;
 
-    public List<CurrentLocationAllParticipants> getCurrentLocationsAllParticipants() {
-        return CurrentLocationsAllParticipants;
-    }
-
-    public void setCurrentLocationsAllParticipants(List<CurrentLocationAllParticipants> currentLocationsAllParticipants) {
-        CurrentLocationsAllParticipants = currentLocationsAllParticipants;
-    }
 
     public List<String> getInvitedPeople() {
         return invitedPeople;

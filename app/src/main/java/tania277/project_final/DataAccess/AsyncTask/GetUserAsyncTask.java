@@ -28,7 +28,7 @@ import tania277.project_final.Models.User;
 import tania277.project_final.util.JsonToStringParsers;
 
 
-public class GetUserAsyncTask extends AsyncTask<User, Void, User> {
+public class GetUserAsyncTask extends AsyncTask<String, Void, User> {
     static BasicDBObject user = null;
     static String OriginalObject = "";
     static String server_output = null;
@@ -43,8 +43,10 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, User> {
     }
 
     @Override
-    protected User doInBackground(User... arg0) {
+    protected User doInBackground(String... arg0) {
 
+        if(arg0.length>0)
+            userEmail=(String)arg0[0];
         User user = new User();
         try
         {
@@ -136,7 +138,8 @@ public class GetUserAsyncTask extends AsyncTask<User, Void, User> {
                         runRecord.setEventName(recordsList.get(1));
                         runRecord.setDistanceRan(recordsList.get(2));
                         runRecord.setTimeRan(recordsList.get(3));
-                        runRecord.setPath(parsers.ConvertToLatLang(recordsList.get(4)));
+                        Log.i("message:","latLang : before parse in user"+recordsList.get(4));
+                        runRecord.setPath(parsers.ConvertToLatLangList(recordsList.get(4)));
                         runRecordList.add(runRecord);
                     }
                 }

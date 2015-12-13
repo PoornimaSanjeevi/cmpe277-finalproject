@@ -14,6 +14,16 @@ public class User {
     private List<RunRecord> runRecords;
     private List<String> FriendRequests;
 
+    public LatLang getLatLang() {
+        return latLang;
+    }
+
+    public void setLatLang(LatLang latLang) {
+        this.latLang = latLang;
+    }
+
+    private LatLang latLang;
+
     public String getName() {
         return Name;
     }

@@ -29,7 +29,7 @@ public class UpdatePathCoordinatesAsyncTask extends AsyncTask<Object, Void, Bool
                     .openConnection();
 
             Log.i("message:", "Put URL is " + url);
-            Log.i("message:","Put data is "+qb.updateCoordinates(user));
+            Log.i("message:","Put data of latLang in run records is "+qb.updateCoordinates(user));
 
             connection.setRequestMethod("PUT");
             connection.setDoOutput(true);

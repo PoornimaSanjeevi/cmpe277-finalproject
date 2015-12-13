@@ -4,6 +4,14 @@ package tania277.project_final.Models;
  * Created by Srinidhi on 12/12/2015.
  */
 public class LatLang {
+    public LatLang(String latitude, String longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public LatLang() {
+    }
+
     public String getLatitude() {
         return latitude;
     }

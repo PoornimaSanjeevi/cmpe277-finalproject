@@ -35,11 +35,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import tania277.project_final.DataAccess.AsyncTask.GetEventDetailsAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.GetFriendRequestsAsyncTask;
+import tania277.project_final.DataAccess.AsyncTask.GetUserAsyncTask;
 import tania277.project_final.DataAccess.AsyncTask.UpdateCurrentLocationAsyncTask;
 import tania277.project_final.Models.CurrentLocationAllParticipants;
 import tania277.project_final.Models.EventItem;
+import tania277.project_final.Models.LatLang;
+import tania277.project_final.Models.RunRecord;
+import tania277.project_final.Models.User;
 import tania277.project_final.util.PermissionUtils;
 import tania277.project_final.util.PrefUtil;
 
@@ -431,43 +437,62 @@ public class MapActivity extends AppCompatActivity
         Toast.makeText(this, currUser + ":" + cl, Toast.LENGTH_SHORT).show();
 
 
+//Update DB
+        User user=new User();
+        try {
+            user = new GetUserAsyncTask().execute(new PrefUtil(this).getEmailId()).get();
+            user.setLatLang(new LatLang(location.getLatitude()+"",""+location.getLongitude()));
+            for(RunRecord runRecord:user.getRunRecords())
+            {
+                if(runRecord.getEventId().trim().equalsIgnoreCase(item.getEventId())) {
+                runRecord.getPath().add(new LatLang(location.getLatitude()+"",""+location.getLongitude()));
+                }
 
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        new UpdateCurrentLocationAsyncTask().execute(user);
 
         //Update DB
-        boolean present = false;
-        for(int i=0;i<item.getCurrentLocationsAllParticipants().size();i++)
-        {
-            if(item.getCurrentLocationsAllParticipants().get(i).getEmailId().trim().equalsIgnoreCase(new PrefUtil(this).getEmailId()))
-            {
-                present=true;
-                item.getCurrentLocationsAllParticipants().get(i).setLongitude(location.getLongitude()+"");
-                item.getCurrentLocationsAllParticipants().get(i).setLatitude(location.getLongitude()+"");
-            }
-        }
-        if(!present)
-        {
-            CurrentLocationAllParticipants participant = new CurrentLocationAllParticipants();
-            participant.setEmailId(new PrefUtil(this).getEmailId());
-            participant.setLatitude(location.getLatitude() + "");
-            participant.setLongitude(location.getLongitude() + "");
-            item.getCurrentLocationsAllParticipants().add(participant);
-        }
-
-        new UpdateCurrentLocationAsyncTask().execute(item);
+//        boolean present = false;
+//        for(int i=0;i<item.getCurrentLocationsAllParticipants().size();i++)
+//        {
+//            if(item.getCurrentLocationsAllParticipants().get(i).getEmailId().trim().equalsIgnoreCase(new PrefUtil(this).getEmailId()))
+//            {
+//                present=true;
+//                item.getCurrentLocationsAllParticipants().get(i).setLongitude(location.getLongitude()+"");
+//                item.getCurrentLocationsAllParticipants().get(i).setLatitude(location.getLatitude()+"");
+//            }
+//        }
+//        if(!present)
+//        {
+//            Log.i("message: ","creating");
+//            CurrentLocationAllParticipants participant = new CurrentLocationAllParticipants();
+//            participant.setEmailId(new PrefUtil(this).getEmailId());
+//            participant.setLatitude(location.getLatitude() + "");
+//            participant.setLongitude(location.getLongitude() + "");
+//            item.getCurrentLocationsAllParticipants().add(participant);
+//        }
+//
+//        new UpdateCurrentLocationAsyncTask().execute(item);
 
         //Get other locations from DB
 
-
-        try{
-        item=getEventDetailsAsyncTask.get();
-        for(int i=0;i<item.getCurrentLocationsAllParticipants().size();i++)
-        {
-            Log.i("message:","run_buddies"+item.getCurrentLocationsAllParticipants().get(i).getEmailId());
-            Log.i("message:","run_buddies"+item.getCurrentLocationsAllParticipants().get(i).getLatitude());
-            Log.i("message:","run_buddies"+item.getCurrentLocationsAllParticipants().get(i).getLongitude());
+        List<User> users;
+        try {
+            users = new GetFriendRequestsAsyncTask().execute(item.getParticipants()).get();
+            for(User user1:users)
+            {
+                Log.i("message:","particiants"+user1.getLatLang().getLatitude()+"..."+user1.getLatLang().getLongitude());
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
-        }catch(Exception ex){ex.printStackTrace();}
-
     }
 
     @Override

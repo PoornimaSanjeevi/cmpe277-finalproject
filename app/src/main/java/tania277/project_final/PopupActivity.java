@@ -125,14 +125,6 @@ public class PopupActivity extends Activity {
         try {
             item=getEventDetailsAsyncTask.execute().get();
             Log.i("message:", "Event item obtained");
-            for(int i=0;i<item.getCurrentLocationsAllParticipants().size();i++)
-            {
-                CurrentLocationAllParticipants c =item.getCurrentLocationsAllParticipants().get(i);
-                Log.i("message:","current locations"+c.getEmailId());
-                Log.i("message:","lat" +c.getLatitude());
-                Log.i("message:","lat" +c.getLongitude());
-
-            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

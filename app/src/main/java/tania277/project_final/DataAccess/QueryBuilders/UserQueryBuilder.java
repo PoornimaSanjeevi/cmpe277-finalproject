@@ -154,5 +154,16 @@ public class UserQueryBuilder {
     }
 
 
+    public String updateCurrentLocation(User user)
+    {
+        String url ="{ \"$set\" :"
+                + "{\"current_location\" :[ \"";
+
+      url=url+user.getLatLang().getLatitude()+"|"+user.getLatLang().getLongitude()+"\"]}}";
+
+        return url;
+    }
+
+
 
 }

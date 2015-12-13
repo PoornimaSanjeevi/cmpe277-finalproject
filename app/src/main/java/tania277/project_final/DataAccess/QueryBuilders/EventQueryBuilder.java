@@ -102,30 +102,6 @@ public class EventQueryBuilder {
 
     }
 
-    public String updateCurrentLocation(EventItem item)
-    {
-        String url ="{ \"$set\" :"
-                + "{\"current_location\" :[";
-
-        Log.i("message:","items count"+item.getCurrentLocationsAllParticipants().size());
-        if(item.getCurrentLocationsAllParticipants().size()>0){
-            url=url+"\""+item.getCurrentLocationsAllParticipants().get(0).getEmailId()
-                    +":"+item.getCurrentLocationsAllParticipants().get(0).getLatitude()
-                    +":"+item.getCurrentLocationsAllParticipants().get(0).getLongitude()
-                    +"\"";
-
-
-            for (int i=1;i<item.getCurrentLocationsAllParticipants().size();i++) {
-
-                url=url+",\""+item.getCurrentLocationsAllParticipants().get(i).getEmailId()
-                        +":"+item.getCurrentLocationsAllParticipants().get(i).getLatitude()
-                        +":"+item.getCurrentLocationsAllParticipants().get(i).getLongitude()
-                        +"\"";
-            }}
-        url=url+"]}}";
-        return url;
-    }
-
 
 
 }
