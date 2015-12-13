@@ -262,22 +262,23 @@ public class MapActivity extends AppCompatActivity
             return;
         }
         Location myLocation = locationManager.getLastKnownLocation(provider);
+        if (myLocation != null) {
+            // Get latitude of the current location
+            double latitude = myLocation.getLatitude();
 
-        // Get latitude of the current location
-        double latitude = myLocation.getLatitude();
+            // Get longitude of the current location
+            double longitude = myLocation.getLongitude();
 
-        // Get longitude of the current location
-        double longitude = myLocation.getLongitude();
+            // Create a LatLng object for the current location
+            LatLng latLng = new LatLng(latitude, longitude);
 
-        // Create a LatLng object for the current location
-        LatLng latLng = new LatLng(latitude, longitude);
+            // Show the current location in Google Map
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
-        // Show the current location in Google Map
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-
-        // Zoom in the Google Map
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+            // Zoom in the Google Map
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
 //        mRequestingLocationUpdates = true;
+        }
     }
 
     /**
