@@ -102,7 +102,8 @@ public class UserFragment extends Fragment {
                 if(user.getRunRecords()!=null) {
                     runRecordAdapter = new RunRecordAdapter(getActivity().getApplicationContext(), R.layout.run_record_item, this);
 
-                    for (int i = 0; i < user.getRunRecords().size(); i++) {
+//                    for (int i = 0; i < user.getRunRecords().size(); i++)
+                        for(int i=user.getRunRecords().size()-1;i>=0;i--){
                         Log.i("message_runbuddy","inside for");
 //                        RunRecord card = new RunRecord("Card " + (i+1) + " Line 1", "Card " + (i+1) + " Line 2", "Card " + (i+1));
                         runRecordAdapter.add(user.getRunRecords().get(i));
