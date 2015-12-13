@@ -146,10 +146,12 @@ public class MapActivity extends AppCompatActivity
                 }
                 distance = (double) Math.round(distance * 100.0) / 100.0;
                 StringBuilder sb = new StringBuilder();
-                sb.append(locHistory.get(0));
-                for (int i = 1; i < locHistory.size(); i++) {
-                    sb.append(":");
-                    sb.append(locHistory.get(i));
+                if (locHistory.size() > 0) {
+                    sb.append(locHistory.get(0));
+                    for (int i = 1; i < locHistory.size(); i++) {
+                        sb.append(":");
+                        sb.append(locHistory.get(i));
+                    }
                 }
                 latlongstr = sb.toString();
                 // TODO Update run record
