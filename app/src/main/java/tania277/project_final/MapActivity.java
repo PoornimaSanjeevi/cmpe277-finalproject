@@ -204,7 +204,7 @@ public class MapActivity extends AppCompatActivity
                 locHistory.clear();
 
                 item.getParticipants().remove(new PrefUtil(MapActivity.this).getEmailId());
-               // item.getFinishedUsers().add(new PrefUtil(MapActivity.this).getEmailId());
+                // item.getFinishedUsers().add(new PrefUtil(MapActivity.this).getEmailId());
 
                 //Update DB
                 User user = new User();
@@ -542,7 +542,7 @@ public class MapActivity extends AppCompatActivity
         try {
             users = new GetFriendRequestsAsyncTask().execute(item.getParticipants()).get();
             for (User user1 : users) {
-                if (user1.getLatLang() != null && user1.getLatLang().getLatitude() != null) {
+                if (user1.getLatLang() != null && user1.getLatLang().getLatitude() != null && !user1.getLatLang().getLatitude().equals("null")) {
                     String currLocation = user1.getLatLang().getLatitude() + "," + user1.getLatLang().getLongitude();
                     latlongs.put(user1.getEmail(), currLocation);
                     Log.i("message:", "particiants" + user1.getEmail() + " - " + currLocation);
