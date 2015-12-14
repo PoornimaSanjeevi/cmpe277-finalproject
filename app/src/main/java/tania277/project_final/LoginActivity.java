@@ -1,11 +1,13 @@
 package tania277.project_final;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -45,6 +47,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+import tania277.project_final.util.PermissionUtils;
 import tania277.project_final.util.PrefUtil;
 
 
@@ -57,6 +60,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     SignInButton signInButton;
     private GoogleApiClient mGoogleApiClient;
     private static final String TAG = "LoginActivity";
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
 
     private static final int RC_SIGN_IN = 9001;
@@ -85,6 +89,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 //        } catch (NoSuchAlgorithmException e) {
 //
 //        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission to access the location is missing.
+            PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.ACCESS_FINE_LOCATION, true);
+        }
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
